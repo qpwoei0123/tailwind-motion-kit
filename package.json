@@ -1,0 +1,7 @@
+{
+  "name": "tailwind-motion-kit",
+  "version": "0.0.1",
+  "description": "Tailwind CSS animation plugin toolkit",
+  "main": "index.js",
+  "license": "MIT"
+}
