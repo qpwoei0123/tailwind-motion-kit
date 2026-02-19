@@ -42,6 +42,21 @@ module.exports = {
 - attention: `bounce-in`, `wobble`, `jelly`
 - rotate: `rotate-in`
 
+## 타이밍 유틸리티
+
+애니메이션 튜닝용 유틸리티 클래스를 제공합니다.
+
+- duration: `animate-duration-150|300|500|700|1000`
+- delay: `animate-delay-75|150|300|500`
+- easing: `animate-ease-linear|in|out|in-out`
+
+예시:
+
+```html
+<div class="animate-jelly animate-duration-700 animate-ease-out">Jelly</div>
+<div class="animate-fade-in animate-delay-300">Fade after delay</div>
+```
+
 ## Preview 페이지 실행
 
 `examples/`에 tailwind-animations.com 스타일을 참고한 프리뷰 페이지가 포함되어 있습니다.

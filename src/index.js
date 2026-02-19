@@ -20,8 +20,24 @@ module.exports = function motionKit(options = {}) {
   return {
     options,
     presets,
-    handler() {
-      // no-op: config-only plugin
+    handler({ addUtilities }) {
+      addUtilities({
+        '.animate-duration-150': { '--tmk-duration': '150ms' },
+        '.animate-duration-300': { '--tmk-duration': '300ms' },
+        '.animate-duration-500': { '--tmk-duration': '500ms' },
+        '.animate-duration-700': { '--tmk-duration': '700ms' },
+        '.animate-duration-1000': { '--tmk-duration': '1000ms' },
+
+        '.animate-delay-75': { 'animation-delay': '75ms' },
+        '.animate-delay-150': { 'animation-delay': '150ms' },
+        '.animate-delay-300': { 'animation-delay': '300ms' },
+        '.animate-delay-500': { 'animation-delay': '500ms' },
+
+        '.animate-ease-linear': { '--tmk-easing': 'linear' },
+        '.animate-ease-in': { '--tmk-easing': 'cubic-bezier(0.4, 0, 1, 1)' },
+        '.animate-ease-out': { '--tmk-easing': 'cubic-bezier(0, 0, 0.2, 1)' },
+        '.animate-ease-in-out': { '--tmk-easing': 'cubic-bezier(0.4, 0, 0.2, 1)' },
+      });
     },
     config: {
       theme: {
