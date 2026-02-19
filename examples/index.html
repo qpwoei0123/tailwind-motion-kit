@@ -3,9 +3,143 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>tailwind-motion-kit example</title>
+    <title>tailwind-motion-kit preview</title>
+    <link rel="stylesheet" href="./output.css" />
   </head>
-  <body>
-    <div class="p-8">tailwind-motion-kit example</div>
+  <body class="min-h-screen bg-zinc-950 text-zinc-100">
+    <main class="mx-auto max-w-6xl px-6 py-10">
+      <header class="mb-8">
+        <p class="mb-2 inline-flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-900 px-3 py-1 text-xs text-zinc-300">
+          v0.0.1 · Preview Playground
+        </p>
+        <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">tailwind-motion-kit</h1>
+        <p class="mt-3 max-w-2xl text-zinc-300">
+          tailwind-animations.com 스타일을 참고한 프리뷰 페이지. duration / easing을 바꿔가며
+          fade, slide, scale 프리셋을 즉시 확인할 수 있습니다.
+        </p>
+      </header>
+
+      <section class="mb-8 grid gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 sm:grid-cols-3">
+        <label class="text-sm">
+          <span class="mb-2 block text-zinc-400">Duration (ms)</span>
+          <input id="duration" type="range" min="150" max="1600" step="50" value="600" class="w-full" />
+          <span id="durationValue" class="mt-1 block text-xs text-zinc-300">600ms</span>
+        </label>
+
+        <label class="text-sm">
+          <span class="mb-2 block text-zinc-400">Easing</span>
+          <select id="easing" class="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm">
+            <option value="ease">ease</option>
+            <option value="linear">linear</option>
+            <option value="ease-in">ease-in</option>
+            <option value="ease-out">ease-out</option>
+            <option value="ease-in-out">ease-in-out</option>
+            <option value="cubic-bezier(0.22, 1, 0.36, 1)" selected>smooth (default)</option>
+          </select>
+        </label>
+
+        <div class="flex items-end gap-2">
+          <button id="replayAll" class="w-full rounded-lg bg-indigo-500 px-3 py-2 text-sm font-medium text-white transition hover:bg-indigo-400">
+            Replay all
+          </button>
+        </div>
+      </section>
+
+      <section>
+        <div class="mb-3 flex items-center justify-between">
+          <h2 class="text-xl font-semibold">Animation Collection</h2>
+          <div class="motion-chip">6 presets</div>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <article class="motion-card" data-card>
+            <div class="mb-3 flex items-center justify-between">
+              <h3 class="font-medium">fade-in</h3>
+              <span class="motion-chip">fade</span>
+            </div>
+            <div class="preview animate-fade-in rounded-xl bg-zinc-800 p-6 text-center">Fade In</div>
+          </article>
+
+          <article class="motion-card" data-card>
+            <div class="mb-3 flex items-center justify-between">
+              <h3 class="font-medium">fade-out</h3>
+              <span class="motion-chip">fade</span>
+            </div>
+            <div class="preview animate-fade-out rounded-xl bg-zinc-800 p-6 text-center">Fade Out</div>
+          </article>
+
+          <article class="motion-card" data-card>
+            <div class="mb-3 flex items-center justify-between">
+              <h3 class="font-medium">slide-in-up</h3>
+              <span class="motion-chip">slide</span>
+            </div>
+            <div class="preview animate-slide-in-up rounded-xl bg-zinc-800 p-6 text-center">Slide In Up</div>
+          </article>
+
+          <article class="motion-card" data-card>
+            <div class="mb-3 flex items-center justify-between">
+              <h3 class="font-medium">slide-out-down</h3>
+              <span class="motion-chip">slide</span>
+            </div>
+            <div class="preview animate-slide-out-down rounded-xl bg-zinc-800 p-6 text-center">Slide Out Down</div>
+          </article>
+
+          <article class="motion-card" data-card>
+            <div class="mb-3 flex items-center justify-between">
+              <h3 class="font-medium">scale-in</h3>
+              <span class="motion-chip">scale</span>
+            </div>
+            <div class="preview animate-scale-in rounded-xl bg-zinc-800 p-6 text-center">Scale In</div>
+          </article>
+
+          <article class="motion-card" data-card>
+            <div class="mb-3 flex items-center justify-between">
+              <h3 class="font-medium">scale-out</h3>
+              <span class="motion-chip">scale</span>
+            </div>
+            <div class="preview animate-scale-out rounded-xl bg-zinc-800 p-6 text-center">Scale Out</div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const root = document.documentElement;
+      const durationInput = document.getElementById('duration');
+      const durationValue = document.getElementById('durationValue');
+      const easingInput = document.getElementById('easing');
+      const replayButton = document.getElementById('replayAll');
+
+      const syncControls = () => {
+        const duration = `${durationInput.value}ms`;
+        root.style.setProperty('--tmk-duration', duration);
+        root.style.setProperty('--tmk-easing', easingInput.value);
+        durationValue.textContent = duration;
+      };
+
+      const replayAll = () => {
+        document.querySelectorAll('.preview').forEach((el) => {
+          const cls = [...el.classList].find((c) => c.startsWith('animate-'));
+          if (!cls) return;
+          el.classList.remove(cls);
+          void el.offsetWidth;
+          el.classList.add(cls);
+        });
+      };
+
+      durationInput.addEventListener('input', () => {
+        syncControls();
+        replayAll();
+      });
+
+      easingInput.addEventListener('change', () => {
+        syncControls();
+        replayAll();
+      });
+
+      replayButton.addEventListener('click', replayAll);
+
+      syncControls();
+    </script>
   </body>
 </html>

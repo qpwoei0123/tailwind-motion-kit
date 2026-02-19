@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --tmk-duration: 600ms;
+    --tmk-easing: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@layer components {
+  .motion-card {
+    @apply rounded-2xl border border-zinc-800 bg-zinc-900/70 p-4 shadow-lg shadow-black/20;
+  }
+
+  .motion-chip {
+    @apply rounded-full border border-zinc-700 bg-zinc-800 px-2 py-1 text-xs text-zinc-300;
+  }
+}
