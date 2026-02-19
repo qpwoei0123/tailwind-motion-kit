@@ -119,13 +119,16 @@ export default function App() {
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {items.map(([name, group, label]) => (
-          <Card key={name}>
+          <Card key={name} className="border-zinc-800 bg-zinc-900 text-zinc-100">
             <CardHeader>
-              <h3 className="font-medium">{name}</h3>
+              <h3 className="font-medium text-zinc-100">{name}</h3>
               <span className="rounded-full border border-zinc-700 bg-zinc-800 px-2 py-1 text-xs text-zinc-300">{group}</span>
             </CardHeader>
             <CardContent>
-              <div key={`${name}-${replayTick}`} className={`animate-${name} rounded-xl bg-zinc-800 p-6 text-center`}>
+              <div
+                key={`${name}-${replayTick}`}
+                className={`animate-${name} rounded-xl border border-zinc-700 bg-zinc-800 p-6 text-center font-medium text-zinc-100`}
+              >
                 {label}
               </div>
             </CardContent>
