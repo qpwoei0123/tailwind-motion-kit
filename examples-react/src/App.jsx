@@ -6,16 +6,16 @@ import { Switch } from '@/components/ui/switch'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 const items = [
-  ['fade-in', 'fade', 'Fade In'],
-  ['fade-out', 'fade', 'Fade Out'],
-  ['slide-in-up', 'slide', 'Slide In Up'],
-  ['slide-out-down', 'slide', 'Slide Out Down'],
-  ['scale-in', 'scale', 'Scale In'],
-  ['scale-out', 'scale', 'Scale Out'],
-  ['bounce-in', 'attention', 'Bounce In'],
-  ['wobble', 'attention', 'Wobble'],
-  ['jelly', 'attention', 'Jelly'],
-  ['rotate-in', 'rotate', 'Rotate In'],
+  { name: 'fade-in', group: 'fade', label: 'Fade In', animClass: 'animate-fade-in' },
+  { name: 'fade-out', group: 'fade', label: 'Fade Out', animClass: 'animate-fade-out' },
+  { name: 'slide-in-up', group: 'slide', label: 'Slide In Up', animClass: 'animate-slide-in-up' },
+  { name: 'slide-out-down', group: 'slide', label: 'Slide Out Down', animClass: 'animate-slide-out-down' },
+  { name: 'scale-in', group: 'scale', label: 'Scale In', animClass: 'animate-scale-in' },
+  { name: 'scale-out', group: 'scale', label: 'Scale Out', animClass: 'animate-scale-out' },
+  { name: 'bounce-in', group: 'attention', label: 'Bounce In', animClass: 'animate-bounce-in' },
+  { name: 'wobble', group: 'attention', label: 'Wobble', animClass: 'animate-wobble' },
+  { name: 'jelly', group: 'attention', label: 'Jelly', animClass: 'animate-jelly' },
+  { name: 'rotate-in', group: 'rotate', label: 'Rotate In', animClass: 'animate-rotate-in' },
 ]
 
 const easingMap = {
@@ -118,7 +118,7 @@ export default function App() {
       </section>
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map(([name, group, label]) => (
+        {items.map(({ name, group, label, animClass }) => (
           <Card key={name} className="border-zinc-800 bg-zinc-900 text-zinc-100">
             <CardHeader>
               <h3 className="font-medium text-zinc-100">{name}</h3>
@@ -127,7 +127,7 @@ export default function App() {
             <CardContent>
               <div
                 key={`${name}-${replayTick}`}
-                className={`animate-${name} rounded-xl border border-zinc-700 bg-zinc-800 p-6 text-center font-medium text-zinc-100`}
+                className={`${animClass} rounded-xl border border-zinc-700 bg-zinc-800 p-6 text-center font-medium text-zinc-100`}
               >
                 {label}
               </div>
