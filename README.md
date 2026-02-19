@@ -34,11 +34,13 @@ module.exports = {
 <div class="animate-scale-in">scale in</div>
 ```
 
-## 기본 preset
+## 기본 preset (핵심 10개)
 
 - fade: `fade-in`, `fade-out`
 - slide: `slide-in-up`, `slide-out-down`
 - scale: `scale-in`, `scale-out`
+- attention: `bounce-in`, `wobble`, `jelly`
+- rotate: `rotate-in`
 
 ## Preview 페이지 실행
 
