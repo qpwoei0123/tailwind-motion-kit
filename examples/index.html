@@ -21,13 +21,20 @@
       </header>
 
       <section class="tmk-panel mb-8 grid gap-3 p-3 lg:grid-cols-12">
-        <label class="text-sm lg:col-span-4">
-          <span class="mb-2 block text-zinc-400">Duration (ms)</span>
+        <div class="tmk-subpanel flex h-full flex-col gap-2 p-3 text-sm lg:col-span-4">
+          <span class="block text-zinc-400">Duration (ms)</span>
           <input id="duration" type="range" min="150" max="1600" step="50" value="600" class="w-full" />
-          <span id="durationValue" class="mt-1 block text-xs text-zinc-300">600ms</span>
-        </label>
+          <span id="durationValue" class="block text-xs text-zinc-300">600ms</span>
+          <div class="mt-auto grid grid-cols-5 gap-1" id="durationPresets">
+            <button type="button" class="duration-chip" data-duration="150">150</button>
+            <button type="button" class="duration-chip" data-duration="300">300</button>
+            <button type="button" class="duration-chip is-active" data-duration="600">600</button>
+            <button type="button" class="duration-chip" data-duration="1000">1000</button>
+            <button type="button" class="duration-chip" data-duration="1400">1400</button>
+          </div>
+        </div>
 
-        <label class="text-sm lg:col-span-4">
+        <div class="tmk-subpanel flex h-full flex-col p-3 text-sm lg:col-span-4">
           <span class="mb-2 block text-zinc-400">Easing</span>
           <select id="easing" class="tmk-input w-full text-sm">
             <option value="ease">ease</option>
@@ -44,9 +51,9 @@
             </svg>
             <p id="easingMeta" class="mt-1 text-[11px] text-zinc-400">curve: cubic-bezier(0.22, 1, 0.36, 1)</p>
           </div>
-        </label>
+        </div>
 
-        <div class="flex flex-col justify-end gap-2 lg:col-span-4">
+        <div class="tmk-subpanel flex h-full flex-col justify-between gap-2 p-3 lg:col-span-4">
           <button id="replayAll" class="tmk-btn w-full text-sm font-medium">
             Replay all
           </button>
@@ -162,6 +169,7 @@
       const replayButton = document.getElementById('replayAll');
       const autoReplayInput = document.getElementById('autoReplay');
       const autoReplaySwitch = document.getElementById('autoReplaySwitch');
+      const durationPresets = document.getElementById('durationPresets');
       const easingPath = document.getElementById('easingPath');
       const easingMeta = document.getElementById('easingMeta');
       const toast = document.getElementById('toast');
@@ -179,12 +187,19 @@
         }, 1000);
       };
 
+      const syncDurationChips = () => {
+        durationPresets.querySelectorAll('[data-duration]').forEach((btn) => {
+          btn.classList.toggle('is-active', Number(btn.dataset.duration) === Number(durationInput.value));
+        });
+      };
+
       const syncControls = () => {
         const duration = `${durationInput.value}ms`;
         root.style.setProperty('--tmk-duration', duration);
         root.style.setProperty('--tmk-easing', easingInput.value);
         durationValue.textContent = duration;
         drawEasingGraph();
+        syncDurationChips();
       };
 
       const easingMap = {
@@ -276,6 +291,14 @@
       replayButton.addEventListener('click', replayAll);
       autoReplaySwitch.addEventListener('click', () => {
         autoReplayInput.checked = !autoReplayInput.checked;
+        syncAutoReplay();
+      });
+      durationPresets.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-duration]');
+        if (!btn) return;
+        durationInput.value = btn.dataset.duration;
+        syncControls();
+        replayAll();
         syncAutoReplay();
       });
 
