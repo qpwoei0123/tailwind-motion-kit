@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --tmk-duration: 600ms;
+    --tmk-easing: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  body {
+    @apply min-h-screen bg-zinc-950 text-zinc-100;
+  }
+}

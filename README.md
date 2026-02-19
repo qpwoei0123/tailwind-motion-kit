@@ -76,7 +76,7 @@ Install → Plug in → Add class → Tune duration/easing → Ship 🚀
 
 ---
 
-## Local preview
+## Local preview (HTML)
 
 ```bash
 cd examples
@@ -84,6 +84,16 @@ npx tailwindcss -c tailwind.config.js -i input.css -o output.css --watch
 ```
 
 Open `examples/index.html`.
+
+## Local preview (React + shadcn/ui)
+
+```bash
+cd examples-react
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173`.
 
 ## Pages deploy
 
