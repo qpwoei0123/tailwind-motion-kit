@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Card, CardContent, CardHeader } from './components/ui/card'
-import { Button } from './components/ui/button'
-import { Slider } from './components/ui/slider'
-import { Switch } from './components/ui/switch'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './components/ui/select'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Slider } from '@/components/ui/slider'
+import { Switch } from '@/components/ui/switch'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 const items = [
   ['fade-in', 'fade', 'Fade In'],
