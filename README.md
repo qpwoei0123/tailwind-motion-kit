@@ -18,22 +18,13 @@ const motionKit = require('tailwind-motion-kit');
 module.exports = {
   content: ['./index.html'],
   theme: {
-    extend: {
-      keyframes: {
-        ...motionKit().presets.fade.keyframes,
-        ...motionKit().presets.slide.keyframes,
-        ...motionKit().presets.scale.keyframes,
-      },
-      animation: {
-        ...motionKit().presets.fade.animations,
-        ...motionKit().presets.slide.animations,
-        ...motionKit().presets.scale.animations,
-      },
-    },
+    extend: {},
   },
-  plugins: [],
+  plugins: [motionKit()],
 };
 ```
+
+> 커스텀 조합이 필요하면 `motionKit().presets`로 개별 preset만 골라 쓸 수도 있습니다.
 
 `index.html`:
 
