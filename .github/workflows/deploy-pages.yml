@@ -3,9 +3,6 @@ name: Deploy preview to GitHub Pages
 on:
   push:
     branches: [main]
-    paths:
-      - 'examples/**'
-      - '.github/workflows/deploy-pages.yml'
   workflow_dispatch:
 
 permissions:
