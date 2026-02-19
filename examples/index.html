@@ -20,14 +20,14 @@
         </p>
       </header>
 
-      <section class="mb-8 grid gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 sm:grid-cols-3">
-        <label class="text-sm">
+      <section class="mb-8 grid gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 lg:grid-cols-12">
+        <label class="text-sm lg:col-span-4">
           <span class="mb-2 block text-zinc-400">Duration (ms)</span>
           <input id="duration" type="range" min="150" max="1600" step="50" value="600" class="w-full" />
           <span id="durationValue" class="mt-1 block text-xs text-zinc-300">600ms</span>
         </label>
 
-        <label class="text-sm">
+        <label class="text-sm lg:col-span-4">
           <span class="mb-2 block text-zinc-400">Easing</span>
           <select id="easing" class="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm">
             <option value="ease">ease</option>
@@ -37,12 +37,23 @@
             <option value="ease-in-out">ease-in-out</option>
             <option value="cubic-bezier(0.22, 1, 0.36, 1)" selected>smooth (default)</option>
           </select>
+          <div class="mt-3 rounded-lg border border-zinc-800 bg-zinc-950/70 p-2">
+            <svg id="easingGraph" viewBox="0 0 100 100" class="h-24 w-full">
+              <line x1="0" y1="100" x2="100" y2="0" stroke="rgb(63 63 70)" stroke-width="1" stroke-dasharray="3 3"></line>
+              <path id="easingPath" d="M0 100 C 22 0, 36 0, 100 0" fill="none" stroke="rgb(99 102 241)" stroke-width="3" stroke-linecap="round"></path>
+            </svg>
+            <p id="easingMeta" class="mt-1 text-[11px] text-zinc-400">curve: cubic-bezier(0.22, 1, 0.36, 1)</p>
+          </div>
         </label>
 
-        <div class="flex items-end gap-2">
+        <div class="flex flex-col justify-end gap-2 lg:col-span-4">
           <button id="replayAll" class="w-full rounded-lg bg-indigo-500 px-3 py-2 text-sm font-medium text-white transition hover:bg-indigo-400">
             Replay all
           </button>
+          <label class="flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-950/70 px-3 py-2 text-xs text-zinc-300">
+            <input id="autoReplay" type="checkbox" class="h-4 w-4 accent-indigo-500" />
+            Auto replay
+          </label>
         </div>
       </section>
 
@@ -146,8 +157,12 @@
       const durationValue = document.getElementById('durationValue');
       const easingInput = document.getElementById('easing');
       const replayButton = document.getElementById('replayAll');
+      const autoReplayInput = document.getElementById('autoReplay');
+      const easingPath = document.getElementById('easingPath');
+      const easingMeta = document.getElementById('easingMeta');
       const toast = document.getElementById('toast');
       let toastTimer;
+      let autoReplayTimer;
 
       const showToast = (text) => {
         toast.textContent = text;
@@ -165,6 +180,31 @@
         root.style.setProperty('--tmk-duration', duration);
         root.style.setProperty('--tmk-easing', easingInput.value);
         durationValue.textContent = duration;
+        drawEasingGraph();
+      };
+
+      const easingMap = {
+        ease: [0.25, 0.1, 0.25, 1],
+        linear: [0, 0, 1, 1],
+        'ease-in': [0.42, 0, 1, 1],
+        'ease-out': [0, 0, 0.58, 1],
+        'ease-in-out': [0.42, 0, 0.58, 1],
+      };
+
+      const parseBezier = (value) => {
+        if (easingMap[value]) return easingMap[value];
+        const matched = value.match(/cubic-bezier\(([^)]+)\)/);
+        if (!matched) return easingMap.ease;
+        const nums = matched[1].split(',').map((v) => Number(v.trim()));
+        if (nums.length !== 4 || nums.some((n) => Number.isNaN(n))) return easingMap.ease;
+        return nums;
+      };
+
+      const drawEasingGraph = () => {
+        const [x1, y1, x2, y2] = parseBezier(easingInput.value);
+        const d = `M0 100 C ${x1 * 100} ${100 - y1 * 100}, ${x2 * 100} ${100 - y2 * 100}, 100 0`;
+        easingPath.setAttribute('d', d);
+        easingMeta.textContent = `curve: ${easingInput.value}`;
       };
 
       const replayAll = () => {
@@ -175,6 +215,20 @@
           void el.offsetWidth;
           el.classList.add(cls);
         });
+      };
+
+      const startAutoReplay = () => {
+        clearInterval(autoReplayTimer);
+        const interval = Math.max(500, Number(durationInput.value) + 250);
+        autoReplayTimer = setInterval(replayAll, interval);
+      };
+
+      const syncAutoReplay = () => {
+        if (autoReplayInput.checked) {
+          startAutoReplay();
+          return;
+        }
+        clearInterval(autoReplayTimer);
       };
 
       const setupCopyButtons = () => {
@@ -199,6 +253,7 @@
       durationInput.addEventListener('input', () => {
         syncControls();
         replayAll();
+        syncAutoReplay();
       });
 
       easingInput.addEventListener('change', () => {
@@ -207,9 +262,11 @@
       });
 
       replayButton.addEventListener('click', replayAll);
+      autoReplayInput.addEventListener('change', syncAutoReplay);
 
       setupCopyButtons();
       syncControls();
+      syncAutoReplay();
     </script>
   </body>
 </html>
