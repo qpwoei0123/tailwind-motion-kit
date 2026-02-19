@@ -20,10 +20,20 @@ module.exports = {
       '70%': { transform: 'scale(1.04, 0.96)' },
       '100%': { transform: 'scale(1, 1)' },
     },
+    'soft-pulse': {
+      '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+      '50%': { transform: 'scale(1.03)', opacity: '0.86' },
+    },
+    float: {
+      '0%, 100%': { transform: 'translateY(0)' },
+      '50%': { transform: 'translateY(-8px)' },
+    },
   },
   animations: {
     'bounce-in': 'bounce-in var(--tmk-duration,600ms) var(--tmk-easing,ease-out) both',
     wobble: 'wobble var(--tmk-duration,700ms) var(--tmk-easing,ease-in-out) both',
     jelly: 'jelly var(--tmk-duration,700ms) var(--tmk-easing,ease-out) both',
+    'soft-pulse': 'soft-pulse var(--tmk-duration,1200ms) var(--tmk-easing,ease-in-out) infinite',
+    float: 'float var(--tmk-duration,1800ms) var(--tmk-easing,ease-in-out) infinite',
   },
 };

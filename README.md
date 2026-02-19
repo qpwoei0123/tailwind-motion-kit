@@ -54,12 +54,12 @@ module.exports = {
 
 ---
 
-## Presets (10)
+## Presets (12)
 
 - fade → `fade-in` · `fade-out`
 - slide → `slide-in-up` · `slide-out-down`
 - scale → `scale-in` · `scale-out`
-- attention → `bounce-in` · `wobble` · `jelly`
+- attention → `bounce-in` · `wobble` · `jelly` · `soft-pulse` · `float`
 - rotate → `rotate-in`
 
 ## Timing utils

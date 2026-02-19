@@ -16,6 +16,8 @@ const items = [
   { name: 'wobble', group: 'attention', label: 'Wobble', animClass: 'animate-wobble' },
   { name: 'jelly', group: 'attention', label: 'Jelly', animClass: 'animate-jelly' },
   { name: 'rotate-in', group: 'rotate', label: 'Rotate In', animClass: 'animate-rotate-in' },
+  { name: 'soft-pulse', group: 'attention', label: 'Soft Pulse', animClass: 'animate-soft-pulse' },
+  { name: 'float', group: 'attention', label: 'Float', animClass: 'animate-float' },
 ]
 
 const easingMap = {
