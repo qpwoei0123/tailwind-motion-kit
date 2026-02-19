@@ -17,4 +17,8 @@
   .motion-chip {
     @apply rounded-full border border-zinc-700 bg-zinc-800 px-2 py-1 text-xs text-zinc-300;
   }
+
+  .copy-btn {
+    @apply rounded-md border border-zinc-700 bg-zinc-800 px-2 py-1 text-xs text-zinc-200 transition hover:bg-zinc-700;
+  }
 }
