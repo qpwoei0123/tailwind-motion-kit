@@ -1,78 +1,74 @@
 # tailwind-motion-kit
 
-Tailwind CSS 애니메이션 플러그인 기본 템플릿.
+Tiny Tailwind animation kit ⚡
 
-## 설치
+[Preview →](https://qpwoei0123.github.io/tailwind-motion-kit/)
+
+---
+
+## 1) Install
 
 ```bash
 npm i tailwind-motion-kit
 ```
 
-## 사용
-
-`tailwind.config.js`:
+## 2) Plug in
 
 ```js
-const motionKit = require('tailwind-motion-kit');
+// tailwind.config.js
+const motionKit = require('tailwind-motion-kit')
 
 module.exports = {
   content: ['./index.html'],
-  theme: {
-    extend: {},
-  },
   plugins: [motionKit()],
-};
+}
 ```
 
-> 커스텀 조합이 필요하면 `motionKit().presets`로 개별 preset만 골라 쓸 수도 있습니다.
-
-`index.html`:
+## 3) Use
 
 ```html
-<div class="animate-fade-in">fade in</div>
-<div class="animate-slide-in-up">slide in</div>
-<div class="animate-scale-in">scale in</div>
+<div class="animate-fade-in">A</div>
+<div class="animate-slide-in-up">B</div>
+<div class="animate-jelly animate-duration-700 animate-ease-out">C</div>
 ```
 
-## 기본 preset (핵심 10개)
+---
 
-- fade: `fade-in`, `fade-out`
-- slide: `slide-in-up`, `slide-out-down`
-- scale: `scale-in`, `scale-out`
-- attention: `bounce-in`, `wobble`, `jelly`
-- rotate: `rotate-in`
+## Presets (10)
 
-## 타이밍 유틸리티
+- fade → `fade-in` · `fade-out`
+- slide → `slide-in-up` · `slide-out-down`
+- scale → `scale-in` · `scale-out`
+- attention → `bounce-in` · `wobble` · `jelly`
+- rotate → `rotate-in`
 
-애니메이션 튜닝용 유틸리티 클래스를 제공합니다.
+## Timing utils
 
-- duration: `animate-duration-150|300|500|700|1000`
-- delay: `animate-delay-75|150|300|500`
-- easing: `animate-ease-linear|in|out|in-out`
+- duration → `animate-duration-150|300|500|700|1000`
+- delay → `animate-delay-75|150|300|500`
+- easing → `animate-ease-linear|in|out|in-out`
 
-예시:
+---
 
-```html
-<div class="animate-jelly animate-duration-700 animate-ease-out">Jelly</div>
-<div class="animate-fade-in animate-delay-300">Fade after delay</div>
-```
+## Quick flow
 
-## Preview 페이지 실행
+Install → Plug in → Add class → Tune duration/easing → Ship 🚀
 
-`examples/`에 tailwind-animations.com 스타일을 참고한 프리뷰 페이지가 포함되어 있습니다.
+---
+
+## Local preview
 
 ```bash
 cd examples
 npx tailwindcss -c tailwind.config.js -i input.css -o output.css --watch
 ```
 
-그 다음 `examples/index.html`을 열면 duration/easing 조절과 replay 테스트를 할 수 있습니다.
+Open `examples/index.html`.
 
-## GitHub Pages 배포
+## Pages deploy
 
-이 저장소는 `main` 브랜치에 push 하면 GitHub Actions가 `examples/`를 Pages로 배포하도록 설정되어 있습니다.
+Push `main` → Action runs → `examples/` deploys to GitHub Pages.
 
-- 워크플로우: `.github/workflows/deploy-pages.yml`
-- 예상 URL: `https://qpwoei0123.github.io/tailwind-motion-kit/`
+Workflow: `.github/workflows/deploy-pages.yml`
 
-최초 1회는 GitHub 저장소 설정에서 **Settings → Pages → Build and deployment → Source: GitHub Actions**로 설정해 주세요.
+> Note: private repo may fail on GitHub Pages depending on plan.
