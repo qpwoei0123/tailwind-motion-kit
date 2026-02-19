@@ -26,15 +26,20 @@ jobs:
         with:
           node-version: 20
 
-      - name: Build preview CSS
+      - name: Install dependencies
         run: |
-          cd examples
-          npx --yes tailwindcss@3.4.1 -c tailwind.config.js -i input.css -o output.css --minify
+          cd examples-react
+          npm ci
+
+      - name: Build React preview
+        run: |
+          cd examples-react
+          npm run build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./examples
+          path: ./examples-react/dist
 
   deploy:
     environment:
