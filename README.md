@@ -1,5 +1,12 @@
 # tailwind-motion-kit
 
+```text
+╔══════════════════════════════════════╗
+║  tailwind-motion-kit ⚡              ║
+║  animate.* → fast UI motion         ║
+╚══════════════════════════════════════╝
+```
+
 Tiny Tailwind animation kit ⚡
 
 [Preview →](https://qpwoei0123.github.io/tailwind-motion-kit/)
