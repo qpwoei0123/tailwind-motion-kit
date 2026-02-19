@@ -26,6 +26,8 @@ const easingMap = {
   'ease-in-out': [0.42, 0, 0.58, 1],
 }
 
+const durationPresets = [150, 300, 500, 700, 1000]
+
 const parseBezier = (value) => {
   if (easingMap[value]) return easingMap[value]
   const matched = value.match(/cubic-bezier\(([^)]+)\)/)
@@ -63,13 +65,29 @@ export default function App() {
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">tailwind-motion-kit · React + shadcn/ui</h1>
       </header>
 
-      <section className="mb-8 grid gap-3 rounded-xl border border-zinc-800 bg-zinc-900/60 p-3 lg:grid-cols-12">
-        <div className="lg:col-span-4">
-          <p className="mb-2 text-sm text-zinc-400">Duration ({duration}ms)</p>
+      <section className="mb-8 flex flex-col gap-2 rounded-xl border border-zinc-800 bg-zinc-900/60 p-3 lg:flex-row lg:items-stretch">
+        <div className="flex min-w-0 flex-1 flex-col rounded-lg border border-zinc-800 bg-zinc-950/70 p-3">
+          <div className="mb-2 flex items-center justify-between">
+            <p className="text-sm text-zinc-400">Duration</p>
+            <span className="text-xs text-zinc-300 tabular-nums">{duration}ms</span>
+          </div>
           <Slider min={150} max={1600} step={50} value={[duration]} onValueChange={(v) => setDuration(v[0])} />
+          <div className="mt-3 grid grid-cols-5 gap-1.5">
+            {durationPresets.map((ms) => (
+              <Button
+                key={ms}
+                size="sm"
+                variant={duration === ms ? 'default' : 'secondary'}
+                className="h-8 px-0 text-xs"
+                onClick={() => setDuration(ms)}
+              >
+                {ms}
+              </Button>
+            ))}
+          </div>
         </div>
 
-        <div className="lg:col-span-4">
+        <div className="flex min-w-0 flex-1 flex-col rounded-lg border border-zinc-800 bg-zinc-950/70 p-3">
           <p className="mb-2 text-sm text-zinc-400">Easing</p>
           <Select value={easing} onValueChange={setEasing}>
             <SelectTrigger><SelectValue /></SelectTrigger>
@@ -90,9 +108,9 @@ export default function App() {
           </div>
         </div>
 
-        <div className="flex flex-col justify-end gap-2 lg:col-span-4">
-          <Button onClick={() => setReplayTick((v) => v + 1)}>Replay all</Button>
-          <label className="flex items-center justify-between rounded-lg border border-zinc-800 bg-zinc-950/70 px-3 py-2 text-xs text-zinc-300">
+        <div className="flex min-w-[220px] flex-col justify-between gap-2 rounded-lg border border-zinc-800 bg-zinc-950/70 p-3 lg:w-[240px]">
+          <Button className="w-full" onClick={() => setReplayTick((v) => v + 1)}>Replay all</Button>
+          <label className="flex h-10 items-center justify-between rounded-md border border-zinc-800 bg-zinc-900/70 px-3 text-xs text-zinc-300">
             Auto replay
             <Switch checked={autoReplay} onCheckedChange={setAutoReplay} />
           </label>
