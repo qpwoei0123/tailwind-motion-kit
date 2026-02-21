@@ -43,6 +43,7 @@ export default function App() {
   const [easing, setEasing] = useState('cubic-bezier(0.22, 1, 0.36, 1)')
   const [autoReplay, setAutoReplay] = useState(false)
   const [replayTick, setReplayTick] = useState(0)
+  const [copied, setCopied] = useState('')
 
   useEffect(() => {
     const root = document.documentElement
@@ -60,6 +61,13 @@ export default function App() {
     const [x1, y1, x2, y2] = parseBezier(easing)
     return `M0 100 C ${x1 * 100} ${100 - y1 * 100}, ${x2 * 100} ${100 - y2 * 100}, 100 0`
   }, [easing])
+
+  const copyText = async (text) => {
+    await navigator.clipboard.writeText(text)
+    setCopied(text)
+    window.clearTimeout(copyText.t)
+    copyText.t = window.setTimeout(() => setCopied(''), 1000)
+  }
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-10">
@@ -123,8 +131,13 @@ export default function App() {
         {items.map(({ name, group, label, animClass }) => (
           <Card key={name} className="border-zinc-800 bg-zinc-900 text-zinc-100">
             <CardHeader>
-              <h3 className="font-medium text-zinc-100">{name}</h3>
-              <span className="rounded-full border border-zinc-700 bg-zinc-800 px-2 py-1 text-xs text-zinc-300">{group}</span>
+              <div className="flex items-center gap-2">
+                <h3 className="font-medium text-zinc-100">{name}</h3>
+                <span className="rounded-full border border-zinc-700 bg-zinc-800 px-2 py-1 text-xs text-zinc-300">{group}</span>
+              </div>
+              <Button size="sm" variant="secondary" className="h-7 px-2 text-[11px]" onClick={() => copyText(animClass)}>
+                Copy
+              </Button>
             </CardHeader>
             <CardContent>
               <div
@@ -133,10 +146,24 @@ export default function App() {
               >
                 {label}
               </div>
+              <Button
+                size="sm"
+                variant="secondary"
+                className="mt-3 h-8 w-full text-xs"
+                onClick={() => copyText(`${animClass} | --tmk-duration:${duration}ms; --tmk-easing:${easing};`)}
+              >
+                Copy combo
+              </Button>
             </CardContent>
           </Card>
         ))}
       </section>
+
+      {copied ? (
+        <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-xs text-zinc-100">
+          copied: {copied}
+        </div>
+      ) : null}
     </main>
   )
 }
