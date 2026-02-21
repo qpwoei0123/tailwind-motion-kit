@@ -21,6 +21,8 @@ const requiredAnimationKeys = [
   'bounce-in',
   'wobble',
   'jelly',
+  'soft-pulse',
+  'float',
   'rotate-in',
 ];
 
@@ -46,7 +48,7 @@ test('motionKit() exposes all required presets', () => {
   assert.deepEqual(presetNames.sort(), requiredPresetNames.slice().sort());
 });
 
-test('motionKit() config contains keyframes/animation entries for core 10 animations', () => {
+test('motionKit() config contains keyframes/animation entries for core 12 animations', () => {
   const plugin = motionKit();
   const keyframes = plugin.config?.theme?.extend?.keyframes;
   const animations = plugin.config?.theme?.extend?.animation;
