@@ -24,6 +24,10 @@ Tiny Tailwind animation kit ⚡
 
 [Preview →](https://qpwoei0123.github.io/tailwind-motion-kit/)
 
+![React + shadcn preview](./docs/assets/preview-react-shadcn.jpg)
+
+Current preview UI (React + shadcn/ui)
+
 ---
 
 ## 1) Install
