@@ -26,6 +26,9 @@ jobs:
         with:
           node-version: 20
 
+      - name: Run core tests
+        run: npm test
+
       - name: Install dependencies
         run: |
           cd examples-react
