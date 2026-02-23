@@ -184,7 +184,7 @@ export default function App() {
         </div>
       </header>
 
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
         {items.map(({ name, group, label, animClass }) => {
           const durationToken = `animate-duration-${duration}`
           const delayToken = delay > 0 ? `animate-delay-${delay}` : ''
