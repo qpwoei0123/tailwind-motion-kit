@@ -37,6 +37,20 @@ module.exports = function motionKit(options = {}) {
         '.animate-ease-in': { '--tmk-easing': 'cubic-bezier(0.4, 0, 1, 1)' },
         '.animate-ease-out': { '--tmk-easing': 'cubic-bezier(0, 0, 0.2, 1)' },
         '.animate-ease-in-out': { '--tmk-easing': 'cubic-bezier(0.4, 0, 0.2, 1)' },
+
+        '.animate-repeat-1': { 'animation-iteration-count': '1' },
+        '.animate-repeat-2': { 'animation-iteration-count': '2' },
+        '.animate-repeat-3': { 'animation-iteration-count': '3' },
+        '.animate-repeat-infinite': { 'animation-iteration-count': 'infinite' },
+
+        '.animate-direction-normal': { 'animation-direction': 'normal' },
+        '.animate-direction-reverse': { 'animation-direction': 'reverse' },
+        '.animate-direction-alternate': { 'animation-direction': 'alternate' },
+
+        '.animate-fill-none': { 'animation-fill-mode': 'none' },
+        '.animate-fill-forwards': { 'animation-fill-mode': 'forwards' },
+        '.animate-fill-backwards': { 'animation-fill-mode': 'backwards' },
+        '.animate-fill-both': { 'animation-fill-mode': 'both' },
       });
     },
     config: {

@@ -71,6 +71,9 @@ module.exports = {
 - duration → `animate-duration-150|300|500|700|1000`
 - delay → `animate-delay-75|150|300|500`
 - easing → `animate-ease-linear|in|out|in-out`
+- repeat → `animate-repeat-1|2|3|infinite`
+- direction → `animate-direction-normal|reverse|alternate`
+- fill mode → `animate-fill-none|forwards|backwards|both`
 
 ---
 

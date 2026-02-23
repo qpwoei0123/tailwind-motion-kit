@@ -88,6 +88,17 @@ test('motionKit() handler adds timing utility classes', () => {
     '.animate-ease-in',
     '.animate-ease-out',
     '.animate-ease-in-out',
+    '.animate-repeat-1',
+    '.animate-repeat-2',
+    '.animate-repeat-3',
+    '.animate-repeat-infinite',
+    '.animate-direction-normal',
+    '.animate-direction-reverse',
+    '.animate-direction-alternate',
+    '.animate-fill-none',
+    '.animate-fill-forwards',
+    '.animate-fill-backwards',
+    '.animate-fill-both',
   ];
 
   for (const cls of expectedUtilities) {
@@ -97,6 +108,9 @@ test('motionKit() handler adds timing utility classes', () => {
   assert.equal(captured['.animate-duration-500']['--tmk-duration'], '500ms');
   assert.equal(captured['.animate-delay-300']['animation-delay'], '300ms');
   assert.equal(captured['.animate-ease-linear']['--tmk-easing'], 'linear');
+  assert.equal(captured['.animate-repeat-3']['animation-iteration-count'], '3');
+  assert.equal(captured['.animate-direction-alternate']['animation-direction'], 'alternate');
+  assert.equal(captured['.animate-fill-forwards']['animation-fill-mode'], 'forwards');
 });
 
 test('plugin keeps options payload for future extension', () => {
