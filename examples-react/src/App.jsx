@@ -92,7 +92,6 @@ export default function App() {
   const [copied, setCopied] = useState('')
   const [syncFx, setSyncFx] = useState(false)
   const [dirTick, setDirTick] = useState(0)
-  const featured = new Set(['slide-in-up', 'jelly'])
 
   useEffect(() => {
     const root = document.documentElement
@@ -177,7 +176,7 @@ export default function App() {
           const delayToken = delay > 0 ? `animate-delay-${delay}` : ''
           const finalClass = formatClass(animClass, durationToken, delayToken, easingClass, directionClass, fillClass)
           return (
-            <Card key={name} className={`border-zinc-700/80 bg-gradient-to-b from-zinc-900 to-zinc-950 text-zinc-100 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:border-zinc-600 ${featured.has(name) ? 'lg:col-span-2' : ''}` }>
+            <Card key={name} className="border-zinc-700/80 bg-gradient-to-b from-zinc-900 to-zinc-950 text-zinc-100 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:border-zinc-600">
               <CardHeader>
                 <div className="flex flex-wrap items-center gap-2"><h3 className="font-medium text-zinc-100">{name}</h3><span className={`rounded-full border px-2 py-1 text-xs ${groupTone[group]}`}>{group}</span><span className="rounded-full border border-zinc-700 bg-zinc-900 px-2 py-1 text-[10px] text-zinc-300">{useCaseTone[name]}</span></div>
               </CardHeader>
