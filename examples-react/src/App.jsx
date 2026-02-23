@@ -62,12 +62,6 @@ const fillOptions = [
   { value: 'animate-fill-both', label: 'both', desc: '시작+종료 상태 모두 유지' },
 ]
 
-const guideNotes = [
-  { title: 'Global output', body: '조합을 한 줄 클래스로 복사', arrow: '↘' },
-  { title: 'Controls', body: 'duration/delay/easing/direction/fill 조작', arrow: '↘' },
-  { title: 'Cards', body: '프리셋 확인 후 클래스 복사', arrow: '↘' },
-]
-
 const formatClass = (...tokens) => tokens.filter(Boolean).join(' ')
 
 const parseBezier = (value) => {
@@ -197,15 +191,47 @@ export default function App() {
         </div>
 
         <aside className="relative hidden xl:block">
-          <div className="sticky top-8 space-y-2 rounded-2xl border border-zinc-800/90 bg-zinc-900/60 p-3 shadow-xl shadow-black/20">
-            <p className="text-[11px] tracking-[0.18em] text-zinc-400">GUIDE LAYER</p>
-            {guideNotes.map((note, idx) => (
-              <div key={note.title} className="relative rounded-xl border border-zinc-700/80 bg-zinc-950/70 p-3">
-                <div className="absolute -left-3 top-1/2 -translate-y-1/2 text-indigo-300">{note.arrow}</div>
-                <p className="text-xs font-medium text-zinc-100">{idx + 1}. {note.title}</p>
-                <p className="mt-1 text-[11px] leading-relaxed text-zinc-400">{note.body}</p>
-              </div>
-            ))}
+          <div className="sticky top-8 space-y-3 rounded-2xl border border-zinc-800/90 bg-zinc-900/70 p-3 shadow-xl shadow-black/20">
+            <div className="flex items-center justify-between">
+              <p className="text-[11px] tracking-[0.18em] text-zinc-400">MOTION CONTROLS</p>
+              <Button
+                size="sm"
+                variant="secondary"
+                className="h-7 px-2 text-[10px]"
+                onClick={() => {
+                  setDuration(1000)
+                  setDelay(0)
+                  setEasingClass('animate-ease-out')
+                  setDirectionClass('animate-direction-normal')
+                  setFillClass('animate-fill-both')
+                }}
+              >
+                Reset
+              </Button>
+            </div>
+
+            <code className="block rounded-lg border border-zinc-700/80 bg-zinc-950 p-2 text-[10px] text-indigo-200">
+              {globalClassCombo}
+            </code>
+
+            <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
+              <div className="mb-2 flex items-center justify-between"><p className="text-xs text-zinc-300">Duration</p><span className="text-[10px] text-zinc-400">{duration}ms</span></div>
+              <Slider min={0} max={durationPresets.length - 1} step={1} value={[durationPresets.indexOf(duration)]} onValueChange={(v) => setDuration(durationPresets[v[0]] ?? 1000)} />
+            </div>
+
+            <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
+              <div className="mb-2 flex items-center justify-between"><p className="text-xs text-zinc-300">Delay</p><span className="text-[10px] text-zinc-400">{delay}ms</span></div>
+              <Slider min={0} max={delayPresets.length - 1} step={1} value={[delayPresets.indexOf(delay)]} onValueChange={(v) => setDelay(delayPresets[v[0]] ?? 0)} />
+            </div>
+
+            <div className="space-y-2 rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
+              <p className="text-xs text-zinc-300">Easing</p>
+              <Select value={easingClass} onValueChange={setEasingClass}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{easingOptions.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent></Select>
+              <p className="text-xs text-zinc-300">Direction</p>
+              <Select value={directionClass} onValueChange={setDirectionClass}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{directionOptions.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent></Select>
+              <p className="text-xs text-zinc-300">Fill mode</p>
+              <Select value={fillClass} onValueChange={setFillClass}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{fillOptions.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent></Select>
+            </div>
           </div>
         </aside>
       </div>
