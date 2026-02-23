@@ -27,7 +27,6 @@ const easingOptions = [
   { value: 'animate-ease-out', label: 'ease-out', css: 'cubic-bezier(0, 0, 0.2, 1)' },
   { value: 'animate-ease-in-out', label: 'ease-in-out', css: 'cubic-bezier(0.4, 0, 0.2, 1)' },
 ]
-const repeatOptions = ['animate-repeat-1', 'animate-repeat-2', 'animate-repeat-3', 'animate-repeat-infinite']
 const directionOptions = ['animate-direction-normal', 'animate-direction-reverse', 'animate-direction-alternate']
 const fillOptions = ['animate-fill-none', 'animate-fill-forwards', 'animate-fill-backwards', 'animate-fill-both']
 
@@ -37,7 +36,6 @@ export default function App() {
   const [duration, setDuration] = useState(1000)
   const [delay, setDelay] = useState(0)
   const [easingClass, setEasingClass] = useState('animate-ease-out')
-  const [repeatClass, setRepeatClass] = useState('animate-repeat-1')
   const [directionClass, setDirectionClass] = useState('animate-direction-normal')
   const [fillClass, setFillClass] = useState('animate-fill-both')
   const [replayTick, setReplayTick] = useState(0)
@@ -58,7 +56,7 @@ export default function App() {
     setSyncFx(true)
     const t = setTimeout(() => setSyncFx(false), 320)
     return () => clearTimeout(t)
-  }, [duration, delay, easingClass, repeatClass, directionClass, fillClass])
+  }, [duration, delay, easingClass, directionClass, fillClass])
 
   const easingCss = useMemo(() => easingOptions.find((o) => o.value === easingClass)?.css ?? 'ease', [easingClass])
 
@@ -69,8 +67,8 @@ export default function App() {
   const globalClassCombo = useMemo(() => {
     const durationToken = `animate-duration-${duration}`
     const delayToken = delay > 0 ? `animate-delay-${delay}` : ''
-    return formatClass(durationToken, delayToken, easingClass, repeatClass, directionClass, fillClass)
-  }, [duration, delay, easingClass, repeatClass, directionClass, fillClass])
+    return formatClass(durationToken, delayToken, easingClass, directionClass, fillClass)
+  }, [duration, delay, easingClass, directionClass, fillClass])
 
   const copyText = async (text) => {
     await navigator.clipboard.writeText(text)
@@ -158,17 +156,6 @@ export default function App() {
           </Select>
         </div>
 
-        <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
-          <p className="mb-2 text-sm text-zinc-300">Repeat</p>
-          <Select value={repeatClass} onValueChange={setRepeatClass}>
-            <SelectTrigger><SelectValue /></SelectTrigger>
-            <SelectContent>
-              {repeatOptions.map((o) => (
-                <SelectItem key={o} value={o}>{o}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
 
         <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
           <p className="mb-2 text-sm text-zinc-300">Direction</p>
@@ -199,7 +186,7 @@ export default function App() {
         {items.map(({ name, group, label, animClass }) => {
           const durationToken = `animate-duration-${duration}`
           const delayToken = delay > 0 ? `animate-delay-${delay}` : ''
-          const finalClass = formatClass(animClass, durationToken, delayToken, easingClass, repeatClass, directionClass, fillClass)
+          const finalClass = formatClass(animClass, durationToken, delayToken, easingClass, directionClass, fillClass)
 
           return (
             <Card key={name} className="border-zinc-700/80 bg-gradient-to-b from-zinc-900 to-zinc-950 text-zinc-100 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:border-zinc-600">
