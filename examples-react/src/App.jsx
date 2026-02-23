@@ -68,6 +68,7 @@ export default function App() {
   const [replayTick, setReplayTick] = useState(0)
   const [copied, setCopied] = useState('')
   const [syncFx, setSyncFx] = useState(false)
+  const [dirTick, setDirTick] = useState(0)
 
   useEffect(() => {
     const root = document.documentElement
@@ -78,6 +79,11 @@ export default function App() {
     const t = setInterval(() => setReplayTick((v) => v + 1), Math.max(500, duration + delay + 250))
     return () => clearInterval(t)
   }, [duration, delay])
+
+  useEffect(() => {
+    const t = setInterval(() => setDirTick((v) => v + 1), 1800)
+    return () => clearInterval(t)
+  }, [])
 
   useEffect(() => {
     setSyncFx(true)
@@ -152,13 +158,13 @@ export default function App() {
           <div className="rounded-md border border-zinc-700 bg-zinc-900 p-2">
             <div className="mb-2 text-lg text-center text-indigo-200">{direction.arrow}</div>
             <div
-              key={`dir-${replayTick}`}
-              className={`animate-slide-in-right animate-duration-${duration} ${directionClass} animate-repeat-2 rounded bg-indigo-500/20 px-2 py-1 text-center text-xs text-indigo-100`}
+              key={`dir-${directionClass}-${dirTick}`}
+              className={`animate-slide-in-right animate-duration-700 animate-ease-out animate-fill-both ${directionClass} animate-repeat-2 rounded bg-indigo-500/20 px-2 py-1 text-center text-xs text-indigo-100`}
             >
               {direction.label}
             </div>
           </div>
-          <p className="mt-2 text-xs text-zinc-400">{direction.desc}{directionClass === 'animate-direction-alternate' ? ' (미리보기는 alternate 체감을 위해 repeat-2 고정)' : ''}</p>
+          <p className="mt-2 text-xs text-zinc-400">{direction.desc} · 설명 전용 스코프(외부 옵션 비연동)</p>
         </div>
 
         <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
