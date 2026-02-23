@@ -84,6 +84,7 @@ export default function App() {
   const [fillClass, setFillClass] = useState('animate-fill-both')
   const [replayTick, setReplayTick] = useState(0)
   const [copyState, setCopyState] = useState({ key: '', tone: 'success' })
+  const [scrollProgress, setScrollProgress] = useState(0)
   const [syncFx, setSyncFx] = useState(false)
   const [dirTick, setDirTick] = useState(0)
 
@@ -100,6 +101,17 @@ export default function App() {
   useEffect(() => {
     const t = setInterval(() => setDirTick((v) => v + 1), 1800)
     return () => clearInterval(t)
+  }, [])
+
+  useEffect(() => {
+    const onScroll = () => {
+      const doc = document.documentElement
+      const max = doc.scrollHeight - doc.clientHeight
+      setScrollProgress(max > 0 ? (window.scrollY / max) * 100 : 0)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   useEffect(() => {
@@ -148,6 +160,10 @@ export default function App() {
 
   return (
     <main className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6 sm:py-10">
+      <div className="fixed left-0 top-0 z-40 h-[2px] w-full bg-zinc-900/70">
+        <div className="h-full bg-gradient-to-r from-cyan-400 via-indigo-400 to-fuchsia-400 transition-[width] duration-150" style={{ width: `${scrollProgress}%` }} />
+      </div>
+
       <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_280px] xl:gap-6">
         <div>
       <header className="relative mb-6 overflow-hidden rounded-3xl border border-zinc-800 bg-gradient-to-br from-zinc-900 via-zinc-900 to-indigo-950 p-5 shadow-2xl shadow-black/30 sm:p-7">
@@ -197,7 +213,7 @@ export default function App() {
         <aside className="relative hidden xl:block">
           <div className="sticky top-8 space-y-3 rounded-2xl border border-zinc-800/90 bg-zinc-900/70 p-3 shadow-xl shadow-black/20">
             <div className="flex items-center justify-between">
-              <p className="text-[11px] tracking-[0.18em] text-zinc-400">MOTION CONTROLS</p>
+              <p className="text-[11px] tracking-[0.18em] text-zinc-400">MOTION CONTROLS · {Math.round(scrollProgress)}%</p>
               <Button
                 size="sm"
                 variant="secondary"
