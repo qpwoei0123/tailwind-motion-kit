@@ -91,6 +91,7 @@ export default function App() {
   const pageRef = useRef(null)
   const cursorRef = useRef(null)
   const cursorDotRef = useRef(null)
+  const enteredAreasRef = useRef(new Set())
 
   useEffect(() => {
     const root = document.documentElement
@@ -174,11 +175,41 @@ export default function App() {
       })
     }
 
+    const playEntryFx = (tone, animKey) => {
+      const key = animKey || tone
+      if (!key || enteredAreasRef.current.has(key)) return
+      enteredAreasRef.current.add(key)
+
+      const tl = gsap.timeline()
+      if (tone === 'slide') {
+        tl.to(cursorRef.current, { x: '+=10', duration: 0.08, ease: 'power2.out' })
+          .to(cursorRef.current, { x: '-=10', duration: 0.12, ease: 'power2.inOut' })
+      } else if (tone === 'fade') {
+        tl.to(cursorRef.current, { opacity: 0.35, duration: 0.08 })
+          .to(cursorRef.current, { opacity: 1, duration: 0.14 })
+      } else if (tone === 'scale') {
+        tl.to(cursorRef.current, { scale: '+=0.7', duration: 0.1, ease: 'back.out(2.5)' })
+          .to(cursorRef.current, { scale: '-=0.7', duration: 0.16, ease: 'power2.out' })
+      } else if (tone === 'attention') {
+        tl.to(cursorRef.current, { scale: 2.2, duration: 0.09, ease: 'back.out(2)' })
+          .to(cursorRef.current, { scale: 1.6, duration: 0.16, ease: 'elastic.out(1, 0.5)' })
+      } else if (tone === 'rotate') {
+        tl.to(cursorRef.current, { rotation: '+=25', duration: 0.12, ease: 'power2.out' })
+          .to(cursorRef.current, { rotation: 0, duration: 0.16, ease: 'power2.inOut' })
+      } else {
+        tl.to(cursorDotRef.current, { scale: 1.8, duration: 0.1, ease: 'power2.out' })
+          .to(cursorDotRef.current, { scale: 0.9, duration: 0.16, ease: 'power2.inOut' })
+      }
+    }
+
     const onOver = (e) => {
       const t = e.target
       const toneTarget = t.closest('[data-cursor]')
       if (toneTarget) {
-        setCursorTheme(toneTarget.getAttribute('data-cursor'))
+        const tone = toneTarget.getAttribute('data-cursor')
+        const animKey = toneTarget.getAttribute('data-anim')
+        setCursorTheme(tone)
+        playEntryFx(tone, animKey)
         return
       }
       if (t.closest('button, a, input, select, textarea, [role="button"]')) {
@@ -280,7 +311,7 @@ export default function App() {
           const delayToken = delay > 0 ? `animate-delay-${delay}` : ''
           const finalClass = formatClass(animClass, durationToken, delayToken, easingClass, directionClass, fillClass)
           return (
-            <Card key={name} data-cursor={group} className="border-zinc-700/80 bg-gradient-to-b from-zinc-900 to-zinc-950 text-zinc-100 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:border-zinc-600">
+            <Card key={name} data-cursor={group} data-anim={name} className="border-zinc-700/80 bg-gradient-to-b from-zinc-900 to-zinc-950 text-zinc-100 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:border-zinc-600">
               <CardHeader>
                 <div className="flex flex-wrap items-center gap-2"><h3 className="font-medium text-zinc-100">{name}</h3><span className={`rounded-full border px-2 py-1 text-xs ${groupTone[group]}`}>{group}</span><span className="rounded-full border border-zinc-700 bg-zinc-900 px-2 py-1 text-[10px] text-zinc-300">{useCaseTone[name]}</span></div>
               </CardHeader>
