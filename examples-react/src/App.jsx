@@ -142,6 +142,8 @@ export default function App() {
     const moveDotX = gsap.quickTo(cursorDotRef.current, 'x', { duration: 0.12, ease: 'power3.out' })
     const moveDotY = gsap.quickTo(cursorDotRef.current, 'y', { duration: 0.12, ease: 'power3.out' })
 
+    gsap.to(cursorDotRef.current, { scale: 0.9, duration: 0.8, yoyo: true, repeat: -1, ease: 'sine.inOut' })
+
     const onMove = (e) => {
       moveOuterX(e.clientX)
       moveOuterY(e.clientY)
@@ -149,16 +151,44 @@ export default function App() {
       moveDotY(e.clientY)
     }
 
-    const onOver = (e) => {
-      const t = e.target
-      if (t.closest('button, a, input, select, textarea, [role="button"]')) {
-        gsap.to(cursorRef.current, { scale: 1.8, duration: 0.2, backgroundColor: 'rgba(129, 140, 248, 0.25)' })
+    const setCursorTheme = (tone = 'default') => {
+      const toneMap = {
+        default: { ring: 'rgba(129, 140, 248, 0.12)', dot: '#67e8f9', scale: 1 },
+        action: { ring: 'rgba(129, 140, 248, 0.28)', dot: '#a5b4fc', scale: 1.8 },
+        fade: { ring: 'rgba(34, 211, 238, 0.22)', dot: '#22d3ee', scale: 1.5 },
+        slide: { ring: 'rgba(52, 211, 153, 0.22)', dot: '#34d399', scale: 1.5 },
+        scale: { ring: 'rgba(217, 70, 239, 0.22)', dot: '#d946ef', scale: 1.5 },
+        attention: { ring: 'rgba(251, 191, 36, 0.24)', dot: '#fbbf24', scale: 1.6 },
+        rotate: { ring: 'rgba(129, 140, 248, 0.24)', dot: '#818cf8', scale: 1.6 },
       }
+      const style = toneMap[tone] ?? toneMap.default
+      gsap.to(cursorRef.current, {
+        scale: style.scale,
+        duration: 0.2,
+        backgroundColor: style.ring,
+        borderColor: style.dot,
+      })
+      gsap.to(cursorDotRef.current, {
+        duration: 0.2,
+        backgroundColor: style.dot,
+      })
     }
 
-    const onOut = () => {
-      gsap.to(cursorRef.current, { scale: 1, duration: 0.2, backgroundColor: 'rgba(129, 140, 248, 0.08)' })
+    const onOver = (e) => {
+      const t = e.target
+      const toneTarget = t.closest('[data-cursor]')
+      if (toneTarget) {
+        setCursorTheme(toneTarget.getAttribute('data-cursor'))
+        return
+      }
+      if (t.closest('button, a, input, select, textarea, [role="button"]')) {
+        setCursorTheme('action')
+        return
+      }
+      setCursorTheme('default')
     }
+
+    const onOut = () => setCursorTheme('default')
 
     window.addEventListener('mousemove', onMove)
     document.addEventListener('mouseover', onOver)
@@ -226,7 +256,7 @@ export default function App() {
 
       <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_280px] xl:gap-6">
         <div>
-      <header className="tmk-reveal relative mb-6 overflow-hidden rounded-3xl border border-zinc-800 bg-gradient-to-br from-zinc-900 via-zinc-900 to-indigo-950 p-5 shadow-2xl shadow-black/30 sm:p-7">
+      <header data-cursor="rotate" className="tmk-reveal relative mb-6 overflow-hidden rounded-3xl border border-zinc-800 bg-gradient-to-br from-zinc-900 via-zinc-900 to-indigo-950 p-5 shadow-2xl shadow-black/30 sm:p-7">
         <div className="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-indigo-500/20 blur-3xl" />
         <p className="relative mb-2 text-xs tracking-[0.2em] text-zinc-400">PREVIEW PLAYGROUND</p>
         <h1 className="relative text-2xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">tailwind-motion-kit</h1>
@@ -250,7 +280,7 @@ export default function App() {
           const delayToken = delay > 0 ? `animate-delay-${delay}` : ''
           const finalClass = formatClass(animClass, durationToken, delayToken, easingClass, directionClass, fillClass)
           return (
-            <Card key={name} className="border-zinc-700/80 bg-gradient-to-b from-zinc-900 to-zinc-950 text-zinc-100 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:border-zinc-600">
+            <Card key={name} data-cursor={group} className="border-zinc-700/80 bg-gradient-to-b from-zinc-900 to-zinc-950 text-zinc-100 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:border-zinc-600">
               <CardHeader>
                 <div className="flex flex-wrap items-center gap-2"><h3 className="font-medium text-zinc-100">{name}</h3><span className={`rounded-full border px-2 py-1 text-xs ${groupTone[group]}`}>{group}</span><span className="rounded-full border border-zinc-700 bg-zinc-900 px-2 py-1 text-[10px] text-zinc-300">{useCaseTone[name]}</span></div>
               </CardHeader>
@@ -271,7 +301,7 @@ export default function App() {
         </div>
 
         <aside className="tmk-reveal relative hidden xl:block">
-          <div className="sticky top-8 space-y-3 rounded-2xl border border-zinc-800/90 bg-zinc-900/70 p-3 shadow-xl shadow-black/20">
+          <div data-cursor="action" className="sticky top-8 space-y-3 rounded-2xl border border-zinc-800/90 bg-zinc-900/70 p-3 shadow-xl shadow-black/20">
             <div className="flex items-center justify-between">
               <p className="text-[11px] tracking-[0.18em] text-zinc-400">MOTION CONTROLS · {Math.round(scrollProgress)}%</p>
               <Button
