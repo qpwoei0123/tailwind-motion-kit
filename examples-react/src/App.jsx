@@ -94,6 +94,7 @@ export default function App() {
   const easing = useMemo(() => easingOptions.find((o) => o.value === easingClass) ?? easingOptions[0], [easingClass])
   const direction = useMemo(() => directionOptions.find((o) => o.value === directionClass) ?? directionOptions[0], [directionClass])
   const fillMode = useMemo(() => fillOptions.find((o) => o.value === fillClass) ?? fillOptions[0], [fillClass])
+  const previewRepeatClass = directionClass === 'animate-direction-alternate' ? 'animate-repeat-2' : 'animate-repeat-1'
 
   useEffect(() => {
     document.documentElement.style.setProperty('--tmk-easing', easing.css)
@@ -159,12 +160,12 @@ export default function App() {
             <div className="mb-2 text-lg text-center text-indigo-200">{direction.arrow}</div>
             <div
               key={`dir-${directionClass}-${dirTick}`}
-              className={`animate-slide-in-right animate-duration-700 animate-ease-out animate-fill-both ${directionClass} animate-repeat-2 rounded bg-indigo-500/20 px-2 py-1 text-center text-xs text-indigo-100`}
+              className={`animate-slide-in-right animate-duration-700 animate-ease-out animate-fill-both ${directionClass} ${previewRepeatClass} rounded bg-indigo-500/20 px-2 py-1 text-center text-xs text-indigo-100`}
             >
               {direction.label}
             </div>
           </div>
-          <p className="mt-2 text-xs text-zinc-400">{direction.desc} · 설명 전용 스코프(외부 옵션 비연동)</p>
+          <p className="mt-2 text-xs text-zinc-400">{direction.desc} · 설명 전용 스코프(외부 옵션 비연동, alternate만 2회)</p>
         </div>
 
         <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
