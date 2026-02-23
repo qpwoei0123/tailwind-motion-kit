@@ -39,6 +39,12 @@ const fillOptions = [
   { value: 'animate-fill-both', label: 'both', desc: '시작+종료 상태 모두 유지' },
 ]
 
+const lockedOptions = [
+  { label: 'Repeat', value: 'animate-repeat-1|2|3|infinite' },
+  { label: 'Motion reduce', value: 'motion-reduce:animate-none' },
+  { label: 'Motion safe', value: 'motion-safe:animate-*' },
+]
+
 const formatClass = (...tokens) => tokens.filter(Boolean).join(' ')
 
 const parseBezier = (value) => {
@@ -165,6 +171,19 @@ export default function App() {
             ))}
           </div>
           <p className="mt-2 text-xs text-zinc-400">{fillMode.desc}</p>
+        </div>
+      </section>
+
+      <section className="mb-4 rounded-2xl border border-zinc-800/90 bg-zinc-900/70 p-3 shadow-xl shadow-black/20">
+        <p className="mb-2 text-sm text-zinc-200">Other available options (display only)</p>
+        <div className="grid gap-2 sm:grid-cols-3">
+          {lockedOptions.map((opt) => (
+            <div key={opt.label} className="rounded-lg border border-zinc-700/80 bg-zinc-950/70 p-2 opacity-70">
+              <p className="text-[11px] text-zinc-400">{opt.label}</p>
+              <code className="mt-1 block text-[11px] text-zinc-300">{opt.value}</code>
+              <p className="mt-1 text-[10px] text-zinc-500">조작 UI 없음</p>
+            </div>
+          ))}
         </div>
       </section>
 
