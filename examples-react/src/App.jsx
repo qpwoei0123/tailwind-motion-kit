@@ -62,17 +62,10 @@ const fillOptions = [
   { value: 'animate-fill-both', label: 'both', desc: '시작+종료 상태 모두 유지' },
 ]
 
-const lockedOptions = [
-  { label: 'Repeat', value: 'animate-repeat-1|2|3|infinite' },
-  { label: 'Motion reduce', value: 'motion-reduce:animate-none' },
-  { label: 'Motion safe', value: 'motion-safe:animate-*' },
-]
-
 const guideNotes = [
-  { title: 'Global class output', body: '현재 조합을 한 줄 클래스로 복사합니다.', arrow: '↘' },
-  { title: 'Concept panel', body: 'Easing / Direction / Fill 동작 원리를 시각적으로 확인합니다.', arrow: '↘' },
-  { title: 'Control section', body: 'duration, delay, easing, direction, fill을 실시간 조작합니다.', arrow: '↘' },
-  { title: 'Animation cards', body: '각 프리셋의 최종 클래스를 즉시 복사해 적용합니다.', arrow: '↘' },
+  { title: 'Global output', body: '조합을 한 줄 클래스로 복사', arrow: '↘' },
+  { title: 'Controls', body: 'duration/delay/easing/direction/fill 조작', arrow: '↘' },
+  { title: 'Cards', body: '프리셋 확인 후 클래스 복사', arrow: '↘' },
 ]
 
 const formatClass = (...tokens) => tokens.filter(Boolean).join(' ')
@@ -178,155 +171,6 @@ export default function App() {
         </div>
       </header>
 
-      <section className="mb-4 rounded-2xl border border-indigo-800/60 bg-gradient-to-r from-zinc-900 to-indigo-950/60 p-3 shadow-xl shadow-black/20">
-        <p className="mb-2 text-xs tracking-[0.16em] text-indigo-300/80">Signature motion line</p>
-        <div className="grid gap-2 sm:grid-cols-3">
-          <div key={`sig-a-${replayTick}`} className="animate-fade-up rounded-lg border border-zinc-700/70 bg-zinc-950/70 px-3 py-2 text-sm text-zinc-200">soft enter</div>
-          <div key={`sig-b-${replayTick}`} className="animate-slide-in-right rounded-lg border border-zinc-700/70 bg-zinc-950/70 px-3 py-2 text-sm text-zinc-200">fast response</div>
-          <div key={`sig-c-${replayTick}`} className="animate-jelly rounded-lg border border-zinc-700/70 bg-zinc-950/70 px-3 py-2 text-sm text-zinc-200">playful emphasis</div>
-        </div>
-      </section>
-
-      <section className="mb-4 rounded-2xl border border-zinc-800/90 bg-zinc-900/70 p-3 shadow-xl shadow-black/20">
-        <div className="mb-3 flex items-center justify-between">
-          <p className="text-sm text-zinc-200">Synchronized class output</p>
-          <Button size="sm" variant="secondary" className="h-8 px-3 text-xs" onClick={() => copyText(globalClassCombo)}>
-            Copy global class
-          </Button>
-        </div>
-        <code className={`block overflow-x-auto rounded-lg border border-zinc-700/80 bg-zinc-950 p-3 text-xs text-indigo-200 transition ${syncFx ? 'ring-2 ring-indigo-400/60' : ''}`}>
-          {globalClassCombo}
-        </code>
-      </section>
-
-      <section className="mb-4 grid gap-3 rounded-2xl border border-zinc-800/90 bg-zinc-900/70 p-3 shadow-xl shadow-black/20 lg:grid-cols-3">
-        <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
-          <p className="mb-2 text-sm text-zinc-300">Easing curve</p>
-          <svg viewBox="0 0 100 100" className="h-20 w-full rounded-md border border-zinc-700 bg-zinc-900 p-1">
-            <line x1="0" y1="100" x2="100" y2="0" stroke="rgb(82 82 91)" strokeWidth="1" strokeDasharray="3 3" />
-            <path d={curve} fill="none" stroke="rgb(129 140 248)" strokeWidth="2.5" strokeLinecap="round" />
-          </svg>
-          <p className="mt-2 text-xs text-zinc-400">{easing.desc}</p>
-        </div>
-
-        <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
-          <p className="mb-2 text-sm text-zinc-300">Direction preview</p>
-          <div className="rounded-md border border-zinc-700 bg-zinc-900 p-2">
-            <div className="mb-2 text-lg text-center text-indigo-200">{direction.arrow}</div>
-            <div
-              key={`dir-${directionClass}-${dirTick}`}
-              className={`animate-slide-in-right animate-duration-700 animate-ease-out animate-fill-both ${directionClass} ${previewRepeatClass} rounded bg-indigo-500/20 px-2 py-1 text-center text-xs text-indigo-100`}
-            >
-              {direction.label}
-            </div>
-          </div>
-          <p className="mt-2 text-xs text-zinc-400">{direction.desc}</p>
-        </div>
-
-        <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
-          <p className="mb-2 text-sm text-zinc-300">Fill mode timeline</p>
-          <div className="grid grid-cols-3 gap-2 rounded-md border border-zinc-700 bg-zinc-900 p-2 text-center text-[11px]">
-            {['before', 'active', 'after'].map((label, idx) => (
-              <div key={label} className={`rounded px-1 py-2 ${fillTimeline[idx] ? 'bg-indigo-500/30 text-indigo-100' : 'bg-zinc-800 text-zinc-500'}`}>
-                {label}
-              </div>
-            ))}
-          </div>
-          <p className="mt-2 text-xs text-zinc-400">{fillMode.desc}</p>
-        </div>
-      </section>
-
-      <section className="mb-8 rounded-2xl border border-zinc-800/90 bg-gradient-to-br from-zinc-900/85 to-zinc-950/85 p-4 shadow-xl shadow-black/20">
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <p className="text-sm font-medium text-zinc-100">Motion controls</p>
-            <p className="text-xs text-zinc-400">조작 → 즉시 반영 → 클래스 복사</p>
-          </div>
-          <Button
-            size="sm"
-            variant="secondary"
-            className="h-8 px-3 text-xs"
-            onClick={() => {
-              setDuration(1000)
-              setDelay(0)
-              setEasingClass('animate-ease-out')
-              setDirectionClass('animate-direction-normal')
-              setFillClass('animate-fill-both')
-            }}
-          >
-            Reset defaults
-          </Button>
-        </div>
-
-        <div className="mb-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
-          {[
-            ['duration', `animate-duration-${duration}`],
-            ['delay', delay > 0 ? `animate-delay-${delay}` : 'animate-delay-0'],
-            ['easing', easingClass],
-            ['direction', directionClass],
-            ['fill', fillClass],
-          ].map(([k, v]) => (
-            <div key={k} className="rounded-lg border border-zinc-700/70 bg-zinc-950/80 px-3 py-2">
-              <p className="text-[10px] uppercase tracking-[0.16em] text-zinc-500">{k}</p>
-              <code className="mt-1 block text-xs text-indigo-200">{v}</code>
-            </div>
-          ))}
-        </div>
-
-        <div className="grid gap-3 lg:grid-cols-2">
-          <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
-            <div className="mb-2 flex items-center justify-between"><p className="text-sm text-zinc-200">Duration</p><span className="text-xs text-zinc-400 tabular-nums">{duration}ms</span></div>
-            <Slider min={0} max={durationPresets.length - 1} step={1} value={[durationPresets.indexOf(duration)]} onValueChange={(v) => setDuration(durationPresets[v[0]] ?? 1000)} />
-            <div className="mt-3 grid grid-cols-5 gap-1.5">{durationPresets.map((ms) => <Button key={ms} size="sm" variant={duration === ms ? 'default' : 'secondary'} className="h-8 px-0 text-xs" onClick={() => setDuration(ms)}>{ms}</Button>)}</div>
-          </div>
-
-          <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
-            <div className="mb-2 flex items-center justify-between"><p className="text-sm text-zinc-200">Delay</p><span className="text-xs text-zinc-400 tabular-nums">{delay}ms</span></div>
-            <Slider min={0} max={delayPresets.length - 1} step={1} value={[delayPresets.indexOf(delay)]} onValueChange={(v) => setDelay(delayPresets[v[0]] ?? 0)} />
-            <div className="mt-3 grid grid-cols-5 gap-1.5">{delayPresets.map((ms) => <Button key={ms} size="sm" variant={delay === ms ? 'default' : 'secondary'} className="h-8 px-0 text-xs" onClick={() => setDelay(ms)}>{ms}</Button>)}</div>
-          </div>
-
-          <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
-            <p className="mb-2 text-sm text-zinc-200">Easing</p>
-            <Select value={easingClass} onValueChange={setEasingClass}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{easingOptions.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent></Select>
-            <p className="mt-2 text-[11px] text-zinc-500">속도감 성격을 결정</p>
-          </div>
-
-          <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
-            <p className="mb-2 text-sm text-zinc-200">Direction</p>
-            <Select value={directionClass} onValueChange={setDirectionClass}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{directionOptions.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent></Select>
-            <p className="mt-2 text-[11px] text-zinc-500">정/역/교차 재생 흐름</p>
-          </div>
-
-          <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3 lg:col-span-2">
-            <p className="mb-2 text-sm text-zinc-200">Fill mode</p>
-            <Select value={fillClass} onValueChange={setFillClass}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{fillOptions.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent></Select>
-            <p className="mt-2 text-[11px] text-zinc-500">애니메이션 전/후 상태 유지 방식</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="mb-4 rounded-2xl border border-indigo-800/60 bg-gradient-to-r from-zinc-900 to-indigo-950/60 p-3 shadow-xl shadow-black/20">
-        <p className="mb-2 text-xs tracking-[0.16em] text-indigo-300/80">Signature motion line</p>
-        <div className="grid gap-2 sm:grid-cols-3">
-          <div key={`sig-a-${replayTick}`} className="animate-fade-up rounded-lg border border-zinc-700/70 bg-zinc-950/70 px-3 py-2 text-sm text-zinc-200">soft enter</div>
-          <div key={`sig-b-${replayTick}`} className="animate-slide-in-right rounded-lg border border-zinc-700/70 bg-zinc-950/70 px-3 py-2 text-sm text-zinc-200">fast response</div>
-          <div key={`sig-c-${replayTick}`} className="animate-jelly rounded-lg border border-zinc-700/70 bg-zinc-950/70 px-3 py-2 text-sm text-zinc-200">playful emphasis</div>
-        </div>
-      </section>
-
-      <section className="mb-4 rounded-2xl border border-zinc-800/90 bg-zinc-900/70 p-3 shadow-xl shadow-black/20">
-        <p className="mb-2 text-sm text-zinc-200">Other available options (display only)</p>
-        <div className="grid gap-2 sm:grid-cols-3">
-          {lockedOptions.map((opt) => (
-            <div key={opt.label} className="rounded-lg border border-zinc-700/80 bg-zinc-950/70 p-2 opacity-70">
-              <p className="text-[11px] text-zinc-400">{opt.label}</p>
-              <code className="mt-1 block text-[11px] text-zinc-300">{opt.value}</code>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {items.map(({ name, group, label, animClass }) => {
           const durationToken = `animate-duration-${duration}`
@@ -354,7 +198,7 @@ export default function App() {
         </div>
 
         <aside className="relative hidden xl:block">
-          <div className="sticky top-8 space-y-3 rounded-2xl border border-zinc-800/90 bg-zinc-900/60 p-3 shadow-xl shadow-black/20">
+          <div className="sticky top-8 space-y-2 rounded-2xl border border-zinc-800/90 bg-zinc-900/60 p-3 shadow-xl shadow-black/20">
             <p className="text-[11px] tracking-[0.18em] text-zinc-400">GUIDE LAYER</p>
             {guideNotes.map((note, idx) => (
               <div key={note.title} className="relative rounded-xl border border-zinc-700/80 bg-zinc-950/70 p-3">
