@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Slider } from '@/components/ui/slider'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { gsap } from 'gsap'
 
 const items = [
   { name: 'fade-in', group: 'fade', label: 'Fade In', animClass: 'animate-fade-in' },
@@ -87,6 +88,9 @@ export default function App() {
   const [scrollProgress, setScrollProgress] = useState(0)
   const [syncFx, setSyncFx] = useState(false)
   const [dirTick, setDirTick] = useState(0)
+  const pageRef = useRef(null)
+  const cursorRef = useRef(null)
+  const cursorDotRef = useRef(null)
 
   useEffect(() => {
     const root = document.documentElement
@@ -112,6 +116,60 @@ export default function App() {
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.tmk-reveal', {
+        y: 20,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.08,
+        ease: 'power2.out',
+      })
+    }, pageRef)
+    return () => ctx.revert()
+  }, [])
+
+  useEffect(() => {
+    if (!cursorRef.current || !cursorDotRef.current) return
+    if (window.matchMedia('(pointer: coarse)').matches) return
+
+    document.body.classList.add('tmk-cursor-active')
+
+    const moveOuterX = gsap.quickTo(cursorRef.current, 'x', { duration: 0.25, ease: 'power3.out' })
+    const moveOuterY = gsap.quickTo(cursorRef.current, 'y', { duration: 0.25, ease: 'power3.out' })
+    const moveDotX = gsap.quickTo(cursorDotRef.current, 'x', { duration: 0.12, ease: 'power3.out' })
+    const moveDotY = gsap.quickTo(cursorDotRef.current, 'y', { duration: 0.12, ease: 'power3.out' })
+
+    const onMove = (e) => {
+      moveOuterX(e.clientX)
+      moveOuterY(e.clientY)
+      moveDotX(e.clientX)
+      moveDotY(e.clientY)
+    }
+
+    const onOver = (e) => {
+      const t = e.target
+      if (t.closest('button, a, input, select, textarea, [role="button"]')) {
+        gsap.to(cursorRef.current, { scale: 1.8, duration: 0.2, backgroundColor: 'rgba(129, 140, 248, 0.25)' })
+      }
+    }
+
+    const onOut = () => {
+      gsap.to(cursorRef.current, { scale: 1, duration: 0.2, backgroundColor: 'rgba(129, 140, 248, 0.08)' })
+    }
+
+    window.addEventListener('mousemove', onMove)
+    document.addEventListener('mouseover', onOver)
+    document.addEventListener('mouseout', onOut)
+
+    return () => {
+      window.removeEventListener('mousemove', onMove)
+      document.removeEventListener('mouseover', onOver)
+      document.removeEventListener('mouseout', onOut)
+      document.body.classList.remove('tmk-cursor-active')
+    }
   }, [])
 
   useEffect(() => {
@@ -159,14 +217,16 @@ export default function App() {
   }
 
   return (
-    <main className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6 sm:py-10">
+    <main ref={pageRef} className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6 sm:py-10">
+      <div ref={cursorRef} className="pointer-events-none fixed left-0 top-0 z-[90] hidden h-8 w-8 -translate-x-1/2 -translate-y-1/2 rounded-full border border-indigo-300/70 bg-indigo-400/10 xl:block" />
+      <div ref={cursorDotRef} className="pointer-events-none fixed left-0 top-0 z-[91] hidden h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-300 xl:block" />
       <div className="fixed left-0 top-0 z-40 h-[2px] w-full bg-zinc-900/70">
         <div className="h-full bg-gradient-to-r from-cyan-400 via-indigo-400 to-fuchsia-400 transition-[width] duration-150" style={{ width: `${scrollProgress}%` }} />
       </div>
 
       <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_280px] xl:gap-6">
         <div>
-      <header className="relative mb-6 overflow-hidden rounded-3xl border border-zinc-800 bg-gradient-to-br from-zinc-900 via-zinc-900 to-indigo-950 p-5 shadow-2xl shadow-black/30 sm:p-7">
+      <header className="tmk-reveal relative mb-6 overflow-hidden rounded-3xl border border-zinc-800 bg-gradient-to-br from-zinc-900 via-zinc-900 to-indigo-950 p-5 shadow-2xl shadow-black/30 sm:p-7">
         <div className="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-indigo-500/20 blur-3xl" />
         <p className="relative mb-2 text-xs tracking-[0.2em] text-zinc-400">PREVIEW PLAYGROUND</p>
         <h1 className="relative text-2xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">tailwind-motion-kit</h1>
@@ -184,7 +244,7 @@ export default function App() {
         </div>
       </header>
 
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
+      <section className="tmk-reveal grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
         {items.map(({ name, group, label, animClass }) => {
           const durationToken = `animate-duration-${duration}`
           const delayToken = delay > 0 ? `animate-delay-${delay}` : ''
@@ -210,7 +270,7 @@ export default function App() {
 
         </div>
 
-        <aside className="relative hidden xl:block">
+        <aside className="tmk-reveal relative hidden xl:block">
           <div className="sticky top-8 space-y-3 rounded-2xl border border-zinc-800/90 bg-zinc-900/70 p-3 shadow-xl shadow-black/20">
             <div className="flex items-center justify-between">
               <p className="text-[11px] tracking-[0.18em] text-zinc-400">MOTION CONTROLS · {Math.round(scrollProgress)}%</p>

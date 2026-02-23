@@ -91,3 +91,11 @@
     filter: brightness(1.1);
   }
 }
+
+
+@media (pointer: fine) {
+  .tmk-cursor-active,
+  .tmk-cursor-active * {
+    cursor: none !important;
+  }
+}
