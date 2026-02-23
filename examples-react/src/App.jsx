@@ -145,11 +145,14 @@ export default function App() {
           <p className="mb-2 text-sm text-zinc-300">Direction preview</p>
           <div className="rounded-md border border-zinc-700 bg-zinc-900 p-2">
             <div className="mb-2 text-lg text-center text-indigo-200">{direction.arrow}</div>
-            <div key={`dir-${replayTick}`} className={`animate-slide-in-right animate-duration-${duration} ${directionClass} rounded bg-indigo-500/20 px-2 py-1 text-center text-xs text-indigo-100`}>
+            <div
+              key={`dir-${replayTick}`}
+              className={`animate-slide-in-right animate-duration-${duration} ${directionClass} animate-repeat-2 rounded bg-indigo-500/20 px-2 py-1 text-center text-xs text-indigo-100`}
+            >
               {direction.label}
             </div>
           </div>
-          <p className="mt-2 text-xs text-zinc-400">{direction.desc}</p>
+          <p className="mt-2 text-xs text-zinc-400">{direction.desc}{directionClass === 'animate-direction-alternate' ? ' (미리보기는 alternate 체감을 위해 repeat-2 고정)' : ''}</p>
         </div>
 
         <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
