@@ -174,19 +174,6 @@ export default function App() {
         </div>
       </section>
 
-      <section className="mb-4 rounded-2xl border border-zinc-800/90 bg-zinc-900/70 p-3 shadow-xl shadow-black/20">
-        <p className="mb-2 text-sm text-zinc-200">Other available options (display only)</p>
-        <div className="grid gap-2 sm:grid-cols-3">
-          {lockedOptions.map((opt) => (
-            <div key={opt.label} className="rounded-lg border border-zinc-700/80 bg-zinc-950/70 p-2 opacity-70">
-              <p className="text-[11px] text-zinc-400">{opt.label}</p>
-              <code className="mt-1 block text-[11px] text-zinc-300">{opt.value}</code>
-              <p className="mt-1 text-[10px] text-zinc-500">조작 UI 없음</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <section className="mb-8 grid gap-3 rounded-2xl border border-zinc-800/90 bg-zinc-900/70 p-3 shadow-xl shadow-black/20 lg:grid-cols-2">
         <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
           <div className="mb-2 flex items-center justify-between"><p className="text-sm text-zinc-300">Duration</p><span className="text-xs text-zinc-200 tabular-nums">{duration}ms</span></div>
@@ -213,6 +200,18 @@ export default function App() {
         <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3 lg:col-span-2">
           <p className="mb-2 text-sm text-zinc-300">Fill mode</p>
           <Select value={fillClass} onValueChange={setFillClass}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{fillOptions.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent></Select>
+        </div>
+      </section>
+
+      <section className="mb-4 rounded-2xl border border-zinc-800/90 bg-zinc-900/70 p-3 shadow-xl shadow-black/20">
+        <p className="mb-2 text-sm text-zinc-200">Other available options (display only)</p>
+        <div className="grid gap-2 sm:grid-cols-3">
+          {lockedOptions.map((opt) => (
+            <div key={opt.label} className="rounded-lg border border-zinc-700/80 bg-zinc-950/70 p-2 opacity-70">
+              <p className="text-[11px] text-zinc-400">{opt.label}</p>
+              <code className="mt-1 block text-[11px] text-zinc-300">{opt.value}</code>
+            </div>
+          ))}
         </div>
       </section>
 
