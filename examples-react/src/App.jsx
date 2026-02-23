@@ -165,7 +165,7 @@ export default function App() {
               {direction.label}
             </div>
           </div>
-          <p className="mt-2 text-xs text-zinc-400">{direction.desc} · 설명 전용 스코프(외부 옵션 비연동, alternate만 2회)</p>
+          <p className="mt-2 text-xs text-zinc-400">{direction.desc}</p>
         </div>
 
         <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
