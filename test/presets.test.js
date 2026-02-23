@@ -14,10 +14,19 @@ const requiredPresetNames = ['fade', 'slide', 'scale', 'attention', 'rotate'];
 const requiredAnimationKeys = [
   'fade-in',
   'fade-out',
+  'fade-up',
+  'fade-down',
   'slide-in-up',
+  'slide-in-left',
+  'slide-in-right',
   'slide-out-down',
+  'slide-out-up',
+  'slide-out-left',
+  'slide-out-right',
   'scale-in',
   'scale-out',
+  'zoom-in',
+  'zoom-out',
   'bounce-in',
   'wobble',
   'jelly',
@@ -48,7 +57,7 @@ test('motionKit() exposes all required presets', () => {
   assert.deepEqual(presetNames.sort(), requiredPresetNames.slice().sort());
 });
 
-test('motionKit() config contains keyframes/animation entries for core 12 animations', () => {
+test('motionKit() config contains keyframes/animation entries for bundled animations', () => {
   const plugin = motionKit();
   const keyframes = plugin.config?.theme?.extend?.keyframes;
   const animations = plugin.config?.theme?.extend?.animation;
@@ -116,4 +125,23 @@ test('motionKit() handler adds timing utility classes', () => {
 test('plugin keeps options payload for future extension', () => {
   const plugin = motionKit({ prefix: 'tmk' });
   assert.deepEqual(plugin.options, { prefix: 'tmk' });
+});
+
+test('plugin supports custom duration/delay scales', () => {
+  const plugin = motionKit({ durationScale: [120, 240], delayScale: [50, 100] });
+  let captured = null;
+
+  plugin.handler({
+    addUtilities(utils) {
+      captured = utils;
+    },
+  });
+
+  assert.ok(captured['.animate-duration-120']);
+  assert.ok(captured['.animate-duration-240']);
+  assert.ok(captured['.animate-delay-50']);
+  assert.ok(captured['.animate-delay-100']);
+
+  assert.equal(captured['.animate-duration-120']['--tmk-duration'], '120ms');
+  assert.equal(captured['.animate-delay-50']['animation-delay'], '50ms');
 });

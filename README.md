@@ -58,11 +58,11 @@ module.exports = {
 
 ---
 
-## Presets (12)
+## Presets (21)
 
-- fade → `fade-in` · `fade-out`
-- slide → `slide-in-up` · `slide-out-down`
-- scale → `scale-in` · `scale-out`
+- fade → `fade-in` · `fade-out` · `fade-up` · `fade-down`
+- slide → `slide-in-up` · `slide-in-left` · `slide-in-right` · `slide-out-down` · `slide-out-up` · `slide-out-left` · `slide-out-right`
+- scale → `scale-in` · `scale-out` · `zoom-in` · `zoom-out`
 - attention → `bounce-in` · `wobble` · `jelly` · `soft-pulse` · `float`
 - rotate → `rotate-in`
 
@@ -77,11 +77,65 @@ module.exports = {
 
 ---
 
+## Accessibility (reduced motion)
+
+Use Tailwind motion variants to reduce animation for users who request it:
+
+```html
+<div class="animate-fade-up motion-reduce:animate-none">Content</div>
+```
+
+Recommended pattern for UI transitions:
+
+- default: subtle motion (`animate-fade-up`, `animate-duration-300`)
+- reduced motion: disable or simplify (`motion-reduce:animate-none`)
+
+## Plugin options (custom scales)
+
+```js
+// tailwind.config.js
+const motionKit = require('tailwind-motion-kit')
+
+module.exports = {
+  plugins: [
+    motionKit({
+      durationScale: [120, 240, 360, 480],
+      delayScale: [50, 100, 150],
+    }),
+  ],
+}
+```
+
+This generates matching classes:
+
+- `animate-duration-120|240|360|480`
+- `animate-delay-50|100|150`
+
 ## Quick flow
 
-Install → Plug in → Add class → Tune duration/easing → Ship 🚀
+Install → Plug in → Add class → Tune duration/easing/repeat → Ship 🚀
 
 ---
+
+## Recipes
+
+### Toast enter
+
+```html
+<div class="animate-slide-in-right animate-duration-300 animate-ease-out">Saved!</div>
+```
+
+### Modal open
+
+```html
+<div class="animate-zoom-in animate-duration-240 motion-reduce:animate-none">...</div>
+```
+
+### Attention ping
+
+```html
+<button class="animate-soft-pulse animate-repeat-infinite">Notify</button>
+```
 
 ## Local preview (HTML)
 

@@ -6,6 +6,15 @@ const scale = require('./presets/scale');
 const attention = require('./presets/attention');
 const rotate = require('./presets/rotate');
 
+function normalizeScale(scale, fallback) {
+  if (!Array.isArray(scale) || scale.length === 0) return fallback;
+  return scale;
+}
+
+function toMs(value) {
+  return typeof value === 'number' ? `${value}ms` : String(value);
+}
+
 module.exports = function motionKit(options = {}) {
   const presets = { fade, slide, scale, attention, rotate };
 
@@ -17,21 +26,24 @@ module.exports = function motionKit(options = {}) {
     return { ...acc, ...preset.animations };
   }, {});
 
+  const durationScale = normalizeScale(options.durationScale, [150, 300, 500, 700, 1000]);
+  const delayScale = normalizeScale(options.delayScale, [75, 150, 300, 500]);
+
+  const durationUtilities = Object.fromEntries(
+    durationScale.map((value) => [`.animate-duration-${value}`, { '--tmk-duration': toMs(value) }])
+  );
+
+  const delayUtilities = Object.fromEntries(
+    delayScale.map((value) => [`.animate-delay-${value}`, { 'animation-delay': toMs(value) }])
+  );
+
   return {
     options,
     presets,
     handler({ addUtilities }) {
       addUtilities({
-        '.animate-duration-150': { '--tmk-duration': '150ms' },
-        '.animate-duration-300': { '--tmk-duration': '300ms' },
-        '.animate-duration-500': { '--tmk-duration': '500ms' },
-        '.animate-duration-700': { '--tmk-duration': '700ms' },
-        '.animate-duration-1000': { '--tmk-duration': '1000ms' },
-
-        '.animate-delay-75': { 'animation-delay': '75ms' },
-        '.animate-delay-150': { 'animation-delay': '150ms' },
-        '.animate-delay-300': { 'animation-delay': '300ms' },
-        '.animate-delay-500': { 'animation-delay': '500ms' },
+        ...durationUtilities,
+        ...delayUtilities,
 
         '.animate-ease-linear': { '--tmk-easing': 'linear' },
         '.animate-ease-in': { '--tmk-easing': 'cubic-bezier(0.4, 0, 1, 1)' },
