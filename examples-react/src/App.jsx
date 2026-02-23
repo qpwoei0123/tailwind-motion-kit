@@ -53,6 +53,13 @@ const lockedOptions = [
   { label: 'Motion safe', value: 'motion-safe:animate-*' },
 ]
 
+const guideNotes = [
+  { title: 'Global class output', body: '현재 조합을 한 줄 클래스로 복사합니다.', arrow: '↘' },
+  { title: 'Concept panel', body: 'Easing / Direction / Fill 동작 원리를 시각적으로 확인합니다.', arrow: '↘' },
+  { title: 'Control section', body: 'duration, delay, easing, direction, fill을 실시간 조작합니다.', arrow: '↘' },
+  { title: 'Animation cards', body: '각 프리셋의 최종 클래스를 즉시 복사해 적용합니다.', arrow: '↘' },
+]
+
 const formatClass = (...tokens) => tokens.filter(Boolean).join(' ')
 
 const parseBezier = (value) => {
@@ -134,7 +141,9 @@ export default function App() {
   }
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+    <main className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6 sm:py-10">
+      <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_280px] xl:gap-6">
+        <div>
       <header className="relative mb-6 overflow-hidden rounded-3xl border border-zinc-800 bg-gradient-to-br from-zinc-900 via-zinc-900 to-indigo-950 p-5 shadow-2xl shadow-black/30 sm:p-7">
         <div className="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-indigo-500/20 blur-3xl" />
         <p className="relative mb-2 text-xs tracking-[0.2em] text-zinc-400">PREVIEW PLAYGROUND</p>
@@ -265,6 +274,24 @@ export default function App() {
           )
         })}
       </section>
+
+
+        </div>
+
+        <aside className="relative hidden xl:block">
+          <div className="sticky top-8 space-y-3 rounded-2xl border border-zinc-800/90 bg-zinc-900/60 p-3 shadow-xl shadow-black/20">
+            <p className="text-[11px] tracking-[0.18em] text-zinc-400">GUIDE LAYER</p>
+            {guideNotes.map((note, idx) => (
+              <div key={note.title} className="relative rounded-xl border border-zinc-700/80 bg-zinc-950/70 p-3">
+                <div className="absolute -left-3 top-1/2 -translate-y-1/2 text-indigo-300">{note.arrow}</div>
+                <p className="text-xs font-medium text-zinc-100">{idx + 1}. {note.title}</p>
+                <p className="mt-1 text-[11px] leading-relaxed text-zinc-400">{note.body}</p>
+              </div>
+            ))}
+            <p className="text-[10px] text-zinc-500">PC 여백을 온보딩 캔버스처럼 사용한 주석 레이어</p>
+          </div>
+        </aside>
+      </div>
 
       {copied ? <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-md border border-indigo-400/40 bg-zinc-900 px-3 py-2 text-xs text-indigo-100 shadow-lg shadow-black/30">copied: {copied}</div> : null}
     </main>
