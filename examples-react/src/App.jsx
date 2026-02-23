@@ -211,32 +211,73 @@ export default function App() {
         </div>
       </section>
 
-      <section className="mb-8 grid gap-3 rounded-2xl border border-zinc-800/90 bg-zinc-900/70 p-3 shadow-xl shadow-black/20 lg:grid-cols-2">
-        <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
-          <div className="mb-2 flex items-center justify-between"><p className="text-sm text-zinc-300">Duration</p><span className="text-xs text-zinc-200 tabular-nums">{duration}ms</span></div>
-          <Slider min={0} max={durationPresets.length - 1} step={1} value={[durationPresets.indexOf(duration)]} onValueChange={(v) => setDuration(durationPresets[v[0]] ?? 1000)} />
-          <div className="mt-3 grid grid-cols-5 gap-1.5">{durationPresets.map((ms) => <Button key={ms} size="sm" variant={duration === ms ? 'default' : 'secondary'} className="h-8 px-0 text-xs" onClick={() => setDuration(ms)}>{ms}</Button>)}</div>
+      <section className="mb-8 rounded-2xl border border-zinc-800/90 bg-gradient-to-br from-zinc-900/85 to-zinc-950/85 p-4 shadow-xl shadow-black/20">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <p className="text-sm font-medium text-zinc-100">Motion controls</p>
+            <p className="text-xs text-zinc-400">조작 → 즉시 반영 → 클래스 복사</p>
+          </div>
+          <Button
+            size="sm"
+            variant="secondary"
+            className="h-8 px-3 text-xs"
+            onClick={() => {
+              setDuration(1000)
+              setDelay(0)
+              setEasingClass('animate-ease-out')
+              setDirectionClass('animate-direction-normal')
+              setFillClass('animate-fill-both')
+            }}
+          >
+            Reset defaults
+          </Button>
         </div>
 
-        <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
-          <div className="mb-2 flex items-center justify-between"><p className="text-sm text-zinc-300">Delay</p><span className="text-xs text-zinc-200 tabular-nums">{delay}ms</span></div>
-          <Slider min={0} max={delayPresets.length - 1} step={1} value={[delayPresets.indexOf(delay)]} onValueChange={(v) => setDelay(delayPresets[v[0]] ?? 0)} />
-          <div className="mt-3 grid grid-cols-5 gap-1.5">{delayPresets.map((ms) => <Button key={ms} size="sm" variant={delay === ms ? 'default' : 'secondary'} className="h-8 px-0 text-xs" onClick={() => setDelay(ms)}>{ms}</Button>)}</div>
+        <div className="mb-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
+          {[
+            ['duration', `animate-duration-${duration}`],
+            ['delay', delay > 0 ? `animate-delay-${delay}` : 'animate-delay-0'],
+            ['easing', easingClass],
+            ['direction', directionClass],
+            ['fill', fillClass],
+          ].map(([k, v]) => (
+            <div key={k} className="rounded-lg border border-zinc-700/70 bg-zinc-950/80 px-3 py-2">
+              <p className="text-[10px] uppercase tracking-[0.16em] text-zinc-500">{k}</p>
+              <code className="mt-1 block text-xs text-indigo-200">{v}</code>
+            </div>
+          ))}
         </div>
 
-        <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
-          <p className="mb-2 text-sm text-zinc-300">Easing</p>
-          <Select value={easingClass} onValueChange={setEasingClass}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{easingOptions.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent></Select>
-        </div>
+        <div className="grid gap-3 lg:grid-cols-2">
+          <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
+            <div className="mb-2 flex items-center justify-between"><p className="text-sm text-zinc-200">Duration</p><span className="text-xs text-zinc-400 tabular-nums">{duration}ms</span></div>
+            <Slider min={0} max={durationPresets.length - 1} step={1} value={[durationPresets.indexOf(duration)]} onValueChange={(v) => setDuration(durationPresets[v[0]] ?? 1000)} />
+            <div className="mt-3 grid grid-cols-5 gap-1.5">{durationPresets.map((ms) => <Button key={ms} size="sm" variant={duration === ms ? 'default' : 'secondary'} className="h-8 px-0 text-xs" onClick={() => setDuration(ms)}>{ms}</Button>)}</div>
+          </div>
 
-        <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
-          <p className="mb-2 text-sm text-zinc-300">Direction</p>
-          <Select value={directionClass} onValueChange={setDirectionClass}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{directionOptions.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent></Select>
-        </div>
+          <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
+            <div className="mb-2 flex items-center justify-between"><p className="text-sm text-zinc-200">Delay</p><span className="text-xs text-zinc-400 tabular-nums">{delay}ms</span></div>
+            <Slider min={0} max={delayPresets.length - 1} step={1} value={[delayPresets.indexOf(delay)]} onValueChange={(v) => setDelay(delayPresets[v[0]] ?? 0)} />
+            <div className="mt-3 grid grid-cols-5 gap-1.5">{delayPresets.map((ms) => <Button key={ms} size="sm" variant={delay === ms ? 'default' : 'secondary'} className="h-8 px-0 text-xs" onClick={() => setDelay(ms)}>{ms}</Button>)}</div>
+          </div>
 
-        <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3 lg:col-span-2">
-          <p className="mb-2 text-sm text-zinc-300">Fill mode</p>
-          <Select value={fillClass} onValueChange={setFillClass}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{fillOptions.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent></Select>
+          <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
+            <p className="mb-2 text-sm text-zinc-200">Easing</p>
+            <Select value={easingClass} onValueChange={setEasingClass}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{easingOptions.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent></Select>
+            <p className="mt-2 text-[11px] text-zinc-500">속도감 성격을 결정</p>
+          </div>
+
+          <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
+            <p className="mb-2 text-sm text-zinc-200">Direction</p>
+            <Select value={directionClass} onValueChange={setDirectionClass}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{directionOptions.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent></Select>
+            <p className="mt-2 text-[11px] text-zinc-500">정/역/교차 재생 흐름</p>
+          </div>
+
+          <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3 lg:col-span-2">
+            <p className="mb-2 text-sm text-zinc-200">Fill mode</p>
+            <Select value={fillClass} onValueChange={setFillClass}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{fillOptions.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent></Select>
+            <p className="mt-2 text-[11px] text-zinc-500">애니메이션 전/후 상태 유지 방식</p>
+          </div>
         </div>
       </section>
 
@@ -288,7 +329,6 @@ export default function App() {
                 <p className="mt-1 text-[11px] leading-relaxed text-zinc-400">{note.body}</p>
               </div>
             ))}
-            <p className="text-[10px] text-zinc-500">PC 여백을 온보딩 캔버스처럼 사용한 주석 레이어</p>
           </div>
         </aside>
       </div>
