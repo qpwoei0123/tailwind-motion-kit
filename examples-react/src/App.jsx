@@ -27,6 +27,21 @@ const groupTone = {
   rotate: 'border-indigo-400/40 bg-indigo-500/10 text-indigo-200',
 }
 
+const useCaseTone = {
+  'fade-in': 'Dialog enter',
+  'fade-out': 'Dialog exit',
+  'slide-in-up': 'Toast enter',
+  'slide-out-down': 'Toast exit',
+  'scale-in': 'Menu open',
+  'scale-out': 'Menu close',
+  'bounce-in': 'Badge pop',
+  wobble: 'Error nudge',
+  jelly: 'CTA feedback',
+  'rotate-in': 'Icon reveal',
+  'soft-pulse': 'Live status',
+  float: 'Ambient card',
+}
+
 const durationPresets = [150, 300, 500, 700, 1000]
 const delayPresets = [0, 75, 150, 300, 500]
 const easingOptions = [
@@ -84,6 +99,7 @@ export default function App() {
   const [copied, setCopied] = useState('')
   const [syncFx, setSyncFx] = useState(false)
   const [dirTick, setDirTick] = useState(0)
+  const featured = new Set(['slide-in-up', 'jelly'])
 
   useEffect(() => {
     const root = document.documentElement
@@ -161,6 +177,15 @@ export default function App() {
           ))}
         </div>
       </header>
+
+      <section className="mb-4 rounded-2xl border border-indigo-800/60 bg-gradient-to-r from-zinc-900 to-indigo-950/60 p-3 shadow-xl shadow-black/20">
+        <p className="mb-2 text-xs tracking-[0.16em] text-indigo-300/80">Signature motion line</p>
+        <div className="grid gap-2 sm:grid-cols-3">
+          <div key={`sig-a-${replayTick}`} className="animate-fade-up rounded-lg border border-zinc-700/70 bg-zinc-950/70 px-3 py-2 text-sm text-zinc-200">soft enter</div>
+          <div key={`sig-b-${replayTick}`} className="animate-slide-in-right rounded-lg border border-zinc-700/70 bg-zinc-950/70 px-3 py-2 text-sm text-zinc-200">fast response</div>
+          <div key={`sig-c-${replayTick}`} className="animate-jelly rounded-lg border border-zinc-700/70 bg-zinc-950/70 px-3 py-2 text-sm text-zinc-200">playful emphasis</div>
+        </div>
+      </section>
 
       <section className="mb-4 rounded-2xl border border-zinc-800/90 bg-zinc-900/70 p-3 shadow-xl shadow-black/20">
         <div className="mb-3 flex items-center justify-between">
@@ -281,6 +306,15 @@ export default function App() {
         </div>
       </section>
 
+      <section className="mb-4 rounded-2xl border border-indigo-800/60 bg-gradient-to-r from-zinc-900 to-indigo-950/60 p-3 shadow-xl shadow-black/20">
+        <p className="mb-2 text-xs tracking-[0.16em] text-indigo-300/80">Signature motion line</p>
+        <div className="grid gap-2 sm:grid-cols-3">
+          <div key={`sig-a-${replayTick}`} className="animate-fade-up rounded-lg border border-zinc-700/70 bg-zinc-950/70 px-3 py-2 text-sm text-zinc-200">soft enter</div>
+          <div key={`sig-b-${replayTick}`} className="animate-slide-in-right rounded-lg border border-zinc-700/70 bg-zinc-950/70 px-3 py-2 text-sm text-zinc-200">fast response</div>
+          <div key={`sig-c-${replayTick}`} className="animate-jelly rounded-lg border border-zinc-700/70 bg-zinc-950/70 px-3 py-2 text-sm text-zinc-200">playful emphasis</div>
+        </div>
+      </section>
+
       <section className="mb-4 rounded-2xl border border-zinc-800/90 bg-zinc-900/70 p-3 shadow-xl shadow-black/20">
         <p className="mb-2 text-sm text-zinc-200">Other available options (display only)</p>
         <div className="grid gap-2 sm:grid-cols-3">
@@ -299,9 +333,9 @@ export default function App() {
           const delayToken = delay > 0 ? `animate-delay-${delay}` : ''
           const finalClass = formatClass(animClass, durationToken, delayToken, easingClass, directionClass, fillClass)
           return (
-            <Card key={name} className="border-zinc-700/80 bg-gradient-to-b from-zinc-900 to-zinc-950 text-zinc-100 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:border-zinc-600">
+            <Card key={name} className={`border-zinc-700/80 bg-gradient-to-b from-zinc-900 to-zinc-950 text-zinc-100 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:border-zinc-600 ${featured.has(name) ? 'lg:col-span-2' : ''}` }>
               <CardHeader>
-                <div className="flex items-center gap-2"><h3 className="font-medium text-zinc-100">{name}</h3><span className={`rounded-full border px-2 py-1 text-xs ${groupTone[group]}`}>{group}</span></div>
+                <div className="flex flex-wrap items-center gap-2"><h3 className="font-medium text-zinc-100">{name}</h3><span className={`rounded-full border px-2 py-1 text-xs ${groupTone[group]}`}>{group}</span><span className="rounded-full border border-zinc-700 bg-zinc-900 px-2 py-1 text-[10px] text-zinc-300">{useCaseTone[name]}</span></div>
               </CardHeader>
               <CardContent>
                 <div key={`${name}-${replayTick}`} className={`${finalClass} rounded-xl border border-zinc-600 bg-zinc-800/90 p-6 text-center font-medium text-zinc-50`}>{label}</div>
