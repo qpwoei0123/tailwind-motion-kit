@@ -83,7 +83,7 @@ export default function App() {
   const [directionClass, setDirectionClass] = useState('animate-direction-normal')
   const [fillClass, setFillClass] = useState('animate-fill-both')
   const [replayTick, setReplayTick] = useState(0)
-  const [copied, setCopied] = useState('')
+  const [copyState, setCopyState] = useState({ key: '', tone: 'success' })
   const [syncFx, setSyncFx] = useState(false)
   const [dirTick, setDirTick] = useState(0)
 
@@ -135,11 +135,15 @@ export default function App() {
     return [true, true, true]
   }, [fillClass])
 
-  const copyText = async (text) => {
-    await navigator.clipboard.writeText(text)
-    setCopied(text)
+  const copyText = async (text, key) => {
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopyState({ key, tone: 'success' })
+    } catch {
+      setCopyState({ key: 'error', tone: 'error' })
+    }
     window.clearTimeout(copyText.t)
-    copyText.t = window.setTimeout(() => setCopied(''), 1000)
+    copyText.t = window.setTimeout(() => setCopyState({ key: '', tone: 'success' }), 1200)
   }
 
   return (
@@ -178,8 +182,8 @@ export default function App() {
                 <div key={`${name}-${replayTick}`} className={`${finalClass} rounded-xl border border-zinc-600 bg-zinc-800/90 p-6 text-center font-medium text-zinc-50`}>{label}</div>
                 <code className="mt-3 block rounded-md border border-zinc-700 bg-zinc-950/80 p-2 text-[11px] text-zinc-300">{finalClass}</code>
                 <div className="mt-3 grid grid-cols-2 gap-2">
-                  <Button size="sm" variant="secondary" className="h-8 w-full text-xs" onClick={() => copyText(animClass)}>Copy</Button>
-                  <Button size="sm" variant="secondary" className="h-8 w-full text-xs" onClick={() => copyText(finalClass)}>Copy combo</Button>
+                  <Button size="sm" variant="secondary" className="h-8 w-full text-xs" onClick={() => copyText(animClass, `${name}:base`)}>{copyState.key === `${name}:base` ? 'Copied ✓' : 'Copy class'}</Button>
+                  <Button size="sm" variant="secondary" className="h-8 w-full text-xs" onClick={() => copyText(finalClass, `${name}:combo`)}>{copyState.key === `${name}:combo` ? 'Copied ✓' : 'Copy combo'}</Button>
                 </div>
               </CardContent>
             </Card>
@@ -210,9 +214,13 @@ export default function App() {
               </Button>
             </div>
 
-            <code className="block rounded-lg border border-zinc-700/80 bg-zinc-950 p-2 text-[10px] text-indigo-200">
+            <button
+              type="button"
+              onClick={() => copyText(globalClassCombo, 'global')}
+              className="block w-full rounded-lg border border-zinc-700/80 bg-zinc-950 p-2 text-left text-[10px] text-indigo-200 transition hover:border-indigo-400/50"
+            >
               {globalClassCombo}
-            </code>
+            </button>
 
             <div className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
               <div className="mb-2 flex items-center justify-between"><p className="text-xs text-zinc-300">Duration</p><span className="text-[10px] text-zinc-400">{duration}ms</span></div>
@@ -236,7 +244,11 @@ export default function App() {
         </aside>
       </div>
 
-      {copied ? <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-md border border-indigo-400/40 bg-zinc-900 px-3 py-2 text-xs text-indigo-100 shadow-lg shadow-black/30">copied: {copied}</div> : null}
+      {copyState.key ? (
+        <div className={`fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full border px-3 py-1.5 text-xs shadow-lg shadow-black/30 ${copyState.tone === 'error' ? 'border-rose-400/40 bg-zinc-900 text-rose-200' : 'border-emerald-400/40 bg-zinc-900 text-emerald-200'}`}>
+          {copyState.tone === 'error' ? 'Copy failed' : 'Copied to clipboard'}
+        </div>
+      ) : null}
     </main>
   )
 }
