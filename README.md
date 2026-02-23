@@ -7,36 +7,26 @@
 ┃      | | / _ \  | || | \ \ /\ / / | ||  \| | | | |    ┃
 ┃      | |/ ___ \ | || |__\ V  V /  | || |\  | |_| |    ┃
 ┃      |_/_/   \_\___|_____\_/\_/  |___|_| \_|____/     ┃
-┃                                                       ┃
-┃   __  __  ___ _____ ___ ___  _   _   _  _____ _____   ┃
-┃  |  \/  |/ _ \_   _|_ _/ _ \| \ | | | |/ /_ _|_   _|  ┃
-┃  | |\/| | | | || |  | | | | |  \| | | ' / | |  | |    ┃
-┃  | |  | | |_| || |  | | |_| | |\  | | . \ | |  | |    ┃
-┃  |_|  |_|\___/ |_| |___\___/|_| \_| |_|\_\___| |_|    ┃
-┃                                                       ┃
-┃    ┌───────────┐    ┌──────────┐    ┌───────────┐     ┃
-┃    │ animate.* │ -> │ fast UI  │ -> │  motion   │     ┃
-┃    └───────────┘    └──────────┘    └───────────┘     ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
-Tiny Tailwind animation kit ⚡
+Tiny Tailwind animation kit for **fast, consistent UI motion**.
+
+- Utility-first animation presets
+- Predictable class composition
+- Works great for toasts, modals, lists, and micro interactions
 
 [Preview →](https://qpwoei0123.github.io/tailwind-motion-kit/)
 
 ![React + shadcn preview](./docs/assets/preview-react-shadcn.jpg)
 
-Current preview UI (React + shadcn/ui)
-
 ---
 
-## 1) Install
+## 30-sec quickstart
 
 ```bash
 npm i tailwind-motion-kit
 ```
-
-## 2) Plug in
 
 ```js
 // tailwind.config.js
@@ -48,25 +38,34 @@ module.exports = {
 }
 ```
 
-## 3) Use
-
 ```html
-<div class="animate-fade-in">A</div>
-<div class="animate-slide-in-up">B</div>
-<div class="animate-jelly animate-duration-700 animate-ease-out">C</div>
+<div class="animate-fade-up animate-duration-300 animate-ease-out">Enter</div>
+<div class="animate-slide-in-right animate-duration-300">Toast</div>
+<div class="animate-jelly animate-duration-700 animate-ease-out">Attention</div>
 ```
 
 ---
 
-## Presets (21)
+## Presets
 
-- fade → `fade-in` · `fade-out` · `fade-up` · `fade-down`
-- slide → `slide-in-up` · `slide-in-left` · `slide-in-right` · `slide-out-down` · `slide-out-up` · `slide-out-left` · `slide-out-right`
-- scale → `scale-in` · `scale-out` · `zoom-in` · `zoom-out`
-- attention → `bounce-in` · `wobble` · `jelly` · `soft-pulse` · `float`
-- rotate → `rotate-in`
+### fade
+`fade-in`, `fade-out`, `fade-up`, `fade-down`
 
-## Timing utils
+### slide
+`slide-in-up`, `slide-in-left`, `slide-in-right`, `slide-out-down`, `slide-out-up`, `slide-out-left`, `slide-out-right`
+
+### scale
+`scale-in`, `scale-out`, `zoom-in`, `zoom-out`
+
+### attention
+`bounce-in`, `wobble`, `jelly`, `soft-pulse`, `float`
+
+### rotate
+`rotate-in`
+
+---
+
+## Utilities
 
 - duration → `animate-duration-150|300|500|700|1000`
 - delay → `animate-delay-75|150|300|500`
@@ -77,77 +76,61 @@ module.exports = {
 
 ---
 
-## Accessibility (reduced motion)
-
-Use Tailwind motion variants to reduce animation for users who request it:
+## Accessibility
 
 ```html
 <div class="animate-fade-up motion-reduce:animate-none">Content</div>
 ```
 
-Recommended pattern for UI transitions:
-
+Recommended:
 - default: subtle motion (`animate-fade-up`, `animate-duration-300`)
-- reduced motion: disable or simplify (`motion-reduce:animate-none`)
+- reduced motion: disable/simplify (`motion-reduce:animate-none`)
 
-## Plugin options (custom scales)
+---
+
+## Plugin options
 
 ```js
-// tailwind.config.js
-const motionKit = require('tailwind-motion-kit')
-
-module.exports = {
-  plugins: [
-    motionKit({
-      durationScale: [120, 240, 360, 480],
-      delayScale: [50, 100, 150],
-    }),
-  ],
-}
+motionKit({
+  durationScale: [120, 240, 360, 480],
+  delayScale: [50, 100, 150],
+})
 ```
 
-This generates matching classes:
-
+Generates:
 - `animate-duration-120|240|360|480`
 - `animate-delay-50|100|150`
-
-## Quick flow
-
-Install → Plug in → Add class → Tune duration/easing/repeat → Ship 🚀
 
 ---
 
 ## Recipes
 
 ### Toast enter
-
 ```html
 <div class="animate-slide-in-right animate-duration-300 animate-ease-out">Saved!</div>
 ```
 
 ### Modal open
-
 ```html
 <div class="animate-zoom-in animate-duration-240 motion-reduce:animate-none">...</div>
 ```
 
 ### Attention ping
-
 ```html
 <button class="animate-soft-pulse animate-repeat-infinite">Notify</button>
 ```
 
-## Local preview (HTML)
+---
 
+## Local preview
+
+### HTML
 ```bash
 cd examples
 npx tailwindcss -c tailwind.config.js -i input.css -o output.css --watch
 ```
 
-Open `examples/index.html`.
-
-## Local preview (React + shadcn/ui)
-
+### React + shadcn/ui
 ```bash
 cd examples-react
 npm install
@@ -156,10 +139,10 @@ npm run dev
 
 Open `http://localhost:5173`.
 
+---
+
 ## Pages deploy
 
 Push `main` → Action runs → `examples/` deploys to GitHub Pages.
 
 Workflow: `.github/workflows/deploy-pages.yml`
-
-> Note: private repo may fail on GitHub Pages depending on plan.

@@ -19,6 +19,14 @@ const items = [
   { name: 'float', group: 'attention', label: 'Float', animClass: 'animate-float' },
 ]
 
+const groupTone = {
+  fade: 'border-cyan-400/40 bg-cyan-500/10 text-cyan-200',
+  slide: 'border-emerald-400/40 bg-emerald-500/10 text-emerald-200',
+  scale: 'border-fuchsia-400/40 bg-fuchsia-500/10 text-fuchsia-200',
+  attention: 'border-amber-400/40 bg-amber-500/10 text-amber-200',
+  rotate: 'border-indigo-400/40 bg-indigo-500/10 text-indigo-200',
+}
+
 const durationPresets = [150, 300, 500, 700, 1000]
 const delayPresets = [0, 75, 150, 300, 500]
 const easingOptions = [
@@ -127,9 +135,22 @@ export default function App() {
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
-      <header className="mb-6 rounded-2xl border border-zinc-800 bg-gradient-to-br from-zinc-900 to-zinc-950 p-5 shadow-2xl shadow-black/30 sm:p-7">
-        <p className="mb-2 text-xs tracking-[0.2em] text-zinc-400">PREVIEW PLAYGROUND</p>
-        <h1 className="text-2xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">tailwind-motion-kit</h1>
+      <header className="relative mb-6 overflow-hidden rounded-3xl border border-zinc-800 bg-gradient-to-br from-zinc-900 via-zinc-900 to-indigo-950 p-5 shadow-2xl shadow-black/30 sm:p-7">
+        <div className="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-indigo-500/20 blur-3xl" />
+        <p className="relative mb-2 text-xs tracking-[0.2em] text-zinc-400">PREVIEW PLAYGROUND</p>
+        <h1 className="relative text-2xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">tailwind-motion-kit</h1>
+        <div className="relative mt-4 grid gap-2 sm:grid-cols-3">
+          {[
+            ['animate-fade-up', '진입 모션'],
+            ['animate-slide-in-right', '빠른 반응'],
+            ['animate-jelly', '강조 인터랙션'],
+          ].map(([cls, text]) => (
+            <div key={cls} className="rounded-xl border border-zinc-700/70 bg-zinc-900/70 p-3 text-xs text-zinc-300">
+              <div key={`${cls}-${replayTick}`} className={`${cls} text-sm font-medium text-zinc-100`}>{text}</div>
+              <code className="mt-1 block text-[11px] text-zinc-500">{cls}</code>
+            </div>
+          ))}
+        </div>
       </header>
 
       <section className="mb-4 rounded-2xl border border-zinc-800/90 bg-zinc-900/70 p-3 shadow-xl shadow-black/20">
@@ -230,7 +251,7 @@ export default function App() {
           return (
             <Card key={name} className="border-zinc-700/80 bg-gradient-to-b from-zinc-900 to-zinc-950 text-zinc-100 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:border-zinc-600">
               <CardHeader>
-                <div className="flex items-center gap-2"><h3 className="font-medium text-zinc-100">{name}</h3><span className="rounded-full border border-indigo-400/40 bg-indigo-500/10 px-2 py-1 text-xs text-indigo-200">{group}</span></div>
+                <div className="flex items-center gap-2"><h3 className="font-medium text-zinc-100">{name}</h3><span className={`rounded-full border px-2 py-1 text-xs ${groupTone[group]}`}>{group}</span></div>
               </CardHeader>
               <CardContent>
                 <div key={`${name}-${replayTick}`} className={`${finalClass} rounded-xl border border-zinc-600 bg-zinc-800/90 p-6 text-center font-medium text-zinc-50`}>{label}</div>
