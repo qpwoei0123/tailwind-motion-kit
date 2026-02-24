@@ -43,6 +43,8 @@ const useCaseTone = {
   float: 'Ambient card',
 }
 
+const groupOptions = ['all', 'fade', 'slide', 'scale', 'attention', 'rotate']
+
 const durationPresets = [150, 300, 500, 700, 1000]
 const delayPresets = [0, 75, 150, 300, 500]
 const easingOptions = [
@@ -83,6 +85,7 @@ export default function App() {
   const [easingClass, setEasingClass] = useState('animate-ease-out')
   const [directionClass, setDirectionClass] = useState('animate-direction-normal')
   const [fillClass, setFillClass] = useState('animate-fill-both')
+  const [selectedGroup, setSelectedGroup] = useState('all')
   const [replayTick, setReplayTick] = useState(0)
   const [copyState, setCopyState] = useState({ key: '', tone: 'success' })
   const [scrollProgress, setScrollProgress] = useState(0)
@@ -266,6 +269,19 @@ export default function App() {
     return [true, true, true]
   }, [fillClass])
 
+  const filteredItems = useMemo(() => {
+    if (selectedGroup === 'all') return items
+    return items.filter((item) => item.group === selectedGroup)
+  }, [selectedGroup])
+
+  const groupCountMap = useMemo(() => {
+    const map = { all: items.length }
+    for (const g of ['fade', 'slide', 'scale', 'attention', 'rotate']) {
+      map[g] = items.filter((item) => item.group === g).length
+    }
+    return map
+  }, [])
+
   const copyText = async (text, key) => {
     try {
       await navigator.clipboard.writeText(text)
@@ -305,8 +321,27 @@ export default function App() {
         </div>
       </header>
 
+      <section className="tmk-reveal mb-4 rounded-2xl border border-zinc-800/90 bg-zinc-900/60 p-3">
+        <div className="flex flex-wrap items-center gap-2">
+          {groupOptions.map((g) => (
+            <button
+              key={g}
+              type="button"
+              onClick={() => setSelectedGroup(g)}
+              className={`rounded-full border px-3 py-1.5 text-xs transition ${
+                selectedGroup === g
+                  ? 'border-indigo-400/60 bg-indigo-500/20 text-indigo-100'
+                  : 'border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-zinc-500'
+              }`}
+            >
+              {g} <span className="text-zinc-400">{groupCountMap[g]}</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
       <section className="tmk-reveal grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
-        {items.map(({ name, group, label, animClass }) => {
+        {filteredItems.map(({ name, group, label, animClass }) => {
           const durationToken = `animate-duration-${duration}`
           const delayToken = delay > 0 ? `animate-delay-${delay}` : ''
           const finalClass = formatClass(animClass, durationToken, delayToken, easingClass, directionClass, fillClass)
@@ -328,6 +363,11 @@ export default function App() {
         })}
       </section>
 
+      {filteredItems.length === 0 ? (
+        <div className="mt-4 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 text-sm text-zinc-400">
+          No animations in this group.
+        </div>
+      ) : null}
 
         </div>
 
