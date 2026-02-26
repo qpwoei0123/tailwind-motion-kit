@@ -295,12 +295,6 @@ export default function App() {
     return items.filter((item) => item.group === selectedGroup)
   }, [selectedGroup])
 
-  const previewGridMinHeight = useMemo(() => {
-    const count = filteredItems.length
-    const estimatedRowsDesktop = Math.max(4, Math.ceil(count / 2))
-    return estimatedRowsDesktop * 220
-  }, [filteredItems.length])
-
   const groupCountMap = useMemo(() => {
     const map = { all: items.length }
     for (const g of ['fade', 'slide', 'scale', 'attention', 'rotate']) {
@@ -330,7 +324,7 @@ export default function App() {
   }
 
   return (
-    <main ref={pageRef} className="mx-auto min-h-[160vh] max-w-[1400px] px-4 py-8 sm:px-6 sm:py-10">
+    <main ref={pageRef} className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6 sm:py-10">
       <div ref={cursorRef} className="pointer-events-none fixed left-0 top-0 z-[90] hidden h-8 w-8 -translate-x-1/2 -translate-y-1/2 rounded-full border border-indigo-300/70 bg-indigo-400/10 xl:block" />
       <div ref={cursorDotRef} className="pointer-events-none fixed left-0 top-0 z-[91] hidden h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-300 xl:block" />
       <div className="fixed left-0 top-0 z-40 h-[2px] w-full bg-zinc-900/70">
@@ -374,7 +368,6 @@ export default function App() {
             </button>
           ))}
         </div>
-        <p className="mt-2 text-[11px] text-zinc-500">필터 전환 시 레이아웃 점프를 줄이기 위해 미리 스크롤 영역을 확보합니다.</p>
       </section>
 
 
@@ -405,23 +398,20 @@ export default function App() {
         </div>
       </section>
 
-      <section
-        className="tmk-reveal grid gap-4 sm:grid-cols-2 lg:grid-cols-2"
-        style={{ minHeight: `${previewGridMinHeight}px` }}
-      >
+      <section className="tmk-reveal grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
         {filteredItems.map(({ name, group, label, animClass }) => {
           const durationToken = `animate-duration-${duration}`
           const delayToken = delay > 0 ? `animate-delay-${delay}` : ''
           const finalClass = formatClass(animClass, durationToken, delayToken, easingClass, directionClass, fillClass)
           return (
-            <Card key={name} data-cursor={group} data-anim={name} className="border-zinc-700/80 bg-gradient-to-b from-zinc-900 to-zinc-950 text-zinc-100 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:border-zinc-600">
+            <Card key={name} data-cursor={group} data-anim={name} className="h-[340px] border-zinc-700/80 bg-gradient-to-b from-zinc-900 to-zinc-950 text-zinc-100 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:border-zinc-600">
               <CardHeader>
                 <div className="flex flex-wrap items-center gap-2"><h3 className="font-medium text-zinc-100">{name}</h3><span className={`rounded-full border px-2 py-1 text-xs ${groupTone[group]}`}>{group}</span><span className="rounded-full border border-zinc-700 bg-zinc-900 px-2 py-1 text-[10px] text-zinc-300">{useCaseTone[name]}</span></div>
               </CardHeader>
-              <CardContent>
-                <div key={`${name}-${replayTick}`} className={`${finalClass} rounded-xl border border-zinc-600 bg-zinc-800/90 p-6 text-center font-medium text-zinc-50`}>{label}</div>
-                <code className="mt-3 block rounded-md border border-zinc-700 bg-zinc-950/80 p-2 text-[11px] text-zinc-300">{finalClass}</code>
-                <div className="mt-3 grid grid-cols-2 gap-2">
+              <CardContent className="flex h-[272px] flex-col">
+                <div key={`${name}-${replayTick}`} className={`${finalClass} flex min-h-[88px] items-center justify-center rounded-xl border border-zinc-600 bg-zinc-800/90 p-6 text-center font-medium text-zinc-50`}>{label}</div>
+                <code className="mt-3 block max-h-[56px] overflow-auto rounded-md border border-zinc-700 bg-zinc-950/80 p-2 text-[11px] text-zinc-300">{finalClass}</code>
+                <div className="mt-auto grid grid-cols-2 gap-2 pt-3">
                   <Button size="sm" variant="secondary" className="h-8 w-full text-xs" onClick={() => copyText(animClass, `${name}:base`)}>{copyState.key === `${name}:base` ? 'Copied ✓' : 'Copy class'}</Button>
                   <Button size="sm" variant="secondary" className="h-8 w-full text-xs" onClick={() => copyText(finalClass, `${name}:combo`)}>{copyState.key === `${name}:combo` ? 'Copied ✓' : 'Copy combo'}</Button>
                 </div>
