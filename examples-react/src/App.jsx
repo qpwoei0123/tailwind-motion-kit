@@ -65,6 +65,27 @@ const fillOptions = [
   { value: 'animate-fill-both', label: 'both', desc: '시작+종료 상태 모두 유지' },
 ]
 
+const quickPresets = [
+  {
+    key: 'snappy-ui',
+    label: 'Snappy UI',
+    hint: '빠른 인터랙션',
+    config: { duration: 300, delay: 0, easingClass: 'animate-ease-out', directionClass: 'animate-direction-normal', fillClass: 'animate-fill-both' },
+  },
+  {
+    key: 'dramatic-enter',
+    label: 'Dramatic Enter',
+    hint: '히어로/모달 등장',
+    config: { duration: 700, delay: 75, easingClass: 'animate-ease-in-out', directionClass: 'animate-direction-normal', fillClass: 'animate-fill-both' },
+  },
+  {
+    key: 'loop-signal',
+    label: 'Loop Signal',
+    hint: '상태 강조 반복',
+    config: { duration: 1000, delay: 0, easingClass: 'animate-ease-in-out', directionClass: 'animate-direction-alternate', fillClass: 'animate-fill-both' },
+  },
+]
+
 const formatClass = (...tokens) => tokens.filter(Boolean).join(' ')
 
 const parseBezier = (value) => {
@@ -282,6 +303,15 @@ export default function App() {
     return map
   }, [])
 
+
+  const applyPreset = (preset) => {
+    setDuration(preset.duration)
+    setDelay(preset.delay)
+    setEasingClass(preset.easingClass)
+    setDirectionClass(preset.directionClass)
+    setFillClass(preset.fillClass)
+  }
+
   const copyText = async (text, key) => {
     try {
       await navigator.clipboard.writeText(text)
@@ -335,6 +365,34 @@ export default function App() {
               }`}
             >
               {g} <span className="text-zinc-400">{groupCountMap[g]}</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+
+      <section className="tmk-reveal mb-4 rounded-2xl border border-zinc-800/90 bg-zinc-900/60 p-3">
+        <div className="mb-2 flex items-center justify-between">
+          <p className="text-xs tracking-[0.12em] text-zinc-400">QUICK PRESETS</p>
+          <button
+            type="button"
+            onClick={() => applyPreset({ duration: 1000, delay: 0, easingClass: 'animate-ease-out', directionClass: 'animate-direction-normal', fillClass: 'animate-fill-both' })}
+            className="rounded-full border border-zinc-700 bg-zinc-900 px-2 py-1 text-[10px] text-zinc-300 hover:border-zinc-500"
+          >
+            reset defaults
+          </button>
+        </div>
+        <div className="grid gap-2 sm:grid-cols-3">
+          {quickPresets.map((preset) => (
+            <button
+              key={preset.key}
+              type="button"
+              onClick={() => applyPreset(preset.config)}
+              className="rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3 text-left transition hover:-translate-y-0.5 hover:border-indigo-400/40"
+            >
+              <p className="text-sm font-medium text-zinc-100">{preset.label}</p>
+              <p className="text-[11px] text-zinc-400">{preset.hint}</p>
+              <code className="mt-2 block text-[10px] text-indigo-200">{preset.config.easingClass} · {preset.config.directionClass}</code>
             </button>
           ))}
         </div>
@@ -420,6 +478,34 @@ export default function App() {
           </div>
         </aside>
       </div>
+
+
+      <section className="tmk-reveal mt-5 rounded-2xl border border-zinc-800/90 bg-zinc-900/60 p-3 xl:hidden">
+        <div className="mb-3 flex items-center justify-between">
+          <p className="text-xs tracking-[0.12em] text-zinc-400">MOBILE CONTROLS</p>
+          <button
+            type="button"
+            onClick={() => copyText(globalClassCombo, 'global-mobile')}
+            className="rounded-full border border-zinc-700 bg-zinc-900 px-2 py-1 text-[10px] text-zinc-300 hover:border-zinc-500"
+          >
+            {copyState.key === 'global-mobile' ? 'Copied ✓' : 'Copy global combo'}
+          </button>
+        </div>
+
+        <div className="space-y-3 rounded-xl border border-zinc-700/80 bg-zinc-950/80 p-3">
+          <div className="flex items-center justify-between"><p className="text-xs text-zinc-300">Duration</p><span className="text-[10px] text-zinc-400">{duration}ms</span></div>
+          <Slider min={0} max={durationPresets.length - 1} step={1} value={[durationPresets.indexOf(duration)]} onValueChange={(v) => setDuration(durationPresets[v[0]] ?? 1000)} />
+
+          <div className="mt-2 flex items-center justify-between"><p className="text-xs text-zinc-300">Delay</p><span className="text-[10px] text-zinc-400">{delay}ms</span></div>
+          <Slider min={0} max={delayPresets.length - 1} step={1} value={[delayPresets.indexOf(delay)]} onValueChange={(v) => setDelay(delayPresets[v[0]] ?? 0)} />
+
+          <div className="grid gap-2 sm:grid-cols-3">
+            <Select value={easingClass} onValueChange={setEasingClass}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{easingOptions.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent></Select>
+            <Select value={directionClass} onValueChange={setDirectionClass}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{directionOptions.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent></Select>
+            <Select value={fillClass} onValueChange={setFillClass}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{fillOptions.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent></Select>
+          </div>
+        </div>
+      </section>
 
       {copyState.key ? (
         <div className={`fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full border px-3 py-1.5 text-xs shadow-lg shadow-black/30 ${copyState.tone === 'error' ? 'border-rose-400/40 bg-zinc-900 text-rose-200' : 'border-emerald-400/40 bg-zinc-900 text-emerald-200'}`}>
