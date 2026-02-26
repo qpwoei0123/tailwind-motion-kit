@@ -295,6 +295,12 @@ export default function App() {
     return items.filter((item) => item.group === selectedGroup)
   }, [selectedGroup])
 
+  const previewGridMinHeight = useMemo(() => {
+    const count = filteredItems.length
+    const estimatedRowsDesktop = Math.max(4, Math.ceil(count / 2))
+    return estimatedRowsDesktop * 220
+  }, [filteredItems.length])
+
   const groupCountMap = useMemo(() => {
     const map = { all: items.length }
     for (const g of ['fade', 'slide', 'scale', 'attention', 'rotate']) {
@@ -324,7 +330,7 @@ export default function App() {
   }
 
   return (
-    <main ref={pageRef} className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6 sm:py-10">
+    <main ref={pageRef} className="mx-auto min-h-[160vh] max-w-[1400px] px-4 py-8 sm:px-6 sm:py-10">
       <div ref={cursorRef} className="pointer-events-none fixed left-0 top-0 z-[90] hidden h-8 w-8 -translate-x-1/2 -translate-y-1/2 rounded-full border border-indigo-300/70 bg-indigo-400/10 xl:block" />
       <div ref={cursorDotRef} className="pointer-events-none fixed left-0 top-0 z-[91] hidden h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-300 xl:block" />
       <div className="fixed left-0 top-0 z-40 h-[2px] w-full bg-zinc-900/70">
@@ -368,6 +374,7 @@ export default function App() {
             </button>
           ))}
         </div>
+        <p className="mt-2 text-[11px] text-zinc-500">필터 전환 시 레이아웃 점프를 줄이기 위해 미리 스크롤 영역을 확보합니다.</p>
       </section>
 
 
@@ -398,7 +405,10 @@ export default function App() {
         </div>
       </section>
 
-      <section className="tmk-reveal grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
+      <section
+        className="tmk-reveal grid gap-4 sm:grid-cols-2 lg:grid-cols-2"
+        style={{ minHeight: `${previewGridMinHeight}px` }}
+      >
         {filteredItems.map(({ name, group, label, animClass }) => {
           const durationToken = `animate-duration-${duration}`
           const delayToken = delay > 0 ? `animate-delay-${delay}` : ''
