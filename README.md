@@ -49,16 +49,16 @@ module.exports = {
 ## Presets
 
 ### fade
-`fade-in`, `fade-out`, `fade-up`, `fade-down`
+`fade-in`, `fade-out`, `fade-up`, `fade-down`, `fade-blur-in`, `fade-blur-out`
 
 ### slide
-`slide-in-up`, `slide-in-left`, `slide-in-right`, `slide-out-down`, `slide-out-up`, `slide-out-left`, `slide-out-right`
+`slide-in-up`, `slide-in-left`, `slide-in-right`, `slide-in-bottom`, `slide-out-down`, `slide-out-up`, `slide-out-left`, `slide-out-right`, `slide-out-bottom`, `accordion-down`, `accordion-up`
 
 ### scale
 `scale-in`, `scale-out`, `zoom-in`, `zoom-out`
 
 ### attention
-`bounce-in`, `wobble`, `jelly`, `soft-pulse`, `float`
+`bounce-in`, `wobble`, `jelly`, `soft-pulse`, `float`, `shake-x`
 
 ### rotate
 `rotate-in`

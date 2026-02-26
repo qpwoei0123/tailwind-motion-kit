@@ -33,6 +33,13 @@ const requiredAnimationKeys = [
   'soft-pulse',
   'float',
   'rotate-in',
+  'slide-in-bottom',
+  'slide-out-bottom',
+  'fade-blur-in',
+  'fade-blur-out',
+  'shake-x',
+  'accordion-down',
+  'accordion-up',
 ];
 
 test('preset modules expose required structure', () => {

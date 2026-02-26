@@ -28,6 +28,13 @@ module.exports = {
       '0%, 100%': { transform: 'translateY(0)' },
       '50%': { transform: 'translateY(-8px)' },
     },
+    'shake-x': {
+      '0%, 100%': { transform: 'translateX(0)' },
+      '20%': { transform: 'translateX(-6px)' },
+      '40%': { transform: 'translateX(6px)' },
+      '60%': { transform: 'translateX(-4px)' },
+      '80%': { transform: 'translateX(4px)' },
+    },
   },
   animations: {
     'bounce-in': 'bounce-in var(--tmk-duration,600ms) var(--tmk-easing,ease-out) both',
@@ -35,5 +42,6 @@ module.exports = {
     jelly: 'jelly var(--tmk-duration,700ms) var(--tmk-easing,ease-out) both',
     'soft-pulse': 'soft-pulse var(--tmk-duration,1200ms) var(--tmk-easing,ease-in-out) infinite',
     float: 'float var(--tmk-duration,1800ms) var(--tmk-easing,ease-in-out) infinite',
+    'shake-x': 'shake-x var(--tmk-duration,420ms) var(--tmk-easing,ease-in-out) both',
   },
 };

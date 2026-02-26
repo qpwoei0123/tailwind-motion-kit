@@ -10,6 +10,10 @@ const items = [
   { name: 'fade-out', group: 'fade', label: 'Fade Out', animClass: 'animate-fade-out' },
   { name: 'slide-in-up', group: 'slide', label: 'Slide In Up', animClass: 'animate-slide-in-up' },
   { name: 'slide-out-down', group: 'slide', label: 'Slide Out Down', animClass: 'animate-slide-out-down' },
+  { name: 'slide-in-bottom', group: 'slide', label: 'Slide In Bottom', animClass: 'animate-slide-in-bottom' },
+  { name: 'slide-out-bottom', group: 'slide', label: 'Slide Out Bottom', animClass: 'animate-slide-out-bottom' },
+  { name: 'accordion-down', group: 'slide', label: 'Accordion Down', animClass: 'animate-accordion-down' },
+  { name: 'accordion-up', group: 'slide', label: 'Accordion Up', animClass: 'animate-accordion-up' },
   { name: 'scale-in', group: 'scale', label: 'Scale In', animClass: 'animate-scale-in' },
   { name: 'scale-out', group: 'scale', label: 'Scale Out', animClass: 'animate-scale-out' },
   { name: 'bounce-in', group: 'attention', label: 'Bounce In', animClass: 'animate-bounce-in' },
@@ -18,6 +22,7 @@ const items = [
   { name: 'rotate-in', group: 'rotate', label: 'Rotate In', animClass: 'animate-rotate-in' },
   { name: 'soft-pulse', group: 'attention', label: 'Soft Pulse', animClass: 'animate-soft-pulse' },
   { name: 'float', group: 'attention', label: 'Float', animClass: 'animate-float' },
+  { name: 'shake-x', group: 'attention', label: 'Shake X', animClass: 'animate-shake-x' },
 ]
 
 const groupTone = {
@@ -31,8 +36,14 @@ const groupTone = {
 const useCaseTone = {
   'fade-in': 'Dialog enter',
   'fade-out': 'Dialog exit',
+  'fade-blur-in': 'Image reveal',
+  'fade-blur-out': 'Overlay dismiss',
   'slide-in-up': 'Toast enter',
   'slide-out-down': 'Toast exit',
+  'slide-in-bottom': 'Bottom sheet enter',
+  'slide-out-bottom': 'Bottom sheet exit',
+  'accordion-down': 'FAQ open',
+  'accordion-up': 'FAQ close',
   'scale-in': 'Menu open',
   'scale-out': 'Menu close',
   'bounce-in': 'Badge pop',
@@ -41,6 +52,7 @@ const useCaseTone = {
   'rotate-in': 'Icon reveal',
   'soft-pulse': 'Live status',
   float: 'Ambient card',
+  'shake-x': 'Form error',
 }
 
 const groupOptions = ['all', 'fade', 'slide', 'scale', 'attention', 'rotate']
