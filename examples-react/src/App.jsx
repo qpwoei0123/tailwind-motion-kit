@@ -72,40 +72,40 @@ const groupOptions = ['all', 'fade', 'slide', 'scale', 'attention', 'rotate']
 const durationPresets = [150, 300, 500, 700, 1000]
 const delayPresets = [0, 75, 150, 300, 500]
 const easingOptions = [
-  { value: 'animate-ease-linear', label: 'linear', css: 'linear', desc: '처음부터 끝까지 같은 속도' },
-  { value: 'animate-ease-in', label: 'ease-in', css: 'cubic-bezier(0.4, 0, 1, 1)', desc: '천천히 시작해서 점점 빨라짐' },
-  { value: 'animate-ease-out', label: 'ease-out', css: 'cubic-bezier(0, 0, 0.2, 1)', desc: '빠르게 시작해서 끝으로 갈수록 감속' },
-  { value: 'animate-ease-in-out', label: 'ease-in-out', css: 'cubic-bezier(0.4, 0, 0.2, 1)', desc: '처음/끝은 천천히, 중간이 빠름' },
+  { value: 'animate-ease-linear', label: 'linear', css: 'linear', desc: 'Constant speed from start to finish' },
+  { value: 'animate-ease-in', label: 'ease-in', css: 'cubic-bezier(0.4, 0, 1, 1)', desc: 'Starts slowly, then accelerates' },
+  { value: 'animate-ease-out', label: 'ease-out', css: 'cubic-bezier(0, 0, 0.2, 1)', desc: 'Starts fast, then decelerates toward the end' },
+  { value: 'animate-ease-in-out', label: 'ease-in-out', css: 'cubic-bezier(0.4, 0, 0.2, 1)', desc: 'Slow at start/end, faster in the middle' },
 ]
 const directionOptions = [
-  { value: 'animate-direction-normal', label: 'normal', arrow: '→', desc: '정방향 재생' },
-  { value: 'animate-direction-reverse', label: 'reverse', arrow: '←', desc: '역방향 재생' },
-  { value: 'animate-direction-alternate', label: 'alternate', arrow: '↔', desc: '정/역방향 번갈아 재생' },
+  { value: 'animate-direction-normal', label: 'normal', arrow: '→', desc: 'Plays forward' },
+  { value: 'animate-direction-reverse', label: 'reverse', arrow: '←', desc: 'Plays in reverse' },
+  { value: 'animate-direction-alternate', label: 'alternate', arrow: '↔', desc: 'Alternates forward and reverse' },
 ]
 const fillOptions = [
-  { value: 'animate-fill-none', label: 'none', desc: '시작/끝 상태 유지 안 함' },
-  { value: 'animate-fill-forwards', label: 'forwards', desc: '종료 상태 유지' },
-  { value: 'animate-fill-backwards', label: 'backwards', desc: '시작 상태를 지연 구간에 적용' },
-  { value: 'animate-fill-both', label: 'both', desc: '시작+종료 상태 모두 유지' },
+  { value: 'animate-fill-none', label: 'none', desc: 'Does not retain start/end state' },
+  { value: 'animate-fill-forwards', label: 'forwards', desc: 'Retains end state' },
+  { value: 'animate-fill-backwards', label: 'backwards', desc: 'Applies start state during delay' },
+  { value: 'animate-fill-both', label: 'both', desc: 'Retains both start and end states' },
 ]
 
 const quickPresets = [
   {
     key: 'snappy-ui',
     label: 'Snappy UI',
-    hint: '빠른 인터랙션',
+    hint: 'Fast interactions',
     config: { duration: 300, delay: 0, easingClass: 'animate-ease-out', directionClass: 'animate-direction-normal', fillClass: 'animate-fill-both' },
   },
   {
     key: 'dramatic-enter',
     label: 'Dramatic Enter',
-    hint: '히어로/모달 등장',
+    hint: 'Hero/modal entrance',
     config: { duration: 700, delay: 75, easingClass: 'animate-ease-in-out', directionClass: 'animate-direction-normal', fillClass: 'animate-fill-both' },
   },
   {
     key: 'loop-signal',
     label: 'Loop Signal',
-    hint: '상태 강조 반복',
+    hint: 'Repeated state emphasis',
     config: { duration: 1000, delay: 0, easingClass: 'animate-ease-in-out', directionClass: 'animate-direction-alternate', fillClass: 'animate-fill-both' },
   },
 ]
@@ -363,9 +363,9 @@ export default function App() {
         <h1 className="relative text-2xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">tailwind-motion-kit</h1>
         <div className="relative mt-4 grid gap-2 sm:grid-cols-3">
           {[
-            ['animate-fade-up', '진입 모션'],
-            ['animate-slide-in-right', '빠른 반응'],
-            ['animate-jelly', '강조 인터랙션'],
+            ['animate-fade-up', 'Entry motion'],
+            ['animate-slide-in-right', 'Quick response'],
+            ['animate-jelly', 'Emphasis interaction'],
           ].map(([cls, text]) => (
             <div key={cls} className="rounded-xl border border-zinc-700/70 bg-zinc-900/70 p-3 text-xs text-zinc-300">
               <div key={`${cls}-${replayTick}`} className={`${cls} text-sm font-medium text-zinc-100`}>{text}</div>
