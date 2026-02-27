@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tailwind-motion-kit.dev/ai/schema.json",
+  "title": "tailwind-motion-kit ai index",
+  "type": "object",
+  "required": ["spec_version", "library", "tokens", "animations"],
+  "properties": {
+    "spec_version": { "type": "string" },
+    "library": {
+      "type": "object",
+      "required": ["name", "version", "base_class_prefix"],
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "base_class_prefix": { "type": "string" }
+      }
+    },
+    "tokens": {
+      "type": "object",
+      "required": ["duration", "delay", "easing", "direction", "fill"],
+      "properties": {
+        "duration": { "type": "array", "items": { "type": "string" } },
+        "delay": { "type": "array", "items": { "type": "string" } },
+        "easing": { "type": "array", "items": { "type": "string" } },
+        "direction": { "type": "array", "items": { "type": "string" } },
+        "fill": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "animations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "class", "intent", "use_when", "avoid_when", "pair_with", "a11y"],
+        "properties": {
+          "name": { "type": "string" },
+          "class": { "type": "string" },
+          "intent": { "type": "array", "items": { "type": "string" } },
+          "use_when": { "type": "array", "items": { "type": "string" } },
+          "avoid_when": { "type": "array", "items": { "type": "string" } },
+          "pair_with": { "type": "array", "items": { "type": "string" } },
+          "a11y": {
+            "type": "object",
+            "required": ["reduced_motion"],
+            "properties": {
+              "reduced_motion": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

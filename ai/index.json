@@ -1,0 +1,44 @@
+{
+  "spec_version": "0.1.0",
+  "library": {
+    "name": "tailwind-motion-kit",
+    "version": "0.0.1",
+    "base_class_prefix": "animate-"
+  },
+  "tokens": {
+    "duration": ["animate-duration-150", "animate-duration-300", "animate-duration-500", "animate-duration-700", "animate-duration-1000"],
+    "delay": ["animate-delay-0", "animate-delay-75", "animate-delay-150", "animate-delay-300", "animate-delay-500"],
+    "easing": ["animate-ease-linear", "animate-ease-in", "animate-ease-out", "animate-ease-in-out"],
+    "direction": ["animate-direction-normal", "animate-direction-reverse", "animate-direction-alternate"],
+    "fill": ["animate-fill-none", "animate-fill-forwards", "animate-fill-backwards", "animate-fill-both"]
+  },
+  "animations": [
+    {
+      "name": "fade-in",
+      "class": "animate-fade-in",
+      "intent": ["enter", "reveal"],
+      "use_when": ["modal open", "toast enter", "card appear"],
+      "avoid_when": ["high urgency feedback"],
+      "pair_with": ["animate-duration-300", "animate-ease-out", "animate-fill-both"],
+      "a11y": { "reduced_motion": "motion-reduce:animate-none" }
+    },
+    {
+      "name": "slide-in-up",
+      "class": "animate-slide-in-up",
+      "intent": ["enter", "nudge-attention"],
+      "use_when": ["toast enter", "bottom element reveal"],
+      "avoid_when": ["dense table rows"],
+      "pair_with": ["animate-duration-300", "animate-ease-out", "animate-fill-both"],
+      "a11y": { "reduced_motion": "motion-reduce:animate-none" }
+    },
+    {
+      "name": "jelly",
+      "class": "animate-jelly",
+      "intent": ["emphasis", "feedback"],
+      "use_when": ["cta click feedback", "badge highlight"],
+      "avoid_when": ["critical alerts", "large blocks of text"],
+      "pair_with": ["animate-duration-500", "animate-ease-in-out", "animate-fill-both"],
+      "a11y": { "reduced_motion": "motion-reduce:animate-none" }
+    }
+  ]
+}

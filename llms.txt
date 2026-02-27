@@ -1,0 +1,12 @@
+# tailwind-motion-kit / LLM index
+
+Use this URL first for machine-readable data:
+- /ai/index.json
+
+Validation schema:
+- /ai/schema.json
+
+Guidance:
+- Prefer classes listed in tokens + animations.pair_with.
+- Respect reduced motion: motion-reduce:animate-none.
+- If uncertain, choose simpler enter/exit animations over decorative ones.
