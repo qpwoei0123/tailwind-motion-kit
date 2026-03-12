@@ -9,6 +9,7 @@
   },
   "license": "MIT",
   "scripts": {
+    "ai:sync": "node scripts/sync-ai-index.js",
     "test": "node --test",
     "test:ci": "node --test"
   }

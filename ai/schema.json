@@ -17,11 +17,12 @@
     },
     "tokens": {
       "type": "object",
-      "required": ["duration", "delay", "easing", "direction", "fill"],
+      "required": ["duration", "delay", "easing", "repeat", "direction", "fill"],
       "properties": {
         "duration": { "type": "array", "items": { "type": "string" } },
         "delay": { "type": "array", "items": { "type": "string" } },
         "easing": { "type": "array", "items": { "type": "string" } },
+        "repeat": { "type": "array", "items": { "type": "string" } },
         "direction": { "type": "array", "items": { "type": "string" } },
         "fill": { "type": "array", "items": { "type": "string" } }
       }

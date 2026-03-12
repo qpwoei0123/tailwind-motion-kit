@@ -142,6 +142,7 @@ npx tmk action recommend --input '{"intent":"feedback","context":"cta click","in
 
 ```json
 {
+  "ok": true,
   "action": "recommend",
   "recommendation": {
     "name": "jelly",
@@ -158,6 +159,7 @@ npx tmk generate --input '{"animation":"slide-in-right","duration":300,"easing":
 
 ```json
 {
+  "ok": true,
   "action": "generate",
   "className": "animate-slide-in-right animate-duration-300 animate-ease-out animate-fill-both motion-reduce:animate-none"
 }
@@ -171,6 +173,7 @@ npx tmk resolve --input '{"className":"animate-jelly animate-duration-500 animat
 
 ```json
 {
+  "ok": true,
   "action": "resolve",
   "animation": {
     "name": "jelly"
@@ -191,8 +194,10 @@ printf '{"intent":"feedback","context":"cta click","include_tokens":true}' | npx
 
 ### Command surface
 
-- `tmk manifest` → best discovery entrypoint; includes commands, actions, token scales, and bundled animations
-- `tmk schema [action-name]` → top-level contract or per-action input schema
+- `tmk manifest` → best discovery entrypoint; includes commands, actions, contract file paths, and stable schema refs
+- `tmk schema` → returns the exported CLI contract bundle plus discovery metadata
+- `tmk schema manifest|schema|action` → inspect stable command-level output/input contracts
+- `tmk schema <action-name>` → inspect per-action input/output schemas
 - `tmk action <action-name>` → stable JSON action dispatcher
 - `tmk generate` → convenience alias that returns a ready-to-paste motion class bundle
 - `tmk resolve` → convenience alias that parses an existing motion class bundle
@@ -206,17 +211,19 @@ printf '{"intent":"feedback","context":"cta click","include_tokens":true}' | npx
 
 ### Contract notes for agents
 
-- success responses are JSON on stdout
+- success responses are JSON on stdout and action responses include `ok: true`
 - failures are JSON on stderr with `ok: false` and exit code `1`
-- unknown commands/actions include discovery hints and available command/action names
-- unknown properties are rejected to keep the action surface stable
-- `manifest` mirrors the machine-readable index in `./ai/index.json`
-- manifest token lists are aligned with generated utilities, including `animate-delay-0`
+- unknown properties are rejected to keep the action surface deterministic
+- `manifest` mirrors the generated machine-readable index in `./ai/index.json`
+- `schema` exports the checked-in CLI contract bundle from `./ai/contracts.json`
+- contract refs in `manifest` and `schema` are stable entrypoints for `manifest`, `schema`, `action`, `generate`, `resolve`, and `recommend`
+- `./ai/index.json` stays aligned with the shipped token surface, including repeat tokens and `animate-delay-0`
 
 See also:
 - `./docs/agent-contract.md`
 - `./ai/index.json`
 - `./ai/schema.json`
+- `./ai/contracts.json`
 - `./llms.txt`
 
 ## Local preview

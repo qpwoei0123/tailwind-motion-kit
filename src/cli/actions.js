@@ -1,7 +1,7 @@
 'use strict';
 
 const { isDeepStrictEqual } = require('node:util');
-const aiIndex = require('../../ai/index.json');
+const { aiIndex } = require('../ai');
 const aiSchema = require('../../ai/schema.json');
 
 const CLI_VERSION = 1;
@@ -488,13 +488,11 @@ const actionEnvelopeSchema = {
   type: 'object',
   required: ['action'],
   properties: {
-    action: { type: 'string', enum: Object.keys(aiIndex.animations ? {} : {}) },
+    action: { type: 'string', enum: ['list-animations', 'recommend', 'generate', 'resolve'] },
     input: { type: 'object' },
   },
   additionalProperties: false,
 };
-
-actionEnvelopeSchema.properties.action.enum = ['list-animations', 'recommend', 'generate', 'resolve'];
 
 function createActionResponseSchema(actionName, properties, required = []) {
   return makeSuccessSchema(['action', 'available_actions', ...required], {

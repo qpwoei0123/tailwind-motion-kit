@@ -1,0 +1,3450 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tailwind-motion-kit.dev/ai/contracts.json",
+  "title": "tailwind-motion-kit CLI contracts",
+  "description": "JSON-first command/action contract schemas for agent and tooling integrations.",
+  "type": "object",
+  "$defs": {
+    "animation": {
+      "type": "object",
+      "required": [
+        "name",
+        "class",
+        "intent",
+        "use_when",
+        "avoid_when",
+        "pair_with",
+        "a11y"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        },
+        "intent": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "use_when": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "avoid_when": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "pair_with": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "a11y": {
+          "type": "object",
+          "required": [
+            "reduced_motion"
+          ],
+          "properties": {
+            "reduced_motion": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "tokensCatalog": {
+      "type": "object",
+      "required": [
+        "duration",
+        "delay",
+        "easing",
+        "repeat",
+        "direction",
+        "fill"
+      ],
+      "properties": {
+        "duration": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "animate-duration-150",
+              "animate-duration-300",
+              "animate-duration-500",
+              "animate-duration-700",
+              "animate-duration-1000"
+            ]
+          }
+        },
+        "delay": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "animate-delay-0",
+              "animate-delay-75",
+              "animate-delay-150",
+              "animate-delay-300",
+              "animate-delay-500"
+            ]
+          }
+        },
+        "easing": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "animate-ease-linear",
+              "animate-ease-in",
+              "animate-ease-out",
+              "animate-ease-in-out"
+            ]
+          }
+        },
+        "repeat": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "animate-repeat-1",
+              "animate-repeat-2",
+              "animate-repeat-3",
+              "animate-repeat-infinite"
+            ]
+          }
+        },
+        "direction": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "animate-direction-normal",
+              "animate-direction-reverse",
+              "animate-direction-alternate"
+            ]
+          }
+        },
+        "fill": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "animate-fill-none",
+              "animate-fill-forwards",
+              "animate-fill-backwards",
+              "animate-fill-both"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "resolvedTokens": {
+      "type": "object",
+      "required": [
+        "duration",
+        "delay",
+        "easing",
+        "repeat",
+        "direction",
+        "fill",
+        "reduced_motion"
+      ],
+      "properties": {
+        "duration": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "animate-duration-150",
+                "animate-duration-300",
+                "animate-duration-500",
+                "animate-duration-700",
+                "animate-duration-1000"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "delay": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "animate-delay-0",
+                "animate-delay-75",
+                "animate-delay-150",
+                "animate-delay-300",
+                "animate-delay-500"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "easing": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "animate-ease-linear",
+                "animate-ease-in",
+                "animate-ease-out",
+                "animate-ease-in-out"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "repeat": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "animate-repeat-1",
+                "animate-repeat-2",
+                "animate-repeat-3",
+                "animate-repeat-infinite"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "direction": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "animate-direction-normal",
+                "animate-direction-reverse",
+                "animate-direction-alternate"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fill": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "animate-fill-none",
+                "animate-fill-forwards",
+                "animate-fill-backwards",
+                "animate-fill-both"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reduced_motion": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "motion-reduce:animate-none"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "recommendationAlternative": {
+      "type": "object",
+      "required": [
+        "name",
+        "class",
+        "score"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "class": {
+          "type": "string"
+        },
+        "score": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "recommendReasonsMatch": {
+      "type": "object",
+      "required": [
+        "matched_intent",
+        "matched_context",
+        "suggested_pair_with",
+        "reduced_motion",
+        "score"
+      ],
+      "properties": {
+        "matched_intent": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "matched_context": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "suggested_pair_with": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reduced_motion": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "motion-reduce:animate-none"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "score": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "recommendReasonsNoMatch": {
+      "type": "object",
+      "required": [
+        "matched_intent",
+        "matched_context",
+        "score",
+        "no_match"
+      ],
+      "properties": {
+        "matched_intent": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "matched_context": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "score": {
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "no_match": {
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "errorResponse": {
+      "type": "object",
+      "required": [
+        "ok",
+        "error"
+      ],
+      "properties": {
+        "ok": {
+          "const": false
+        },
+        "error": {
+          "type": "string"
+        },
+        "command": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "actionEnvelope": {
+      "type": "object",
+      "required": [
+        "action"
+      ],
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "list-animations",
+            "recommend",
+            "generate",
+            "resolve"
+          ]
+        },
+        "input": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    "actionDescriptor": {
+      "type": "object",
+      "required": [
+        "name",
+        "description",
+        "output_schema_ref",
+        "error_schema_ref"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "enum": [
+            "list-animations",
+            "recommend",
+            "generate",
+            "resolve"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "input_schema_ref": {
+          "type": "string"
+        },
+        "output_schema_ref": {
+          "type": "string"
+        },
+        "error_schema_ref": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "commandContract": {
+      "type": "object",
+      "required": [
+        "output_schema_ref",
+        "error_schema_ref"
+      ],
+      "properties": {
+        "input_schema_ref": {
+          "type": "string"
+        },
+        "output_schema_ref": {
+          "type": "string"
+        },
+        "error_schema_ref": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "commandContracts": {
+      "type": "object",
+      "required": [
+        "manifest",
+        "schema",
+        "action",
+        "generate",
+        "resolve"
+      ],
+      "properties": {
+        "manifest": {
+          "type": "object",
+          "required": [
+            "output_schema_ref",
+            "error_schema_ref"
+          ],
+          "properties": {
+            "input_schema_ref": {
+              "type": "string"
+            },
+            "output_schema_ref": {
+              "type": "string"
+            },
+            "error_schema_ref": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "schema": {
+          "type": "object",
+          "required": [
+            "output_schema_ref",
+            "error_schema_ref"
+          ],
+          "properties": {
+            "input_schema_ref": {
+              "type": "string"
+            },
+            "output_schema_ref": {
+              "type": "string"
+            },
+            "error_schema_ref": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "action": {
+          "type": "object",
+          "required": [
+            "output_schema_ref",
+            "error_schema_ref"
+          ],
+          "properties": {
+            "input_schema_ref": {
+              "type": "string"
+            },
+            "output_schema_ref": {
+              "type": "string"
+            },
+            "error_schema_ref": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "generate": {
+          "type": "object",
+          "required": [
+            "output_schema_ref",
+            "error_schema_ref"
+          ],
+          "properties": {
+            "input_schema_ref": {
+              "type": "string"
+            },
+            "output_schema_ref": {
+              "type": "string"
+            },
+            "error_schema_ref": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "resolve": {
+          "type": "object",
+          "required": [
+            "output_schema_ref",
+            "error_schema_ref"
+          ],
+          "properties": {
+            "input_schema_ref": {
+              "type": "string"
+            },
+            "output_schema_ref": {
+              "type": "string"
+            },
+            "error_schema_ref": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "contractFiles": {
+      "type": "object",
+      "required": [
+        "library_manifest",
+        "library_manifest_schema",
+        "cli_contracts",
+        "llms"
+      ],
+      "properties": {
+        "library_manifest": {
+          "const": "./ai/index.json"
+        },
+        "library_manifest_schema": {
+          "const": "./ai/schema.json"
+        },
+        "cli_contracts": {
+          "const": "./ai/contracts.json"
+        },
+        "llms": {
+          "const": "./llms.txt"
+        }
+      },
+      "additionalProperties": false
+    },
+    "manifestResponse": {
+      "type": "object",
+      "required": [
+        "ok",
+        "command",
+        "cli_version",
+        "package",
+        "package_version",
+        "commands",
+        "command_contracts",
+        "actions",
+        "contract_files",
+        "library_manifest"
+      ],
+      "properties": {
+        "ok": {
+          "const": true
+        },
+        "command": {
+          "const": "manifest"
+        },
+        "cli_version": {
+          "type": "integer",
+          "const": 1
+        },
+        "package": {
+          "type": "string"
+        },
+        "package_version": {
+          "type": "string"
+        },
+        "commands": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "manifest",
+              "schema",
+              "action",
+              "generate",
+              "resolve"
+            ]
+          }
+        },
+        "command_contracts": {
+          "type": "object",
+          "required": [
+            "manifest",
+            "schema",
+            "action",
+            "generate",
+            "resolve"
+          ],
+          "properties": {
+            "manifest": {
+              "type": "object",
+              "required": [
+                "output_schema_ref",
+                "error_schema_ref"
+              ],
+              "properties": {
+                "input_schema_ref": {
+                  "type": "string"
+                },
+                "output_schema_ref": {
+                  "type": "string"
+                },
+                "error_schema_ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "schema": {
+              "type": "object",
+              "required": [
+                "output_schema_ref",
+                "error_schema_ref"
+              ],
+              "properties": {
+                "input_schema_ref": {
+                  "type": "string"
+                },
+                "output_schema_ref": {
+                  "type": "string"
+                },
+                "error_schema_ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "action": {
+              "type": "object",
+              "required": [
+                "output_schema_ref",
+                "error_schema_ref"
+              ],
+              "properties": {
+                "input_schema_ref": {
+                  "type": "string"
+                },
+                "output_schema_ref": {
+                  "type": "string"
+                },
+                "error_schema_ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "generate": {
+              "type": "object",
+              "required": [
+                "output_schema_ref",
+                "error_schema_ref"
+              ],
+              "properties": {
+                "input_schema_ref": {
+                  "type": "string"
+                },
+                "output_schema_ref": {
+                  "type": "string"
+                },
+                "error_schema_ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "resolve": {
+              "type": "object",
+              "required": [
+                "output_schema_ref",
+                "error_schema_ref"
+              ],
+              "properties": {
+                "input_schema_ref": {
+                  "type": "string"
+                },
+                "output_schema_ref": {
+                  "type": "string"
+                },
+                "error_schema_ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "description",
+              "output_schema_ref",
+              "error_schema_ref"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "enum": [
+                  "list-animations",
+                  "recommend",
+                  "generate",
+                  "resolve"
+                ]
+              },
+              "description": {
+                "type": "string"
+              },
+              "input_schema_ref": {
+                "type": "string"
+              },
+              "output_schema_ref": {
+                "type": "string"
+              },
+              "error_schema_ref": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "contract_files": {
+          "type": "object",
+          "required": [
+            "library_manifest",
+            "library_manifest_schema",
+            "cli_contracts",
+            "llms"
+          ],
+          "properties": {
+            "library_manifest": {
+              "const": "./ai/index.json"
+            },
+            "library_manifest_schema": {
+              "const": "./ai/schema.json"
+            },
+            "cli_contracts": {
+              "const": "./ai/contracts.json"
+            },
+            "llms": {
+              "const": "./llms.txt"
+            }
+          },
+          "additionalProperties": false
+        },
+        "library_manifest": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://tailwind-motion-kit.dev/ai/schema.json",
+          "title": "tailwind-motion-kit ai index",
+          "type": "object",
+          "required": [
+            "spec_version",
+            "library",
+            "tokens",
+            "animations"
+          ],
+          "properties": {
+            "spec_version": {
+              "type": "string"
+            },
+            "library": {
+              "type": "object",
+              "required": [
+                "name",
+                "version",
+                "base_class_prefix"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                },
+                "base_class_prefix": {
+                  "type": "string"
+                }
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "required": [
+                "duration",
+                "delay",
+                "easing",
+                "repeat",
+                "direction",
+                "fill"
+              ],
+              "properties": {
+                "duration": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "delay": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "easing": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "repeat": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "direction": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "fill": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "animations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "class",
+                  "intent",
+                  "use_when",
+                  "avoid_when",
+                  "pair_with",
+                  "a11y"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "class": {
+                    "type": "string"
+                  },
+                  "intent": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "use_when": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "avoid_when": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "pair_with": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "a11y": {
+                    "type": "object",
+                    "required": [
+                      "reduced_motion"
+                    ],
+                    "properties": {
+                      "reduced_motion": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "schemaSummaryResponse": {
+      "type": "object",
+      "required": [
+        "ok",
+        "command",
+        "target",
+        "contract_files",
+        "command_contracts",
+        "actions",
+        "library_manifest_schema",
+        "cli_contracts"
+      ],
+      "properties": {
+        "ok": {
+          "const": true
+        },
+        "command": {
+          "const": "schema"
+        },
+        "target": {
+          "const": "all"
+        },
+        "contract_files": {
+          "type": "object",
+          "required": [
+            "library_manifest",
+            "library_manifest_schema",
+            "cli_contracts",
+            "llms"
+          ],
+          "properties": {
+            "library_manifest": {
+              "const": "./ai/index.json"
+            },
+            "library_manifest_schema": {
+              "const": "./ai/schema.json"
+            },
+            "cli_contracts": {
+              "const": "./ai/contracts.json"
+            },
+            "llms": {
+              "const": "./llms.txt"
+            }
+          },
+          "additionalProperties": false
+        },
+        "command_contracts": {
+          "type": "object",
+          "required": [
+            "manifest",
+            "schema",
+            "action",
+            "generate",
+            "resolve"
+          ],
+          "properties": {
+            "manifest": {
+              "type": "object",
+              "required": [
+                "output_schema_ref",
+                "error_schema_ref"
+              ],
+              "properties": {
+                "input_schema_ref": {
+                  "type": "string"
+                },
+                "output_schema_ref": {
+                  "type": "string"
+                },
+                "error_schema_ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "schema": {
+              "type": "object",
+              "required": [
+                "output_schema_ref",
+                "error_schema_ref"
+              ],
+              "properties": {
+                "input_schema_ref": {
+                  "type": "string"
+                },
+                "output_schema_ref": {
+                  "type": "string"
+                },
+                "error_schema_ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "action": {
+              "type": "object",
+              "required": [
+                "output_schema_ref",
+                "error_schema_ref"
+              ],
+              "properties": {
+                "input_schema_ref": {
+                  "type": "string"
+                },
+                "output_schema_ref": {
+                  "type": "string"
+                },
+                "error_schema_ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "generate": {
+              "type": "object",
+              "required": [
+                "output_schema_ref",
+                "error_schema_ref"
+              ],
+              "properties": {
+                "input_schema_ref": {
+                  "type": "string"
+                },
+                "output_schema_ref": {
+                  "type": "string"
+                },
+                "error_schema_ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "resolve": {
+              "type": "object",
+              "required": [
+                "output_schema_ref",
+                "error_schema_ref"
+              ],
+              "properties": {
+                "input_schema_ref": {
+                  "type": "string"
+                },
+                "output_schema_ref": {
+                  "type": "string"
+                },
+                "error_schema_ref": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "description",
+              "output_schema_ref",
+              "error_schema_ref"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "enum": [
+                  "list-animations",
+                  "recommend",
+                  "generate",
+                  "resolve"
+                ]
+              },
+              "description": {
+                "type": "string"
+              },
+              "input_schema_ref": {
+                "type": "string"
+              },
+              "output_schema_ref": {
+                "type": "string"
+              },
+              "error_schema_ref": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "library_manifest_schema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "cli_contracts": {
+          "type": "object",
+          "required": [
+            "$schema",
+            "$id",
+            "$defs"
+          ],
+          "properties": {
+            "$schema": {
+              "type": "string"
+            },
+            "$id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "$defs": {
+              "type": "object"
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "commandSchemaResponse": {
+      "type": "object",
+      "required": [
+        "ok",
+        "command",
+        "target",
+        "kind",
+        "name",
+        "description",
+        "output_schema",
+        "error_schema",
+        "schema_refs"
+      ],
+      "properties": {
+        "ok": {
+          "const": true
+        },
+        "command": {
+          "const": "schema"
+        },
+        "target": {
+          "type": "string",
+          "enum": [
+            "manifest",
+            "schema",
+            "action"
+          ]
+        },
+        "kind": {
+          "const": "command"
+        },
+        "name": {
+          "type": "string",
+          "enum": [
+            "manifest",
+            "schema",
+            "action"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "output_schema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "error_schema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "schema_refs": {
+          "type": "object",
+          "required": [
+            "output",
+            "error"
+          ],
+          "properties": {
+            "input": {
+              "type": "string"
+            },
+            "output": {
+              "type": "string"
+            },
+            "error": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "actionSchemaResponse": {
+      "type": "object",
+      "required": [
+        "ok",
+        "command",
+        "target",
+        "kind",
+        "name",
+        "description",
+        "input_schema",
+        "output_schema",
+        "error_schema",
+        "schema_refs"
+      ],
+      "properties": {
+        "ok": {
+          "const": true
+        },
+        "command": {
+          "const": "schema"
+        },
+        "target": {
+          "type": "string",
+          "enum": [
+            "list-animations",
+            "recommend",
+            "generate",
+            "resolve"
+          ]
+        },
+        "kind": {
+          "const": "action"
+        },
+        "name": {
+          "type": "string",
+          "enum": [
+            "list-animations",
+            "recommend",
+            "generate",
+            "resolve"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "output_schema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "error_schema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "schema_refs": {
+          "type": "object",
+          "required": [
+            "input",
+            "output",
+            "error"
+          ],
+          "properties": {
+            "input": {
+              "type": "string"
+            },
+            "output": {
+              "type": "string"
+            },
+            "error": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "schemaResponse": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "ok",
+            "command",
+            "target",
+            "contract_files",
+            "command_contracts",
+            "actions",
+            "library_manifest_schema",
+            "cli_contracts"
+          ],
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "command": {
+              "const": "schema"
+            },
+            "target": {
+              "const": "all"
+            },
+            "contract_files": {
+              "type": "object",
+              "required": [
+                "library_manifest",
+                "library_manifest_schema",
+                "cli_contracts",
+                "llms"
+              ],
+              "properties": {
+                "library_manifest": {
+                  "const": "./ai/index.json"
+                },
+                "library_manifest_schema": {
+                  "const": "./ai/schema.json"
+                },
+                "cli_contracts": {
+                  "const": "./ai/contracts.json"
+                },
+                "llms": {
+                  "const": "./llms.txt"
+                }
+              },
+              "additionalProperties": false
+            },
+            "command_contracts": {
+              "type": "object",
+              "required": [
+                "manifest",
+                "schema",
+                "action",
+                "generate",
+                "resolve"
+              ],
+              "properties": {
+                "manifest": {
+                  "type": "object",
+                  "required": [
+                    "output_schema_ref",
+                    "error_schema_ref"
+                  ],
+                  "properties": {
+                    "input_schema_ref": {
+                      "type": "string"
+                    },
+                    "output_schema_ref": {
+                      "type": "string"
+                    },
+                    "error_schema_ref": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "output_schema_ref",
+                    "error_schema_ref"
+                  ],
+                  "properties": {
+                    "input_schema_ref": {
+                      "type": "string"
+                    },
+                    "output_schema_ref": {
+                      "type": "string"
+                    },
+                    "error_schema_ref": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "action": {
+                  "type": "object",
+                  "required": [
+                    "output_schema_ref",
+                    "error_schema_ref"
+                  ],
+                  "properties": {
+                    "input_schema_ref": {
+                      "type": "string"
+                    },
+                    "output_schema_ref": {
+                      "type": "string"
+                    },
+                    "error_schema_ref": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "generate": {
+                  "type": "object",
+                  "required": [
+                    "output_schema_ref",
+                    "error_schema_ref"
+                  ],
+                  "properties": {
+                    "input_schema_ref": {
+                      "type": "string"
+                    },
+                    "output_schema_ref": {
+                      "type": "string"
+                    },
+                    "error_schema_ref": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "resolve": {
+                  "type": "object",
+                  "required": [
+                    "output_schema_ref",
+                    "error_schema_ref"
+                  ],
+                  "properties": {
+                    "input_schema_ref": {
+                      "type": "string"
+                    },
+                    "output_schema_ref": {
+                      "type": "string"
+                    },
+                    "error_schema_ref": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "actions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "description",
+                  "output_schema_ref",
+                  "error_schema_ref"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "enum": [
+                      "list-animations",
+                      "recommend",
+                      "generate",
+                      "resolve"
+                    ]
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "input_schema_ref": {
+                    "type": "string"
+                  },
+                  "output_schema_ref": {
+                    "type": "string"
+                  },
+                  "error_schema_ref": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "library_manifest_schema": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "cli_contracts": {
+              "type": "object",
+              "required": [
+                "$schema",
+                "$id",
+                "$defs"
+              ],
+              "properties": {
+                "$schema": {
+                  "type": "string"
+                },
+                "$id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "$defs": {
+                  "type": "object"
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "ok",
+            "command",
+            "target",
+            "kind",
+            "name",
+            "description",
+            "output_schema",
+            "error_schema",
+            "schema_refs"
+          ],
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "command": {
+              "const": "schema"
+            },
+            "target": {
+              "type": "string",
+              "enum": [
+                "manifest",
+                "schema",
+                "action"
+              ]
+            },
+            "kind": {
+              "const": "command"
+            },
+            "name": {
+              "type": "string",
+              "enum": [
+                "manifest",
+                "schema",
+                "action"
+              ]
+            },
+            "description": {
+              "type": "string"
+            },
+            "input_schema": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "output_schema": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "error_schema": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "schema_refs": {
+              "type": "object",
+              "required": [
+                "output",
+                "error"
+              ],
+              "properties": {
+                "input": {
+                  "type": "string"
+                },
+                "output": {
+                  "type": "string"
+                },
+                "error": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "ok",
+            "command",
+            "target",
+            "kind",
+            "name",
+            "description",
+            "input_schema",
+            "output_schema",
+            "error_schema",
+            "schema_refs"
+          ],
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "command": {
+              "const": "schema"
+            },
+            "target": {
+              "type": "string",
+              "enum": [
+                "list-animations",
+                "recommend",
+                "generate",
+                "resolve"
+              ]
+            },
+            "kind": {
+              "const": "action"
+            },
+            "name": {
+              "type": "string",
+              "enum": [
+                "list-animations",
+                "recommend",
+                "generate",
+                "resolve"
+              ]
+            },
+            "description": {
+              "type": "string"
+            },
+            "input_schema": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "output_schema": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "error_schema": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "schema_refs": {
+              "type": "object",
+              "required": [
+                "input",
+                "output",
+                "error"
+              ],
+              "properties": {
+                "input": {
+                  "type": "string"
+                },
+                "output": {
+                  "type": "string"
+                },
+                "error": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "actionResponse": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "ok",
+            "action",
+            "available_actions",
+            "count",
+            "animations"
+          ],
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "action": {
+              "const": "list-animations"
+            },
+            "available_actions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "list-animations",
+                  "recommend",
+                  "generate",
+                  "resolve"
+                ]
+              }
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "animations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "class",
+                  "intent",
+                  "use_when",
+                  "avoid_when",
+                  "pair_with",
+                  "a11y"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "class": {
+                    "type": "string"
+                  },
+                  "intent": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "use_when": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "avoid_when": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "pair_with": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "a11y": {
+                    "type": "object",
+                    "required": [
+                      "reduced_motion"
+                    ],
+                    "properties": {
+                      "reduced_motion": {
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "ok",
+            "action",
+            "available_actions",
+            "recommendation",
+            "reasons",
+            "alternatives"
+          ],
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "action": {
+              "const": "recommend"
+            },
+            "available_actions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "list-animations",
+                  "recommend",
+                  "generate",
+                  "resolve"
+                ]
+              }
+            },
+            "recommendation": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "class",
+                    "intent",
+                    "use_when",
+                    "avoid_when",
+                    "pair_with",
+                    "a11y"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "class": {
+                      "type": "string"
+                    },
+                    "intent": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "use_when": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "avoid_when": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "pair_with": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "a11y": {
+                      "type": "object",
+                      "required": [
+                        "reduced_motion"
+                      ],
+                      "properties": {
+                        "reduced_motion": {
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "reasons": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "matched_intent",
+                    "matched_context",
+                    "suggested_pair_with",
+                    "reduced_motion",
+                    "score"
+                  ],
+                  "properties": {
+                    "matched_intent": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "matched_context": {
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "suggested_pair_with": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "reduced_motion": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "motion-reduce:animate-none"
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "score": {
+                      "type": "integer"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "matched_intent",
+                    "matched_context",
+                    "score",
+                    "no_match"
+                  ],
+                  "properties": {
+                    "matched_intent": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "matched_context": {
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "score": {
+                      "oneOf": [
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "no_match": {
+                      "const": true
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "alternatives": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "class",
+                  "score"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "class": {
+                    "type": "string"
+                  },
+                  "score": {
+                    "type": "integer"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "required": [
+                "duration",
+                "delay",
+                "easing",
+                "repeat",
+                "direction",
+                "fill"
+              ],
+              "properties": {
+                "duration": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "animate-duration-150",
+                      "animate-duration-300",
+                      "animate-duration-500",
+                      "animate-duration-700",
+                      "animate-duration-1000"
+                    ]
+                  }
+                },
+                "delay": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "animate-delay-0",
+                      "animate-delay-75",
+                      "animate-delay-150",
+                      "animate-delay-300",
+                      "animate-delay-500"
+                    ]
+                  }
+                },
+                "easing": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "animate-ease-linear",
+                      "animate-ease-in",
+                      "animate-ease-out",
+                      "animate-ease-in-out"
+                    ]
+                  }
+                },
+                "repeat": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "animate-repeat-1",
+                      "animate-repeat-2",
+                      "animate-repeat-3",
+                      "animate-repeat-infinite"
+                    ]
+                  }
+                },
+                "direction": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "animate-direction-normal",
+                      "animate-direction-reverse",
+                      "animate-direction-alternate"
+                    ]
+                  }
+                },
+                "fill": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "animate-fill-none",
+                      "animate-fill-forwards",
+                      "animate-fill-backwards",
+                      "animate-fill-both"
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "ok",
+            "action",
+            "available_actions",
+            "animation",
+            "recommendation",
+            "className",
+            "classes"
+          ],
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "action": {
+              "const": "generate"
+            },
+            "available_actions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "list-animations",
+                  "recommend",
+                  "generate",
+                  "resolve"
+                ]
+              }
+            },
+            "animation": {
+              "type": "object",
+              "required": [
+                "name",
+                "class",
+                "intent",
+                "use_when",
+                "avoid_when",
+                "pair_with",
+                "a11y"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "class": {
+                  "type": "string"
+                },
+                "intent": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "use_when": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "avoid_when": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "pair_with": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "a11y": {
+                  "type": "object",
+                  "required": [
+                    "reduced_motion"
+                  ],
+                  "properties": {
+                    "reduced_motion": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "recommendation": {
+              "type": "object",
+              "required": [
+                "name",
+                "class",
+                "intent",
+                "use_when",
+                "avoid_when",
+                "pair_with",
+                "a11y"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "class": {
+                  "type": "string"
+                },
+                "intent": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "use_when": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "avoid_when": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "pair_with": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "a11y": {
+                  "type": "object",
+                  "required": [
+                    "reduced_motion"
+                  ],
+                  "properties": {
+                    "reduced_motion": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "className": {
+              "type": "string"
+            },
+            "classes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "ok",
+            "action",
+            "available_actions",
+            "className",
+            "animation",
+            "tokens",
+            "unknown",
+            "unknown_tokens"
+          ],
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "action": {
+              "const": "resolve"
+            },
+            "available_actions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "list-animations",
+                  "recommend",
+                  "generate",
+                  "resolve"
+                ]
+              }
+            },
+            "className": {
+              "type": "string"
+            },
+            "animation": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "class",
+                    "intent",
+                    "use_when",
+                    "avoid_when",
+                    "pair_with",
+                    "a11y"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "class": {
+                      "type": "string"
+                    },
+                    "intent": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "use_when": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "avoid_when": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "pair_with": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "a11y": {
+                      "type": "object",
+                      "required": [
+                        "reduced_motion"
+                      ],
+                      "properties": {
+                        "reduced_motion": {
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "tokens": {
+              "type": "object",
+              "required": [
+                "duration",
+                "delay",
+                "easing",
+                "repeat",
+                "direction",
+                "fill",
+                "reduced_motion"
+              ],
+              "properties": {
+                "duration": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "animate-duration-150",
+                        "animate-duration-300",
+                        "animate-duration-500",
+                        "animate-duration-700",
+                        "animate-duration-1000"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "delay": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "animate-delay-0",
+                        "animate-delay-75",
+                        "animate-delay-150",
+                        "animate-delay-300",
+                        "animate-delay-500"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "easing": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "animate-ease-linear",
+                        "animate-ease-in",
+                        "animate-ease-out",
+                        "animate-ease-in-out"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "repeat": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "animate-repeat-1",
+                        "animate-repeat-2",
+                        "animate-repeat-3",
+                        "animate-repeat-infinite"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "direction": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "animate-direction-normal",
+                        "animate-direction-reverse",
+                        "animate-direction-alternate"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "fill": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "animate-fill-none",
+                        "animate-fill-forwards",
+                        "animate-fill-backwards",
+                        "animate-fill-both"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "reduced_motion": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "motion-reduce:animate-none"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "unknown": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "unknown_tokens": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "listAnimationsInput": {
+      "type": "object",
+      "properties": {
+        "intent": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "listAnimationsResponse": {
+      "type": "object",
+      "required": [
+        "ok",
+        "action",
+        "available_actions",
+        "count",
+        "animations"
+      ],
+      "properties": {
+        "ok": {
+          "const": true
+        },
+        "action": {
+          "const": "list-animations"
+        },
+        "available_actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "list-animations",
+              "recommend",
+              "generate",
+              "resolve"
+            ]
+          }
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "animations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "class",
+              "intent",
+              "use_when",
+              "avoid_when",
+              "pair_with",
+              "a11y"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "class": {
+                "type": "string"
+              },
+              "intent": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "use_when": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "avoid_when": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "pair_with": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "a11y": {
+                "type": "object",
+                "required": [
+                  "reduced_motion"
+                ],
+                "properties": {
+                  "reduced_motion": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "recommendInput": {
+      "type": "object",
+      "properties": {
+        "intent": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "context": {
+          "type": "string"
+        },
+        "exclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "include_tokens": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "recommendResponse": {
+      "type": "object",
+      "required": [
+        "ok",
+        "action",
+        "available_actions",
+        "recommendation",
+        "reasons",
+        "alternatives"
+      ],
+      "properties": {
+        "ok": {
+          "const": true
+        },
+        "action": {
+          "const": "recommend"
+        },
+        "available_actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "list-animations",
+              "recommend",
+              "generate",
+              "resolve"
+            ]
+          }
+        },
+        "recommendation": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "name",
+                "class",
+                "intent",
+                "use_when",
+                "avoid_when",
+                "pair_with",
+                "a11y"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "class": {
+                  "type": "string"
+                },
+                "intent": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "use_when": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "avoid_when": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "pair_with": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "a11y": {
+                  "type": "object",
+                  "required": [
+                    "reduced_motion"
+                  ],
+                  "properties": {
+                    "reduced_motion": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reasons": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "matched_intent",
+                "matched_context",
+                "suggested_pair_with",
+                "reduced_motion",
+                "score"
+              ],
+              "properties": {
+                "matched_intent": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "matched_context": {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "suggested_pair_with": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "reduced_motion": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "motion-reduce:animate-none"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "score": {
+                  "type": "integer"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "matched_intent",
+                "matched_context",
+                "score",
+                "no_match"
+              ],
+              "properties": {
+                "matched_intent": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "matched_context": {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "score": {
+                  "oneOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "no_match": {
+                  "const": true
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "alternatives": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "class",
+              "score"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "class": {
+                "type": "string"
+              },
+              "score": {
+                "type": "integer"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "tokens": {
+          "type": "object",
+          "required": [
+            "duration",
+            "delay",
+            "easing",
+            "repeat",
+            "direction",
+            "fill"
+          ],
+          "properties": {
+            "duration": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "animate-duration-150",
+                  "animate-duration-300",
+                  "animate-duration-500",
+                  "animate-duration-700",
+                  "animate-duration-1000"
+                ]
+              }
+            },
+            "delay": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "animate-delay-0",
+                  "animate-delay-75",
+                  "animate-delay-150",
+                  "animate-delay-300",
+                  "animate-delay-500"
+                ]
+              }
+            },
+            "easing": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "animate-ease-linear",
+                  "animate-ease-in",
+                  "animate-ease-out",
+                  "animate-ease-in-out"
+                ]
+              }
+            },
+            "repeat": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "animate-repeat-1",
+                  "animate-repeat-2",
+                  "animate-repeat-3",
+                  "animate-repeat-infinite"
+                ]
+              }
+            },
+            "direction": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "animate-direction-normal",
+                  "animate-direction-reverse",
+                  "animate-direction-alternate"
+                ]
+              }
+            },
+            "fill": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "animate-fill-none",
+                  "animate-fill-forwards",
+                  "animate-fill-backwards",
+                  "animate-fill-both"
+                ]
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "generateInput": {
+      "type": "object",
+      "properties": {
+        "animation": {
+          "type": "string"
+        },
+        "intent": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "context": {
+          "type": "string"
+        },
+        "duration": {
+          "type": [
+            "string",
+            "integer"
+          ]
+        },
+        "delay": {
+          "type": [
+            "string",
+            "integer"
+          ]
+        },
+        "easing": {
+          "type": "string"
+        },
+        "repeat": {
+          "type": [
+            "string",
+            "integer"
+          ]
+        },
+        "direction": {
+          "type": "string"
+        },
+        "fill": {
+          "type": "string"
+        },
+        "reduced_motion": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "generateResponse": {
+      "type": "object",
+      "required": [
+        "ok",
+        "action",
+        "available_actions",
+        "animation",
+        "recommendation",
+        "className",
+        "classes"
+      ],
+      "properties": {
+        "ok": {
+          "const": true
+        },
+        "action": {
+          "const": "generate"
+        },
+        "available_actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "list-animations",
+              "recommend",
+              "generate",
+              "resolve"
+            ]
+          }
+        },
+        "animation": {
+          "type": "object",
+          "required": [
+            "name",
+            "class",
+            "intent",
+            "use_when",
+            "avoid_when",
+            "pair_with",
+            "a11y"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "class": {
+              "type": "string"
+            },
+            "intent": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "use_when": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "avoid_when": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "pair_with": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "a11y": {
+              "type": "object",
+              "required": [
+                "reduced_motion"
+              ],
+              "properties": {
+                "reduced_motion": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "recommendation": {
+          "type": "object",
+          "required": [
+            "name",
+            "class",
+            "intent",
+            "use_when",
+            "avoid_when",
+            "pair_with",
+            "a11y"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "class": {
+              "type": "string"
+            },
+            "intent": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "use_when": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "avoid_when": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "pair_with": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "a11y": {
+              "type": "object",
+              "required": [
+                "reduced_motion"
+              ],
+              "properties": {
+                "reduced_motion": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "className": {
+          "type": "string"
+        },
+        "classes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "resolveInput": {
+      "type": "object",
+      "required": [
+        "className"
+      ],
+      "properties": {
+        "className": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "resolveResponse": {
+      "type": "object",
+      "required": [
+        "ok",
+        "action",
+        "available_actions",
+        "className",
+        "animation",
+        "tokens",
+        "unknown",
+        "unknown_tokens"
+      ],
+      "properties": {
+        "ok": {
+          "const": true
+        },
+        "action": {
+          "const": "resolve"
+        },
+        "available_actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "list-animations",
+              "recommend",
+              "generate",
+              "resolve"
+            ]
+          }
+        },
+        "className": {
+          "type": "string"
+        },
+        "animation": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "name",
+                "class",
+                "intent",
+                "use_when",
+                "avoid_when",
+                "pair_with",
+                "a11y"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "class": {
+                  "type": "string"
+                },
+                "intent": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "use_when": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "avoid_when": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "pair_with": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "a11y": {
+                  "type": "object",
+                  "required": [
+                    "reduced_motion"
+                  ],
+                  "properties": {
+                    "reduced_motion": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "tokens": {
+          "type": "object",
+          "required": [
+            "duration",
+            "delay",
+            "easing",
+            "repeat",
+            "direction",
+            "fill",
+            "reduced_motion"
+          ],
+          "properties": {
+            "duration": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "animate-duration-150",
+                    "animate-duration-300",
+                    "animate-duration-500",
+                    "animate-duration-700",
+                    "animate-duration-1000"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "delay": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "animate-delay-0",
+                    "animate-delay-75",
+                    "animate-delay-150",
+                    "animate-delay-300",
+                    "animate-delay-500"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "easing": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "animate-ease-linear",
+                    "animate-ease-in",
+                    "animate-ease-out",
+                    "animate-ease-in-out"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "repeat": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "animate-repeat-1",
+                    "animate-repeat-2",
+                    "animate-repeat-3",
+                    "animate-repeat-infinite"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "direction": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "animate-direction-normal",
+                    "animate-direction-reverse",
+                    "animate-direction-alternate"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "fill": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "animate-fill-none",
+                    "animate-fill-forwards",
+                    "animate-fill-backwards",
+                    "animate-fill-both"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "reduced_motion": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "motion-reduce:animate-none"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "unknown": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "unknown_tokens": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

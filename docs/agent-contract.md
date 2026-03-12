@@ -1,26 +1,25 @@
 # Agent contract
 
-`tailwind-motion-kit` ships a small JSON-first CLI and a machine-readable animation index for coding agents and tooling.
+`tailwind-motion-kit` ships a small JSON-first CLI and checked-in contract files for agents, editors, and automation.
 
 ## Discovery surface
 
-- `npx tmk --help` → copy-paste quickstart + command/action discovery
-- `npx tmk manifest` → library/package manifest + available actions
-- `npx tmk schema` → top-level contract summary
-- `npx tmk schema <action>` → per-action input schema
+Start here:
+
+- `npx tmk manifest` → package/library manifest + stable schema refs
+- `npx tmk schema` → exported CLI contract bundle + discovery metadata
+- `npx tmk schema manifest` → manifest response schema
+- `npx tmk schema action` → action-dispatch input/output schemas
+- `npx tmk schema <action>` → per-action input/output schema
 - `npx tmk action <action> --input '{...}'` → execute an action and return JSON
 - `npx tmk generate --input '{...}'` → convenience alias for generating a ready-to-paste class bundle
 - `npx tmk resolve --input '{...}'` → convenience alias for parsing an existing class bundle
-
-Recommended discovery order:
-1. `npx tmk manifest`
-2. `npx tmk schema <action>`
-3. `npx tmk action <action> --input '{...}'` or the `generate` / `resolve` aliases
 
 Primary machine-readable files:
 
 - `./ai/index.json`
 - `./ai/schema.json`
+- `./ai/contracts.json`
 - `./llms.txt`
 
 ## Stability expectations
@@ -29,11 +28,37 @@ Current scope is intentionally small:
 
 - command names are stable: `manifest`, `schema`, `action`, `generate`, `resolve`
 - action names are stable: `list-animations`, `recommend`, `generate`, `resolve`
-- outputs are JSON objects
+- successful action responses include `ok: true`
 - unknown commands/actions fail with JSON errors on stderr and exit code `1`
 - unknown input properties are rejected to keep contracts deterministic
+- `manifest` and `schema` expose stable `*_schema_ref` pointers into `./ai/contracts.json`
 
 The `library_manifest` returned by `manifest` mirrors `ai/index.json` and is the best starting point for automated consumers.
+
+## Contract files
+
+### `ai/index.json`
+
+Machine-readable animation catalog and token surface.
+
+### `ai/schema.json`
+
+Validation schema for `ai/index.json`.
+
+### `ai/contracts.json`
+
+Checked-in JSON Schema bundle for CLI responses and action I/O.
+
+Useful defs:
+
+- `#/$defs/manifestResponse`
+- `#/$defs/schemaResponse`
+- `#/$defs/actionEnvelope`
+- `#/$defs/actionResponse`
+- `#/$defs/generateResponse`
+- `#/$defs/resolveResponse`
+- `#/$defs/recommendResponse`
+- `#/$defs/errorResponse`
 
 ## Action contracts
 
@@ -49,11 +74,11 @@ Input:
 }
 ```
 
-Notes:
+Output highlights:
 
-- `intent` accepts a string or string array
-- `name` matches either animation name or class substring
-- `limit` bounds the result set
+- `count`
+- `animations[]`
+- `available_actions`
 
 ### `recommend`
 
@@ -68,12 +93,12 @@ Input:
 }
 ```
 
-Notes:
+Output highlights:
 
-- ranks bundled animations by intent/context fit
-- `exclude` accepts animation names or full classes
-- `include_tokens` appends reusable timing/easing tokens for composition
-- returns `recommendation: null` with `reasons.no_match: true` when nothing scores above zero
+- `recommendation` object or `null`
+- `reasons` with either match details or `no_match: true`
+- `alternatives[]`
+- optional `tokens` catalog, including repeat tokens
 
 ### `generate`
 
@@ -88,7 +113,7 @@ Input:
 }
 ```
 
-Notes:
+Output highlights:
 
 - resolves a final animation from `animation` or recommendation inputs (`intent` / `context`)
 - preserves preset `pair_with` defaults unless explicitly overridden
@@ -105,7 +130,7 @@ Input:
 }
 ```
 
-Notes:
+Output highlights:
 
 - extracts the bundled animation when present
 - returns recognized token groups (`duration`, `delay`, `easing`, `repeat`, `direction`, `fill`, `reduced_motion`)
@@ -124,7 +149,10 @@ When generating code:
 
 ```bash
 npx tmk manifest
-npx tmk schema generate
+npx tmk schema
+npx tmk schema manifest
+npx tmk schema action
+npx tmk schema recommend
 npx tmk generate --input '{"intent":"feedback","context":"cta click","duration":700}'
 npx tmk resolve --input '{"className":"animate-jelly animate-duration-500 animate-ease-in-out motion-reduce:animate-none"}'
 printf '{"intent":"error","context":"login form"}' | npx tmk action recommend

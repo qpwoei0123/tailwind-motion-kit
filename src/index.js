@@ -5,6 +5,7 @@ const slide = require('./presets/slide');
 const scale = require('./presets/scale');
 const attention = require('./presets/attention');
 const rotate = require('./presets/rotate');
+const { DEFAULT_DURATION_SCALE, DEFAULT_DELAY_SCALE } = require('./tokens');
 
 function normalizeScale(scale, fallback) {
   if (!Array.isArray(scale) || scale.length === 0) return fallback;
@@ -26,8 +27,8 @@ module.exports = function motionKit(options = {}) {
     return { ...acc, ...preset.animations };
   }, {});
 
-  const durationScale = normalizeScale(options.durationScale, [150, 300, 500, 700, 1000]);
-  const delayScale = normalizeScale(options.delayScale, [0, 75, 150, 300, 500]);
+  const durationScale = normalizeScale(options.durationScale, DEFAULT_DURATION_SCALE);
+  const delayScale = normalizeScale(options.delayScale, DEFAULT_DELAY_SCALE);
 
   const durationUtilities = Object.fromEntries(
     durationScale.map((value) => [`.animate-duration-${value}`, { '--tmk-duration': toMs(value) }])
