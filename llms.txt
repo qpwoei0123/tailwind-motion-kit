@@ -6,6 +6,13 @@ Use this URL first for machine-readable data:
 Validation schema:
 - /ai/schema.json
 
+CLI discovery:
+- `tmk manifest` for package + action discovery
+- `tmk schema [action]` for input contracts
+- `tmk action recommend` for best-fit suggestions
+- `tmk generate` for ready-to-paste class strings
+- `tmk resolve` for parsing existing class strings
+
 Guidance:
 - Prefer classes listed in tokens + animations.pair_with.
 - Respect reduced motion: motion-reduce:animate-none.

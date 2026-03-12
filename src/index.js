@@ -27,7 +27,7 @@ module.exports = function motionKit(options = {}) {
   }, {});
 
   const durationScale = normalizeScale(options.durationScale, [150, 300, 500, 700, 1000]);
-  const delayScale = normalizeScale(options.delayScale, [75, 150, 300, 500]);
+  const delayScale = normalizeScale(options.delayScale, [0, 75, 150, 300, 500]);
 
   const durationUtilities = Object.fromEntries(
     durationScale.map((value) => [`.animate-duration-${value}`, { '--tmk-duration': toMs(value) }])

@@ -4,6 +4,9 @@
   "description": "Tailwind CSS animation plugin toolkit",
   "main": "index.js",
   "types": "index.d.ts",
+  "bin": {
+    "tmk": "bin/tmk.js"
+  },
   "license": "MIT",
   "scripts": {
     "test": "node --test",

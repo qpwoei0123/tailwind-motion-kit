@@ -68,7 +68,7 @@ module.exports = {
 ## Utilities
 
 - duration → `animate-duration-150|300|500|700|1000`
-- delay → `animate-delay-75|150|300|500`
+- delay → `animate-delay-0|75|150|300|500`
 - easing → `animate-ease-linear|in|out|in-out`
 - repeat → `animate-repeat-1|2|3|infinite`
 - direction → `animate-direction-normal|reverse|alternate`
@@ -93,13 +93,13 @@ Recommended:
 ```js
 motionKit({
   durationScale: [120, 240, 360, 480],
-  delayScale: [50, 100, 150],
+  delayScale: [0, 50, 100, 150],
 })
 ```
 
 Generates:
 - `animate-duration-120|240|360|480`
-- `animate-delay-50|100|150`
+- `animate-delay-0|50|100|150`
 
 ---
 
@@ -121,6 +121,50 @@ Generates:
 ```
 
 ---
+
+## Agent CLI MVP
+
+JSON-first CLI for agent/tooling integration:
+
+```bash
+npx tmk --help
+npx tmk manifest
+npx tmk schema
+npx tmk schema recommend
+npx tmk action list-animations --input '{"intent":"enter","limit":5}'
+npx tmk generate --input '{"intent":"feedback","context":"cta click","duration":700}'
+npx tmk resolve --input '{"className":"animate-jelly animate-duration-500 animate-ease-in-out motion-reduce:animate-none"}'
+printf '{"intent":"feedback","context":"cta click","include_tokens":true}' | npx tmk action recommend
+```
+
+### Commands
+
+- `tmk manifest` → package/library manifest + available actions
+- `tmk schema [action-name]` → top-level contract or per-action input schema
+- `tmk action <action-name>` → dynamic action dispatch, JSON in / JSON out
+- `tmk generate` → convenience alias that returns a ready-to-paste motion class bundle
+- `tmk resolve` → convenience alias that parses an existing motion class bundle
+
+### Built-in actions
+
+- `list-animations` → filter bundled animations by `intent` and/or `name`
+- `recommend` → score animations for a requested `intent` + `context`
+- `generate` → produce a practical class bundle from animation or intent + token overrides
+- `resolve` → parse a class bundle into animation + timing tokens
+
+### Contract notes for agents
+
+- success responses are JSON on stdout
+- failures are JSON on stderr with `ok: false` and exit code `1`
+- unknown properties are rejected to keep the action surface stable
+- `manifest` mirrors the machine-readable index in `./ai/index.json`
+- manifest token lists are aligned with generated utilities, including `animate-delay-0`
+
+See also:
+- `./docs/agent-contract.md`
+- `./ai/index.json`
+- `./ai/schema.json`
+- `./llms.txt`
 
 ## Local preview
 

@@ -4,6 +4,10 @@
 
 ### Added
 
+- Agent-facing CLI (`tmk`) with JSON discovery commands: `manifest`, `schema`, `action`
+- Direct agent utility commands: `generate`, `resolve`
+- Agent contract documentation at `docs/agent-contract.md`
+- Machine-readable AI index expanded to cover all bundled animations
 - New utility classes:
   - repeat: `animate-repeat-1|2|3|infinite`
   - direction: `animate-direction-normal|reverse|alternate`

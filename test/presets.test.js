@@ -101,6 +101,8 @@ test('motionKit() handler adds timing utility classes', () => {
     '.animate-duration-500',
     '.animate-duration-700',
     '.animate-duration-1000',
+    '.animate-delay-0',
+    '.animate-delay-0',
     '.animate-delay-75',
     '.animate-delay-150',
     '.animate-delay-300',
@@ -127,6 +129,8 @@ test('motionKit() handler adds timing utility classes', () => {
   }
 
   assert.equal(captured['.animate-duration-500']['--tmk-duration'], '500ms');
+  assert.equal(captured['.animate-delay-0']['animation-delay'], '0ms');
+  assert.equal(captured['.animate-delay-0']['animation-delay'], '0ms');
   assert.equal(captured['.animate-delay-300']['animation-delay'], '300ms');
   assert.equal(captured['.animate-ease-linear']['--tmk-easing'], 'linear');
   assert.equal(captured['.animate-repeat-3']['animation-iteration-count'], '3');
@@ -140,7 +144,7 @@ test('plugin keeps options payload for future extension', () => {
 });
 
 test('plugin supports custom duration/delay scales', () => {
-  const plugin = motionKit({ durationScale: [120, 240], delayScale: [50, 100] });
+  const plugin = motionKit({ durationScale: [120, 240], delayScale: [0, 50, 100] });
   let captured = null;
 
   plugin.handler({
@@ -151,9 +155,11 @@ test('plugin supports custom duration/delay scales', () => {
 
   assert.ok(captured['.animate-duration-120']);
   assert.ok(captured['.animate-duration-240']);
+  assert.ok(captured['.animate-delay-0']);
   assert.ok(captured['.animate-delay-50']);
   assert.ok(captured['.animate-delay-100']);
 
   assert.equal(captured['.animate-duration-120']['--tmk-duration'], '120ms');
+  assert.equal(captured['.animate-delay-0']['animation-delay'], '0ms');
   assert.equal(captured['.animate-delay-50']['animation-delay'], '50ms');
 });
