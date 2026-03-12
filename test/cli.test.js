@@ -31,7 +31,7 @@ test('help output exposes discoverable command and action surface', () => {
     'tmk generate [--input <json>]',
     'tmk resolve [--input <json>]',
   ]);
-  assert.ok(Array.isArray(result.stdoutJson.actions));
+  assert.ok(result.stdoutJson.examples.length >= 4);
   assert.deepEqual(
     result.stdoutJson.actions.map((item) => item.name),
     ['list-animations', 'recommend', 'generate', 'resolve']
@@ -95,7 +95,7 @@ test('generate builds a paste-ready className from intent and overrides', () => 
 
   assert.equal(result.status, 0);
   assert.equal(result.stdoutJson.action, 'generate');
-  assert.equal(result.stdoutJson.animation.name, 'jelly');
+  assert.equal(result.stdoutJson.recommendation.name, 'jelly');
   assert.match(result.stdoutJson.className, /animate-jelly/);
   assert.match(result.stdoutJson.className, /animate-duration-700/);
   assert.match(result.stdoutJson.className, /animate-ease-out/);
