@@ -1,0 +1,98 @@
+{
+  "summary": "JSON-first CLI for discovering, recommending, generating, and resolving Tailwind motion classes.",
+  "start_here": "tmk manifest",
+  "usage": [
+    "tmk manifest",
+    "tmk schema [action-name]",
+    "tmk action <action-name> [--input <json>]",
+    "tmk generate [--input <json>]",
+    "tmk resolve [--input <json>]"
+  ],
+  "examples": [
+    "tmk manifest",
+    "tmk schema recommend",
+    "tmk generate --input {\"intent\":\"enter\",\"context\":\"toast\",\"duration\":300,\"easing\":\"out\"}",
+    "tmk resolve --input {\"className\":\"animate-jelly animate-duration-500 animate-ease-in-out motion-reduce:animate-none\"}"
+  ],
+  "quickstart": [
+    {
+      "goal": "Discover the full surface area",
+      "command": "tmk manifest",
+      "returns": "commands, actions, token scales, and bundled animations"
+    },
+    {
+      "goal": "Inspect a command contract before wiring automation",
+      "command": "tmk schema recommend",
+      "returns": "the accepted JSON input shape for the recommend action"
+    },
+    {
+      "goal": "Generate a ready-to-paste className for a UI moment",
+      "command": "tmk generate --input {\"intent\":\"enter\",\"context\":\"toast\",\"duration\":300,\"easing\":\"out\"}",
+      "returns": "animation metadata plus className/classes output"
+    },
+    {
+      "goal": "Resolve an existing class string back into tokens",
+      "command": "tmk resolve --input {\"className\":\"animate-jelly animate-duration-500 animate-ease-in-out motion-reduce:animate-none\"}",
+      "returns": "animation, recognized token groups, and unknown animate-* leftovers"
+    }
+  ],
+  "commands": [
+    {
+      "name": "manifest",
+      "usage": "tmk manifest",
+      "description": "Start here. Returns package metadata, commands, actions, tokens, and bundled animations."
+    },
+    {
+      "name": "schema",
+      "usage": "tmk schema [action-name]",
+      "description": "Inspect the top-level contract or a single action input schema before sending JSON."
+    },
+    {
+      "name": "action",
+      "usage": "tmk action <action-name> [--input <json>]",
+      "description": "Dispatch any action through the stable JSON envelope."
+    },
+    {
+      "name": "generate",
+      "usage": "tmk generate [--input <json>]",
+      "description": "Shortcut for generating a ready-to-paste Tailwind motion class bundle."
+    },
+    {
+      "name": "resolve",
+      "usage": "tmk resolve [--input <json>]",
+      "description": "Shortcut for parsing an existing Tailwind motion class bundle back into JSON."
+    }
+  ],
+  "actions": [
+    {
+      "name": "list-animations",
+      "description": "List bundled animations with optional intent/name filtering.",
+      "schema_command": "tmk schema list-animations",
+      "example_command": "tmk action list-animations --input {\"intent\":\"enter\",\"limit\":5}"
+    },
+    {
+      "name": "recommend",
+      "description": "Recommend the best-fit animation for an agent request.",
+      "schema_command": "tmk schema recommend",
+      "example_command": "tmk action recommend --input {\"intent\":\"feedback\",\"context\":\"cta click\",\"include_tokens\":true}"
+    },
+    {
+      "name": "generate",
+      "description": "Generate a ready-to-use Tailwind motion className.",
+      "schema_command": "tmk schema generate",
+      "example_command": "tmk generate --input {\"intent\":\"feedback\",\"context\":\"cta click\",\"duration\":700}"
+    },
+    {
+      "name": "resolve",
+      "description": "Resolve an existing Tailwind motion className into structured tokens.",
+      "schema_command": "tmk schema resolve",
+      "example_command": "tmk resolve --input {\"className\":\"animate-jelly animate-duration-500 animate-ease-in-out motion-reduce:animate-none\"}"
+    }
+  ],
+  "discovery_files": [
+    "./docs/agent-contract.md",
+    "./ai/index.json",
+    "./ai/schema.json",
+    "./llms.txt"
+  ]
+}

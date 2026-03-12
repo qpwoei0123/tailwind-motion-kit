@@ -7,13 +7,14 @@ Validation schema:
 - /ai/schema.json
 
 CLI discovery:
-- `tmk manifest` for package + action discovery
-- `tmk schema [action]` for input contracts
-- `tmk action recommend` for best-fit suggestions
-- `tmk generate` for ready-to-paste class strings
-- `tmk resolve` for parsing existing class strings
+- `tmk manifest` for the full command/action/catalog payload
+- `tmk schema [action]` for exact input contracts before sending JSON
+- `tmk action recommend --input '{"intent":"feedback","context":"cta click","include_tokens":true}'`
+- `tmk generate --input '{"animation":"slide-in-right","duration":300,"easing":"out"}'`
+- `tmk resolve --input '{"className":"animate-jelly animate-duration-500 animate-ease-in-out motion-reduce:animate-none"}'`
 
 Guidance:
 - Prefer classes listed in tokens + animations.pair_with.
 - Respect reduced motion: motion-reduce:animate-none.
 - If uncertain, choose simpler enter/exit animations over decorative ones.
+- On errors, inspect the JSON hint plus `available_commands` / `available_actions`.

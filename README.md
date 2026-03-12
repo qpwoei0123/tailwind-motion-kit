@@ -122,26 +122,78 @@ Generates:
 
 ---
 
-## Agent CLI MVP
+## Agent CLI quick copy-paste
 
-JSON-first CLI for agent/tooling integration:
+JSON-first CLI for coding agents and tooling.
+
+### Start here
 
 ```bash
 npx tmk --help
 npx tmk manifest
-npx tmk schema
 npx tmk schema recommend
-npx tmk action list-animations --input '{"intent":"enter","limit":5}'
-npx tmk generate --input '{"intent":"feedback","context":"cta click","duration":700}'
+```
+
+### 1) Recommend an animation for a UI moment
+
+```bash
+npx tmk action recommend --input '{"intent":"feedback","context":"cta click","include_tokens":true}'
+```
+
+```json
+{
+  "action": "recommend",
+  "recommendation": {
+    "name": "jelly",
+    "class": "animate-jelly"
+  }
+}
+```
+
+### 2) Generate a ready-to-paste class bundle
+
+```bash
+npx tmk generate --input '{"animation":"slide-in-right","duration":300,"easing":"out"}'
+```
+
+```json
+{
+  "action": "generate",
+  "className": "animate-slide-in-right animate-duration-300 animate-ease-out animate-fill-both motion-reduce:animate-none"
+}
+```
+
+### 3) Resolve an existing class string back into tokens
+
+```bash
 npx tmk resolve --input '{"className":"animate-jelly animate-duration-500 animate-ease-in-out motion-reduce:animate-none"}'
+```
+
+```json
+{
+  "action": "resolve",
+  "animation": {
+    "name": "jelly"
+  },
+  "tokens": {
+    "duration": "animate-duration-500",
+    "easing": "animate-ease-in-out"
+  }
+}
+```
+
+### 4) Filter the bundled catalog
+
+```bash
+npx tmk action list-animations --input '{"intent":"enter","limit":5}'
 printf '{"intent":"feedback","context":"cta click","include_tokens":true}' | npx tmk action recommend
 ```
 
-### Commands
+### Command surface
 
-- `tmk manifest` → package/library manifest + available actions
+- `tmk manifest` → best discovery entrypoint; includes commands, actions, token scales, and bundled animations
 - `tmk schema [action-name]` → top-level contract or per-action input schema
-- `tmk action <action-name>` → dynamic action dispatch, JSON in / JSON out
+- `tmk action <action-name>` → stable JSON action dispatcher
 - `tmk generate` → convenience alias that returns a ready-to-paste motion class bundle
 - `tmk resolve` → convenience alias that parses an existing motion class bundle
 
@@ -156,6 +208,7 @@ printf '{"intent":"feedback","context":"cta click","include_tokens":true}' | npx
 
 - success responses are JSON on stdout
 - failures are JSON on stderr with `ok: false` and exit code `1`
+- unknown commands/actions include discovery hints and available command/action names
 - unknown properties are rejected to keep the action surface stable
 - `manifest` mirrors the machine-readable index in `./ai/index.json`
 - manifest token lists are aligned with generated utilities, including `animate-delay-0`

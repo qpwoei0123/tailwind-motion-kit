@@ -2,10 +2,12 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
 const { spawnSync } = require('node:child_process');
 const path = require('node:path');
 
 const cliPath = path.join(__dirname, '..', 'bin', 'tmk.js');
+const fixturesDir = path.join(__dirname, 'fixtures');
 
 function runCli(args, options = {}) {
   const result = spawnSync(process.execPath, [cliPath, ...args], {
@@ -20,33 +22,45 @@ function runCli(args, options = {}) {
   };
 }
 
-test('help output exposes discoverable command and action surface', () => {
+function readFixture(name) {
+  return JSON.parse(fs.readFileSync(path.join(fixturesDir, name), 'utf8'));
+}
+
+function pickHelpSnapshot(payload) {
+  return {
+    summary: payload.summary,
+    start_here: payload.start_here,
+    usage: payload.usage,
+    examples: payload.examples,
+    quickstart: payload.quickstart,
+    commands: payload.commands,
+    actions: payload.actions,
+    discovery_files: payload.discovery_files,
+  };
+}
+
+function pickManifestSnapshot(payload) {
+  return {
+    commands: payload.commands,
+    command_details: payload.command_details,
+    actions: payload.actions,
+    quickstart: payload.quickstart,
+    discovery_files: payload.discovery_files,
+  };
+}
+
+test('help output matches discovery snapshot', () => {
   const result = runCli(['--help']);
 
   assert.equal(result.status, 0);
-  assert.deepEqual(result.stdoutJson.usage, [
-    'tmk manifest',
-    'tmk schema [action-name]',
-    'tmk action <action-name> [--input <json>]',
-    'tmk generate [--input <json>]',
-    'tmk resolve [--input <json>]',
-  ]);
-  assert.ok(result.stdoutJson.examples.length >= 4);
-  assert.deepEqual(
-    result.stdoutJson.actions.map((item) => item.name),
-    ['list-animations', 'recommend', 'generate', 'resolve']
-  );
+  assert.deepEqual(pickHelpSnapshot(result.stdoutJson), readFixture('help.snapshot.json'));
 });
 
-test('manifest returns fixed command surface and actions', () => {
+test('manifest exposes discovery metadata snapshot', () => {
   const result = runCli(['manifest']);
 
   assert.equal(result.status, 0);
-  assert.deepEqual(result.stdoutJson.commands, ['manifest', 'schema', 'action', 'generate', 'resolve']);
-  assert.deepEqual(
-    result.stdoutJson.actions.map((item) => item.name),
-    ['list-animations', 'recommend', 'generate', 'resolve']
-  );
+  assert.deepEqual(pickManifestSnapshot(result.stdoutJson), readFixture('manifest.snapshot.json'));
 });
 
 test('schema returns top-level contract summary when no action is provided', () => {
@@ -137,6 +151,15 @@ test('unknown properties are rejected for stable contracts', () => {
   assert.match(result.stderrJson.error, /unknown property `foo`/);
 });
 
+test('missing --input value fails with a JSON error payload', () => {
+  const result = runCli(['generate', '--input']);
+
+  assert.equal(result.status, 1);
+  assert.equal(result.stderrJson.ok, false);
+  assert.match(result.stderrJson.error, /Missing value for --input/);
+  assert.equal(result.stderrJson.action, 'generate');
+});
+
 test('invalid JSON input fails with JSON error payload', () => {
   const result = runCli(['action', 'recommend', '--input', '{bad json']);
 
@@ -146,10 +169,22 @@ test('invalid JSON input fails with JSON error payload', () => {
   assert.equal(result.stderrJson.action, 'recommend');
 });
 
-test('unknown actions fail with JSON errors', () => {
+test('unknown command errors include discoverability hints', () => {
+  const result = runCli(['nope']);
+
+  assert.equal(result.status, 1);
+  assert.equal(result.stderrJson.ok, false);
+  assert.match(result.stderrJson.error, /Unknown command/);
+  assert.deepEqual(result.stderrJson.available_commands, ['manifest', 'schema', 'action', 'generate', 'resolve']);
+  assert.match(result.stderrJson.hint, /tmk --help/);
+});
+
+test('unknown actions fail with JSON errors and available action hints', () => {
   const result = runCli(['action', 'nope']);
 
   assert.equal(result.status, 1);
   assert.equal(result.stderrJson.ok, false);
   assert.match(result.stderrJson.error, /Unknown action/);
+  assert.deepEqual(result.stderrJson.available_actions, ['list-animations', 'recommend', 'generate', 'resolve']);
+  assert.match(result.stderrJson.hint, /tmk manifest/);
 });

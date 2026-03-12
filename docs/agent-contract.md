@@ -4,12 +4,18 @@
 
 ## Discovery surface
 
+- `npx tmk --help` → copy-paste quickstart + command/action discovery
 - `npx tmk manifest` → library/package manifest + available actions
 - `npx tmk schema` → top-level contract summary
 - `npx tmk schema <action>` → per-action input schema
 - `npx tmk action <action> --input '{...}'` → execute an action and return JSON
 - `npx tmk generate --input '{...}'` → convenience alias for generating a ready-to-paste class bundle
 - `npx tmk resolve --input '{...}'` → convenience alias for parsing an existing class bundle
+
+Recommended discovery order:
+1. `npx tmk manifest`
+2. `npx tmk schema <action>`
+3. `npx tmk action <action> --input '{...}'` or the `generate` / `resolve` aliases
 
 Primary machine-readable files:
 

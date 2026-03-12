@@ -1,7 +1,16 @@
 'use strict';
 
 const fs = require('node:fs');
-const { getAction, getManifest, getSchema, listActions } = require('./actions');
+const {
+  getAction,
+  getActionDiscoveryList,
+  getCommandCatalog,
+  getCommandNames,
+  getDiscoveryFiles,
+  getManifest,
+  getQuickstartExamples,
+  getSchema,
+} = require('./actions');
 
 function printJson(value) {
   process.stdout.write(`${JSON.stringify(value, null, 2)}\n`);
@@ -24,7 +33,13 @@ function parseInput(raw) {
 
 function readJsonArgOrStdin(args) {
   const inlineIndex = args.indexOf('--input');
-  if (inlineIndex >= 0) return parseInput(args[inlineIndex + 1]);
+  if (inlineIndex >= 0) {
+    if (inlineIndex === args.length - 1) {
+      throw new Error('Missing value for --input');
+    }
+    return parseInput(args[inlineIndex + 1]);
+  }
+
   if (!process.stdin.isTTY) return parseInput(fs.readFileSync(0, 'utf8'));
   return {};
 }
@@ -32,6 +47,8 @@ function readJsonArgOrStdin(args) {
 function getHelpPayload() {
   return {
     ok: true,
+    summary: 'JSON-first CLI for discovering, recommending, generating, and resolving Tailwind motion classes.',
+    start_here: 'tmk manifest',
     usage: [
       'tmk manifest',
       'tmk schema [action-name]',
@@ -39,26 +56,29 @@ function getHelpPayload() {
       'tmk generate [--input <json>]',
       'tmk resolve [--input <json>]',
     ],
-    examples: [
-      'tmk manifest',
-      'tmk schema recommend',
-      'tmk action list-animations --input {"intent":"enter","limit":3}',
-      'tmk generate --input {"intent":"feedback","context":"cta click","duration":700}',
-      'tmk resolve --input {"className":"animate-jelly animate-duration-500 animate-ease-in-out motion-reduce:animate-none"}',
-    ],
+    examples: getQuickstartExamples().map((item) => item.command),
+    quickstart: getQuickstartExamples(),
+    commands: getCommandCatalog(),
+    actions: getActionDiscoveryList().map(({ input_schema, ...action }) => action),
+    discovery_files: getDiscoveryFiles(),
     notes: [
       'All successful responses are JSON on stdout.',
       'All command/action failures are JSON on stderr with exit code 1.',
-      'Use manifest as the primary discovery entrypoint for automation.',
+      'Use `tmk manifest` as the primary discovery entrypoint for automation.',
+      'Use `tmk schema <action>` before sending JSON when you want the exact input contract.',
       'generate and resolve are convenience aliases over the same JSON-first contract surface.',
     ],
-    actions: listActions().map(({ name, description }) => ({ name, description })),
   };
 }
 
 function runAction(actionName, argv) {
   const action = getAction(actionName);
-  if (!action) return fail(1, `Unknown action: ${actionName}`);
+  if (!action) {
+    return fail(1, `Unknown action: ${actionName}`, {
+      available_actions: getActionDiscoveryList().map(({ name }) => name),
+      hint: 'Run `tmk manifest` or `tmk --help` to inspect the available actions.',
+    });
+  }
 
   try {
     const input = readJsonArgOrStdin(argv);
@@ -85,7 +105,12 @@ function run(argv = process.argv.slice(2)) {
 
   if (command === 'schema') {
     const schema = getSchema(subcommand);
-    if (!schema) return fail(1, `Unknown action schema: ${subcommand}`);
+    if (!schema) {
+      return fail(1, `Unknown action schema: ${subcommand}`, {
+        available_actions: getActionDiscoveryList().map(({ name }) => name),
+        hint: 'Run `tmk schema` for the top-level contract or `tmk manifest` for the full discovery payload.',
+      });
+    }
     printJson(schema);
     return;
   }
@@ -96,12 +121,20 @@ function run(argv = process.argv.slice(2)) {
   }
 
   if (command === 'action') {
-    if (!subcommand) return fail(1, 'Missing action name');
+    if (!subcommand) {
+      return fail(1, 'Missing action name', {
+        available_actions: getActionDiscoveryList().map(({ name }) => name),
+        hint: 'Run `tmk manifest` or `tmk --help` to choose an action, then pass JSON with `--input` or stdin.',
+      });
+    }
     runAction(subcommand, argv.slice(2));
     return;
   }
 
-  fail(1, `Unknown command: ${command}`);
+  fail(1, `Unknown command: ${command}`, {
+    available_commands: getCommandNames(),
+    hint: 'Run `tmk --help` for copy-paste examples and discovery tips.',
+  });
 }
 
 module.exports = { run };
